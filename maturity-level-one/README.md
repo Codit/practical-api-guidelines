@@ -41,10 +41,23 @@ Accept: application/vnd.mdm.v2+json`
 *(\*\*) Safe methods are HTTP methods that do not modify resources. For instance, using GET or HEAD on a resource URL, should NEVER change the resource. However, this is not completely true. It means: it won't change the resource representation. It is still possible, that safe methods do change things on a server or resource, but this should not reflect in a different representation.*
 
 ## Security-first
-To be added
+
+- Always use HTTPS
+- Do not put security keys and sensitive information in the query string
+  - Certain scenarios are exceptional such as exposing webhooks. When this is the case the keys need to be limited in time to live.
 
 ## Error Handling
-To be added
+
+- Use a global exception handler which allows you to trakc & handle unhandled exceptions very easily
+- Errors should be propogated in a consistent way
+  - Use `application/problem+json` following [RFC 7807](https://tools.ietf.org/html/rfc7807).
+    - Every 4XX/5XX should  the same data contract
+    - Less details compared to a custom data contract
+    - Read [this blog post](https://tech.domain.com.au/2017/11/please-dont-spare-me-the-details/) on how to achieve this
+  - If the above suggestion is not possible you should use a custom data contract. See Microsoft example [here](https://github.com/Microsoft/api-guidelines/blob/master/Guidelines.md#7102-error-condition-responses).
+- For cloud apis go with AppInsights
+- For on-premise apis which Logging library?
+- Shouldn't there be a general response for our API's, a general scheme we can use after all? Maybe using trackingcodes etc with map to app insights?
 
 ## Document your APIs
 Document your API and be as descriptive as possible – New people should get a clear understanding of what they can expect.
