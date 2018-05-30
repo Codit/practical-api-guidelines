@@ -47,7 +47,32 @@ To be added
 To be added
 
 ## Document your APIs
-To be added
+Document your API and be as descriptive as possible – New people should get a clear understanding of what they can expect.
+
+Documentation should include the following at least:
+- Operation id
+- General Description
+- Parameters
+- Response codes & contracts
+
+Every API should have documentation in the OpenAPI format. If you want to generate those based on your code you can use tools like [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle) & [NSwag](https://github.com/RSuter/NSwag).
+
+Here is an example on how to generate them with Swashbuckle
+```csharp
+/// <summary>
+///     Get Health
+/// </summary>
+/// <remarks>Gets the current health status of the API</remarks>
+[HttpGet]
+[Route("health")]
+[SwaggerOperation("get-health")]
+[SwaggerResponse(HttpStatusCode.OK, "API is up & running")]
+[SwaggerResponse(HttpStatusCode.InternalServerError, "API is not available")]
+public IHttpActionResult Get()
+{
+    return Ok();
+}
+```
 
 ## Use thin controllers
 - Put less logic as possible in the controller.
