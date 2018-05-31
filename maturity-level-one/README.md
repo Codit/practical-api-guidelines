@@ -40,6 +40,11 @@ Accept: application/vnd.mdm.v2+json`
 
 *(\*\*) Safe methods are HTTP methods that do not modify resources. For instance, using GET or HEAD on a resource URL, should NEVER change the resource. However, this is not completely true. It means: it won't change the resource representation. It is still possible, that safe methods do change things on a server or resource, but this should not reflect in a different representation.*
 
+### HTTP Status Codes
+
+- If there isn't a good 4XX code use 400, if there isn't a good 5XX code, use 500, isn't a good 2XX use 200 and return more precise details in the body.
+- Do not use any custom Reason Phrase (Status Description) in your API because it's not supported anymore with HTTP/2.
+
 ## Security-first
 
 - Always use HTTPS
