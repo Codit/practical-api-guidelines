@@ -43,6 +43,7 @@ Accept: application/vnd.mdm.v2+json`
 ### HTTP Status Codes
 
 Some notes about the most used HTTP status codes.
+
 | Code  | Description (\*)    | When to use        | Notes | 
 |:--------|:-------------------|:-------------------|:------------|
 | 200     | Success | to GET a resource, to update (PUT/PATCH) a resource, when you use a POST to perform a complex SEARCH. | 200 always return a BODY, if not use 204 - No Content. Sometimes a 200 is also returned when a POST is used to create a resource even if the best status code should be 201. |
