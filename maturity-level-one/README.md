@@ -42,8 +42,23 @@ Accept: application/vnd.mdm.v2+json`
 
 ### HTTP Status Codes
 
-- If there isn't a good 4XX code use 400, if there isn't a good 5XX code, use 500, isn't a good 2XX use 200 and return more precise details in the body.
-- Do not use any custom Reason Phrase (Status Description) in your API because it's not supported anymore with HTTP/2.
+Some notes about the most used HTTP status codes.
+
+| Code  | Description (\*)    | When to use        | Notes | 
+|:--------|:-------------------|:-------------------|:------------|
+| 200     | Success | to GET a resource, to update (PUT/PATCH) a resource, when you use a POST to perform a complex SEARCH. | 200 always return a BODY, if not use 204 - No Content. Sometimes a 200 is also returned when a POST is used to create a resource even if the best status code should be 201. |
+| 201    | Created | create a resource using POST | 201 always return a body. The 201 response payload typically return the instance created or describes and links to the resource(s) created. Sometimes the link to the created resource is also provided via the Location header. |
+| 202    | Accepted | POST an async request | The asynchronous operation APIs frequently use the 202 Accepted status code and Location headers to indicate progress. You can also use this to create different resources of a batch process. |
+| 204    | No Content | normally used with a POST to execute a command | The server has successfully fulfilled the request and that there is no additional content to send in the response payload body. |
+| 400     | Bad Request | Data issues such as invalid JSON, etc. | The server cannot or will not process the request due to something that is perceived to be a client error |
+| 401   | Unauthorized | use when the Authentication/Authorization is required but has failed | Do not confuse this one with 403.  |
+| 403   | Forbidden                | The action is not allowed. For example you're trying to get access to a resource that belong to another user. | For example, you are calling an existing resource passing the right credentials, but you dont have the right authorization. |
+| 404   | Not Found                | When you request a resource that is not present |  |
+| 409  | Conflict | You run an update that brings the resource to an inconsistent state. | Duplicate data or invalid data state. | 
+| 500 | Internal Server Error | The request has been accepted but there is something wrong with your code | Fix your code ;) | 
+
+NOTE: If there isn't a good 4XX code use 400, if there isn't a good 5XX code, use 500, isn't a good 2XX use 200 and return more precise details in the body.
+*(\*) Do not use any custom Reason Phrase (Status Description) in your API because it's not supported anymore with HTTP/2.*
 
 ## Security-first
 
