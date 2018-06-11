@@ -9,32 +9,32 @@
 ## General HTTP Guidelines
 ### URL Naming
 Think about your operation URIs and make them as RESTy as possible – What we mean with RESTy?
-1. **The API name is a singular concept and the 'api' prefix does not provide an added value**
+- **The API name is a singular concept and the 'api' prefix does not provide an added value**
    - _Don't - `api/v1/users/{id}/profile`_
    - _Do - `https://master-data.contoso.com` or `https://api.contoso.com/master-data`_
-2. **Use plural for collections of resources**
+- **Use plural for collections of resources**
    - _Example -`https://api.contoso.com/master-data/items`_
-3. **Don't use verbs in the url**
+- **Don't use verbs in the url**
    - _Don't - `https://api.contoso.com/master-data/getItems`_
    - _Do - `https://api.contoso.com/master-data/items`_
-4. **Always use lower case in uris**
+- **Always use lower case in uris**
    - _Don't - `https://api.contoso.com/File-Ingestion/{collection}/{blob}`_
    - _Do - `https://api.contoso.com/file-ingestion/{collection}/{blob}`_
-5. **Use the `-` for better readability**
+- **Use the `-` for better readability**
    - _Don't - `https://api.contoso.com/technicalaccount/contracts`_
    - _Do - `https://api.contoso.com/technical-account/contracts`_
-6. **Command can be part of the uri path**
+- **Command can be part of the uri path**
    - _Example - `http://api.example.com/cart-management/users/{id}/carts/{id}/checkout`_
-7. **Query strings should only be used for querying (ie filtering, paging, etc..) and not for actions nor commands.**
+- **Query strings should only be used for querying (ie filtering, paging, etc..) and not for actions nor commands.**
    - _Don't - `GET https://api.contoso.com/master-data/contracts/{contractId}?operation=cancel`_
    - _Do - `POST https://api.contoso.com/master-data/contracts/{contractId}/cancel`_
 
 ### Versioning
-1. **Version your endpoint** even if you don’t need it (yet)
+- **Version your endpoint** even if you don’t need it (yet)
    - Allows you to introduce new versions later one without breaking anything
    - Path versioning is the advised approach
      - _Example - `https://api.contoso.com/master-data/v1/items/{itemId}/components/{componentId}`_
-2. **Data contract versioning is determined by using content-negotiation and custom media types**
+- **Data contract versioning is determined by using content-negotiation and custom media types**
    - _Example - `GET /items/H12652 Accept: application/vnd.mdm.v2+json`_
 
 ### Data Contracts
@@ -43,6 +43,7 @@ Think about your operation URIs and make them as RESTy as possible – What we m
 - Avoid using abbreviations
 - Serialize enumerations to strings
 
+Example:
 ```json
 {
   "customer": {
