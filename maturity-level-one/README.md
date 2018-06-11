@@ -9,21 +9,51 @@
 ## General HTTP Guidelines
 ### URL Naming
 Think about your operation URIs and make them as RESTy as possible – What we mean with RESTy?
-1. The API name is a singular concept: `https://master-data.contoso.com` or `https://api.contoso.com/master-data`. The API prefix is useless ie `api/v1/users/{id}/profile`.
-2. Use plural for collections of resources: `https://api.contoso.com/master-data/items`
-3. No verbs in the url: this is NOT OK `https://api.contoso.com/master-data/getItems`
-4. All lower case: this is NOT OK `https://api.contoso.com/File-Ingestion/{collection}/{blob}`
-5. Use the `-` for better readability : avoid this `https://api.contoso.com/technicalaccount/contracts`
-6. Querystring is meant for querying (filtering, paging, etc..) not for actions nor commands: avoid putting commands in the Querystring parameters: this is NOT OK `https://api.contoso.com/master-data/contracts/{contractId}?operation=cancel`
-7. Version your endpoint even if you don’t need it (yet). Very simple but so important. a. Path versioning is the advised approach. `https://api.contoso.com/master-data/v1/items/{itemId}/components/{componentId}`
-b. Data Contract versioning is normally done with content-negotiation (via accept header) and custom media types (data contract type + version). According to me this is complex to maintain and complex for the consumer. `GET /items/H12652
-Accept: application/vnd.mdm.v2+json`
-8. Sometimes is necessary to have commands in the path like `http://api.example.com/cart-management/users/{id}/carts/{id}/checkout`. Is this OK for REST purists? No clue, but it makes to me.
+- **The API name is a singular concept and the 'api' prefix does not provide an added value**
+   - _Don't - `api/v1/users/{id}/profile`_
+   - _Do - `https://master-data.contoso.com` or `https://api.contoso.com/master-data`_
+- **Use plural for collections of resources**
+   - _Example -`https://api.contoso.com/master-data/items`_
+- **Don't use verbs in the url**
+   - _Don't - `https://api.contoso.com/master-data/getItems`_
+   - _Do - `https://api.contoso.com/master-data/items`_
+- **Always use lower case in uris**
+   - _Don't - `https://api.contoso.com/File-Ingestion/{collection}/{blob}`_
+   - _Do - `https://api.contoso.com/file-ingestion/{collection}/{blob}`_
+- **Use the `-` for better readability**
+   - _Don't - `https://api.contoso.com/technicalaccount/contracts`_
+   - _Do - `https://api.contoso.com/technical-account/contracts`_
+- **Command can be part of the uri path**
+   - _Example - `http://api.example.com/cart-management/users/{id}/carts/{id}/checkout`_
+- **Query strings should only be used for querying (ie filtering, paging, etc..) and not for actions nor commands.**
+   - _Don't - `GET https://api.contoso.com/master-data/contracts/{contractId}?operation=cancel`_
+   - _Do - `POST https://api.contoso.com/master-data/contracts/{contractId}/cancel`_
+
+### Versioning
+- **Version your endpoint** even if you don’t need it (yet)
+   - Allows you to introduce new versions later one without breaking anything
+   - Path versioning is the advised approach
+     - _Example - `https://api.contoso.com/master-data/v1/items/{itemId}/components/{componentId}`_
+- **Data contract versioning is determined by using content-negotiation and custom media types**
+   - _Example - `GET /items/H12652 Accept: application/vnd.mdm.v2+json`_
 
 ### Data Contracts
 
 - Use camelCase for the attributes
+- Avoid using abbreviations
 - Serialize enumerations to strings
+
+Example:
+```json
+{
+  "customer": {
+    "firstName": "Tom",
+    "lastName": "Kerkhove"
+  },
+  "price": 100.0,
+  "currency": "Eur"
+}
+```
 
 ### HTTP Methods
 
@@ -62,32 +92,38 @@ NOTE: If there isn't a good 4XX code use 400, if there isn't a good 5XX code, us
 
 ## Security-first
 
-- Always use HTTPS
+- Always use HTTPS, unless otherwise required
+  - In case HTTP should be supported, consider using an API gateway in front of the API.
+This allows you to be secure on the physical API while the consumers can still use HTTP
 - Do not put security keys and sensitive information in the query string
   - Certain scenarios are exceptional such as exposing webhooks. When this is the case the keys need to be limited in time to live.
 
 ## Error Handling
 
-- Use a global exception handler which allows you to trakc & handle unhandled exceptions very easily
+- Use a global exception handler which allows you to track & handle unhandled exceptions very easily
 - Errors should be propogated in a consistent way
   - Use `application/problem+json` following [RFC 7807](https://tools.ietf.org/html/rfc7807).
     - Every 4XX/5XX should  the same data contract
     - Less details compared to a custom data contract
     - Read [this blog post](https://tech.domain.com.au/2017/11/please-dont-spare-me-the-details/) on how to achieve this
   - If the above suggestion is not possible you should use a custom data contract. See Microsoft example [here](https://github.com/Microsoft/api-guidelines/blob/master/Guidelines.md#7102-error-condition-responses).
-- For cloud apis go with AppInsights
-- For on-premise apis which Logging library?
 - Shouldn't there be a general response for our API's, a general scheme we can use after all? Maybe using trackingcodes etc with map to app insights?
 
 ## Document your APIs
 Document your API and be as descriptive as possible – New people should get a clear understanding of what they can expect.
 
-Documentation should include the following at least:
-- Operation id
+Documentation should provide information about the following at least:
+- OperationId
 - General Description
 - Parameters
 - Response codes & contracts
 
+### Defining OperationIds
+An operationId is a unique identifier for an operation that is provided on an API. It is important to think carefully when assigning an operationId as changing these later on will be a breaking change.
+
+OpenAPI tooling, such as [AutoRest](https://github.com/Azure/autorest) & [NSwag](https://github.com/RSuter/NSwag), use the operationId to generate API clients based on this convention so it is important to provide a descriptive operationId. In order to ease the use of your API we recommend using the `{controller}_{operationName}` pattern.
+
+### Generating OpenAPI Documentation
 Every API should have documentation in the OpenAPI format. If you want to generate those based on your code you can use tools like [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle) & [NSwag](https://github.com/RSuter/NSwag).
 
 Here is an example on how to generate them with Swashbuckle
