@@ -9,21 +9,50 @@
 ## General HTTP Guidelines
 ### URL Naming
 Think about your operation URIs and make them as RESTy as possible – What we mean with RESTy?
-1. The API name is a singular concept: `https://master-data.contoso.com` or `https://api.contoso.com/master-data`. The API prefix is useless ie `api/v1/users/{id}/profile`.
-2. Use plural for collections of resources: `https://api.contoso.com/master-data/items`
-3. No verbs in the url: this is NOT OK `https://api.contoso.com/master-data/getItems`
-4. All lower case: this is NOT OK `https://api.contoso.com/File-Ingestion/{collection}/{blob}`
-5. Use the `-` for better readability : avoid this `https://api.contoso.com/technicalaccount/contracts`
-6. Querystring is meant for querying (filtering, paging, etc..) not for actions nor commands: avoid putting commands in the Querystring parameters: this is NOT OK `https://api.contoso.com/master-data/contracts/{contractId}?operation=cancel`
-7. Version your endpoint even if you don’t need it (yet). Very simple but so important. a. Path versioning is the advised approach. `https://api.contoso.com/master-data/v1/items/{itemId}/components/{componentId}`
-b. Data Contract versioning is normally done with content-negotiation (via accept header) and custom media types (data contract type + version). According to me this is complex to maintain and complex for the consumer. `GET /items/H12652
-Accept: application/vnd.mdm.v2+json`
-8. Sometimes is necessary to have commands in the path like `http://api.example.com/cart-management/users/{id}/carts/{id}/checkout`. Is this OK for REST purists? No clue, but it makes to me.
+1. **The API name is a singular concept and the 'api' prefix does not provide an added value**
+   - _Don't - `api/v1/users/{id}/profile`_
+   - _Do - `https://master-data.contoso.com` or `https://api.contoso.com/master-data`_
+2. **Use plural for collections of resources**
+   - _Example -`https://api.contoso.com/master-data/items`_
+3. **Don't use verbs in the url**
+   - _Don't - `https://api.contoso.com/master-data/getItems`_
+   - _Do - `https://api.contoso.com/master-data/items`_
+4. **Always use lower case in uris**
+   - _Don't - `https://api.contoso.com/File-Ingestion/{collection}/{blob}`_
+   - _Do - `https://api.contoso.com/file-ingestion/{collection}/{blob}`_
+5. **Use the `-` for better readability**
+   - _Don't - `https://api.contoso.com/technicalaccount/contracts`_
+   - _Do - `https://api.contoso.com/technical-account/contracts`_
+6. **Command can be part of the uri path**
+   - _Example - `http://api.example.com/cart-management/users/{id}/carts/{id}/checkout`_
+7. **Query strings should only be used for querying (ie filtering, paging, etc..) and not for actions nor commands.**
+   - _Don't - `GET https://api.contoso.com/master-data/contracts/{contractId}?operation=cancel`_
+   - _Do - `POST https://api.contoso.com/master-data/contracts/{contractId}/cancel`_
+
+### Versioning
+1. **Version your endpoint** even if you don’t need it (yet)
+   - Allows you to introduce new versions later one without breaking anything
+   - Path versioning is the advised approach
+     - _Example - `https://api.contoso.com/master-data/v1/items/{itemId}/components/{componentId}`_
+2. **Data contract versioning is determined by using content-negotiation and custom media types**
+   - _Example - `GET /items/H12652 Accept: application/vnd.mdm.v2+json`_
 
 ### Data Contracts
 
 - Use camelCase for the attributes
+- Avoid using abbreviations
 - Serialize enumerations to strings
+
+```json
+{
+  "customer": {
+    "firstName": "Tom",
+    "lastName": "Kerkhove"
+  },
+  "price": 100.0,
+  "currency": "Eur"
+}
+```
 
 ### HTTP Methods
 
