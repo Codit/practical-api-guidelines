@@ -92,13 +92,15 @@ NOTE: If there isn't a good 4XX code use 400, if there isn't a good 5XX code, us
 
 ## Security-first
 
-- Always use HTTPS
+- Always use HTTPS, unless otherwise required
+  - In case HTTP should be supported, consider using an API gateway in front of the API.
+This allows you to be secure on the physical API while the consumers can still use HTTP
 - Do not put security keys and sensitive information in the query string
   - Certain scenarios are exceptional such as exposing webhooks. When this is the case the keys need to be limited in time to live.
 
 ## Error Handling
 
-- Use a global exception handler which allows you to trakc & handle unhandled exceptions very easily
+- Use a global exception handler which allows you to track & handle unhandled exceptions very easily
 - Errors should be propogated in a consistent way
   - Use `application/problem+json` following [RFC 7807](https://tools.ietf.org/html/rfc7807).
     - Every 4XX/5XX should  the same data contract
@@ -112,12 +114,18 @@ NOTE: If there isn't a good 4XX code use 400, if there isn't a good 5XX code, us
 ## Document your APIs
 Document your API and be as descriptive as possible – New people should get a clear understanding of what they can expect.
 
-Documentation should include the following at least:
-- Operation id
+Documentation should provide information about the following at least:
+- OperationId
 - General Description
 - Parameters
 - Response codes & contracts
 
+### Defining OperationIds
+An operationId is a unique identifier for an operation that is provided on an API. It is important to think carefully when assigning an operationId as changing these later on will be a breaking change.
+
+OpenAPI tooling, such as [AutoRest](https://github.com/Azure/autorest) & [NSwag](https://github.com/RSuter/NSwag), use the operationId to generate API clients based on this convention so it is important to provide a descriptive operationId. In order to ease the use of your API we recommend using the `{controller}_{operationName}` pattern.
+
+### Generating OpenAPI Documentation
 Every API should have documentation in the OpenAPI format. If you want to generate those based on your code you can use tools like [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle) & [NSwag](https://github.com/RSuter/NSwag).
 
 Here is an example on how to generate them with Swashbuckle
