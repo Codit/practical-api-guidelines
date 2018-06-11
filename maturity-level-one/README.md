@@ -1,4 +1,4 @@
-# Practical API Guidelines - Maturity level One "Must have"
+# Practical API Guidelines - Must have
 
 1. [General HTTP Guidelines](#general-http-guidelines)
 2. [Security-first](#security-first)
