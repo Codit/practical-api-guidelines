@@ -107,8 +107,6 @@ This allows you to be secure on the physical API while the consumers can still u
     - Less details compared to a custom data contract
     - Read [this blog post](https://tech.domain.com.au/2017/11/please-dont-spare-me-the-details/) on how to achieve this
   - If the above suggestion is not possible you should use a custom data contract. See Microsoft example [here](https://github.com/Microsoft/api-guidelines/blob/master/Guidelines.md#7102-error-condition-responses).
-- For cloud apis go with AppInsights
-- For on-premise apis which Logging library?
 - Shouldn't there be a general response for our API's, a general scheme we can use after all? Maybe using trackingcodes etc with map to app insights?
 
 ## Document your APIs
