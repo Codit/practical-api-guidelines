@@ -40,6 +40,7 @@ Think about your operation URIs and make them as RESTy as possible – What we m
 ### Data Contracts
 
 - Use camelCase for the attributes
+- Use an [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) notation for formatting datetimes, such as `2018-06-17T20:30:12.511Z`
 - Avoid using abbreviations
 - Serialize enumerations to strings
 
@@ -48,7 +49,8 @@ Example:
 {
   "customer": {
     "firstName": "Tom",
-    "lastName": "Kerkhove"
+    "lastName": "Kerkhove",
+    "createdOn": "2018-06-17T20:30:12.511Z"
   },
   "price": 100.0,
   "currency": "Eur"
