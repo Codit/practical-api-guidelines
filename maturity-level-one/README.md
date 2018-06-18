@@ -49,7 +49,8 @@ Example:
 {
   "customer": {
     "firstName": "Tom",
-    "lastName": "Kerkhove"
+    "lastName": "Kerkhove",
+    "createdOn": "2018-06-17T20:30:12.511Z"
   },
   "price": 100.0,
   "currency": "Eur"
