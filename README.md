@@ -8,7 +8,7 @@ The guidelines are structured in several maturity levels:
 
 For general REST API guidelines we recommend to read the official [Microsoft guidelines](https://github.com/Microsoft/api-guidelines)
 
-![.NET](./media/dot-net-logo.png) ![OpenAPI](./media/open-api-logo.png) ![Codit](./media/codit-logo.png) ![Travis CI](./media/travis-ci-logo.png)
+![.NET](./media/dot-net-logo.png) ![OpenAPI](./media/open-api-logo.png) ![Codit](./media/codit-logo.png)
 
 ## Contributions
 We are open to contributions, but prefer to discuss them in an issue to avoid wasting your timeWe accept all contributions
