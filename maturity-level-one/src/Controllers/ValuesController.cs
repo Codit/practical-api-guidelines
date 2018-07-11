@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Codit.Controllers
+namespace Codit.LevelOne.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1")]
+    [Route("world-cup/v{version:apiVersion}/[controller]")]
+    [ApiController]
     public class ValuesController : Controller
     {
         // GET api/values
