@@ -25,6 +25,8 @@ namespace maturity_level_one.Controllers
 
         [HttpGet()]
         [SwaggerOperation("get-all-players")]
+        [SwaggerResponse(200, "OK")]
+        [SwaggerResponse(500, "API is not available")]
         public async Task<IActionResult> GetPlayers()
         {
             var results = await _worldCupRepository.GetAllPlayers();
