@@ -8,10 +8,11 @@ These include:
 	+ no verbs in URLs
 	+ lower case URLs
 	+ "-" for better readibility
-	- command as part of the URL (wip)
+	+ command as part of the URL 
 
-- VERSIONING in the path + ApiVersion attribute
+- VERSIONING in the path & ApiVersion attribute
+	+ check how to handle the version parameter in the OpenAPI specification
 
 - DATA CONTRACTS
 	+ camlCase (dotnetcore >2 has camlCase by default)
-	- dateFormat (wip)
+	+ dateFormat

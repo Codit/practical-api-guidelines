@@ -10,6 +10,6 @@ namespace Codit.LevelOne.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public int Ranking{ get; set; }
-        public DateTime UpdatedOn { get; }
+        public DateTime UpdatedOn { get; set; }
     }
 }

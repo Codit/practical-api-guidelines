@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Codit
 {
@@ -32,7 +33,6 @@ namespace Codit
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
             var connectionString = Startup.Configuration.GetConnectionString("WorldCupDB");
 
             //default scope lifetime
@@ -49,15 +49,26 @@ namespace Codit
             services.AddApiVersioning();
 
             services
-                 .AddMvc()
+                .AddMvc()
                 .AddJsonOptions(options =>
                 {
-                    //Set date configurations
+                    //explicit date configuration
                     options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-                    options.SerializerSettings.DateFormatString = "s";
+                    options.SerializerSettings.DateFormatString = "o";
                 });
 
-
+            services.AddSwaggerGen(c =>
+            {
+                c.DescribeAllEnumsAsStrings();
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "World Cup API",
+                    Description = "World cup 2018 Russia",
+                    TermsOfService = "None",
+                    Contact = new Contact() { Name = "API at Codit", Email = "support@codit.eu", Url = "www.codit.eu" }
+                });
+            });
 
             //Problem+Json
             services.Configure<ApiBehaviorOptions>(options =>
@@ -86,11 +97,17 @@ namespace Codit
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
             }
-
             // seed DB
-
             worldCupContext.DataSeed();
+
+            app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "World Cup API.");
+            });
 
             AutoMapper.Mapper.Initialize(cfg =>
             {
@@ -99,7 +116,6 @@ namespace Codit
                 cfg.CreateMap<LevelOne.Entities.Player, LevelOne.Models.PlayerDto>();
             });
 
-            app.UseMvc();
         }
     }
 }

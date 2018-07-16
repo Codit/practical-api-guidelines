@@ -27,6 +27,10 @@ namespace Codit.LevelOne.Services
             return await _context.Players.Where(t => t.TeamId == teamId).ToListAsync();
         }
 
+        public async Task<IEnumerable<Player>> GetAllPlayers()
+        {
+            return await _context.Players.ToListAsync();
+        }
         public async Task<Team> GetTeam(int teamId, bool includePlayers)
         {
             if (includePlayers)
@@ -41,6 +45,11 @@ namespace Codit.LevelOne.Services
         public async Task<IEnumerable<Team>> GetTeams()
         {
             return await _context.Teams.OrderBy(t => t.Name).ToListAsync(); 
+        }
+
+        public async Task<Player> GetPlayer(int playerId)
+        {
+            return await _context.Players.Where(p => p.Id == playerId).FirstOrDefaultAsync();
         }
 
         public async Task<bool> Save()

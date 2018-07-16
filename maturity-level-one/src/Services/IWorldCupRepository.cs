@@ -13,6 +13,9 @@ namespace Codit.LevelOne.Services
         Task<Team> GetTeam(int teamId, bool includePlayers);
         Task<IEnumerable<Player>> GetPlayersOfTeam(int teamId);
         Task<Player> GetPlayerOfTeam(int teamId, int playerId);
+        Task<IEnumerable<Player>> GetAllPlayers();
+        Task<Player> GetPlayer(int playerId);
         Task<bool> Save();
+
     }
 }

@@ -7,6 +7,7 @@ using Codit.LevelOne.Models;
 using Codit.LevelOne.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace maturity_level_one.Controllers
 {
@@ -23,8 +24,10 @@ namespace maturity_level_one.Controllers
         }
 
         [HttpGet()]
+        [SwaggerOperation("get-teams")]
         public async Task<IActionResult> GetTeams()
         {
+
             var teams = await _worldCupRepository.GetTeams();
             var results = Mapper.Map<IEnumerable<TeamDto>>(teams);
 
@@ -32,6 +35,7 @@ namespace maturity_level_one.Controllers
         }
 
         [HttpGet("{id}")]
+        [SwaggerOperation("get-team-by-id")]
         public async Task<IActionResult> GetTeam(int id)
         {
             var team = await _worldCupRepository.GetTeam(id, true);

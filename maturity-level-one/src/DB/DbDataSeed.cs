@@ -22,7 +22,7 @@ namespace Codit.LevelOne.DB
                 {
                      Name = "Belgium",
                      Description = "The one with that big park.",
-                     UpdatedOn = DateTime.MinValue,
+                     UpdatedOn = DateTime.Now.AddDays(-1),
                      Players = new List<Player>()
                      {
                          new Player() {
@@ -39,7 +39,7 @@ namespace Codit.LevelOne.DB
                 {
                     Name = "France",
                     Description = "One time world cup winner.",
-                    UpdatedOn = DateTime.UtcNow,
+                    UpdatedOn = DateTime.Now,
                     Players = new List<Player>()
                      {
                          new Player() {
