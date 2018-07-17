@@ -16,6 +16,6 @@ namespace Codit.LevelOne.Services
         Task<IEnumerable<Player>> GetAllPlayers();
         Task<Player> GetPlayer(int playerId);
         Task<bool> Save();
-
+        Task CreatePlayer(Player player);
     }
 }

@@ -61,5 +61,13 @@ namespace Codit.LevelOne.Services
         {
             return await _context.Teams.AnyAsync(t => t.Id == teamId);
         }
+
+        public async Task CreatePlayer(Player player)
+        {
+
+            _context.Players.Add(player);
+            await _context.SaveChangesAsync();
+
+        }
     }
 }

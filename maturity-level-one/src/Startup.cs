@@ -57,6 +57,9 @@ namespace Codit
                     options.SerializerSettings.DateFormatString = "o";
                 });
 
+            // Routing naming convention
+            services.AddRouting(options => options.LowercaseUrls = true);
+
             services.AddSwaggerGen(c =>
             {
                 c.DescribeAllEnumsAsStrings();

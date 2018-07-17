@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Codit.LevelOne.Extensions;
 using Codit.LevelOne.Models;
 using Codit.LevelOne.Services;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +15,7 @@ namespace maturity_level_one.Controllers
     [ApiVersion("1")]
     [Route("world-cup/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ValidateModel]
     public class TeamsController : ControllerBase
     {
         private IWorldCupRepository _worldCupRepository;

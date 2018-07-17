@@ -15,18 +15,35 @@ These include:
 
 - DATA CONTRACTS
 	+ camlCase (dotnetcore >2 has camlCase by default)
-	+ dateFormat (WIP)
+	+ dateFormat (WIP ... to be reviewed)
 
 - HTTP METHODS
 	+ GET
 	+ POST
 
-- HTTP Status Codes (200, 204, 404, 500)
+- HTTP Status Codes (200, 201, 204, 404, 500)
 
 - Security (TODO)
 
-- Error Handling (TODO)
+- Error Handling (WIP)
+	+ problem+json (when model is not valid)
+		```json
+		{
+		  "errors": {
+			"FirstName": [
+			  "The FirstName field is required."
+			]
+		  },
+		  "type": "https://asp.net/core",
+		  "title": "One or more validation errors occurred.",
+		  "status": 400,
+		  "detail": "Please refer to the errors property for additional details.",
+		  "instance": "/world-cup/v1/players"
+		}
+		```
 
 - Document your API (WIP)
+	+ TODO controller names should be camlCase
 
 - Use thin controllers (WIP)
+	+ Add unit tests (TODO)
