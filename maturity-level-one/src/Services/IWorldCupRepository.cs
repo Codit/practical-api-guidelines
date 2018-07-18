@@ -13,9 +13,12 @@ namespace Codit.LevelOne.Services
         Task<Team> GetTeam(int teamId, bool includePlayers);
         Task<IEnumerable<Player>> GetPlayersOfTeam(int teamId);
         Task<Player> GetPlayerOfTeam(int teamId, int playerId);
-        Task<IEnumerable<Player>> GetAllPlayers();
+        Task<IEnumerable<Player>> GetAllPlayers(bool topPlayersOnly);
         Task<Player> GetPlayer(int playerId);
         Task<bool> Save();
         Task CreatePlayer(Player player);
+        Task UpdatePlayer(Player player);
+        Task ApplyPatch<TEntity,TDto>(TEntity entityName, TDto dto) where TEntity : class;
     }
 }
+

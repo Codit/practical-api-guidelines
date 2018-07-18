@@ -23,11 +23,13 @@ namespace Codit.LevelOne.DB
                      Name = "Belgium",
                      Description = "The one with that big park.",
                      UpdatedOn = DateTime.Now.AddDays(-1),
+                     Continent = ContinentCode.Europe,
                      Players = new List<Player>()
                      {
                          new Player() {
                              FirstName = "Hazard",
-                             Description = "He plays in Chelsea."
+                             Description = "He plays in Chelsea.",
+                             IsTopPlayer = true
                          },
                           new Player() {
                              FirstName = "De Bruyne",
@@ -39,6 +41,7 @@ namespace Codit.LevelOne.DB
                 {
                     Name = "France",
                     Description = "One time world cup winner.",
+                    Continent = ContinentCode.Europe,
                     UpdatedOn = DateTime.Now,
                     Players = new List<Player>()
                      {
@@ -48,7 +51,8 @@ namespace Codit.LevelOne.DB
                          },
                           new Player() {
                              FirstName = "Pogba",
-                             Description = "He plays for MUTD."
+                             Description = "He plays for MUTD.",
+                             IsTopPlayer = true
                           },
                      }
                 }

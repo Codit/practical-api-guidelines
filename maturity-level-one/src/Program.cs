@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Codit
+namespace Codit.LevelOne
 {
     public static class Program
     {

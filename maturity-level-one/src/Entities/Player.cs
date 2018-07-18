@@ -6,11 +6,11 @@ namespace Codit.LevelOne.Entities
     public class Player
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
         public string FirstName { get; set; }
         public string Description { get; set; }
+        public bool IsTopPlayer { get; set; }
         [ForeignKey("TeamId")]
         public Team Team { get; set; }
         public int TeamId { get; set; }
