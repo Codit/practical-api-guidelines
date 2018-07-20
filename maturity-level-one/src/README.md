@@ -60,10 +60,10 @@ These include:
 
 
 Example of the URLs:
-http://localhost:48067/world-cup/v1/teams
-http://localhost:48067/world-cup/v1/teams/1
-http://localhost:48067/world-cup/v1/players/2/vote
-http://localhost:48067/world-cup/v1/players?top-players-only=true
+- http://localhost:48067/world-cup/v1/teams
+- http://localhost:48067/world-cup/v1/teams/1
+- http://localhost:48067/world-cup/v1/players/2/vote
+- http://localhost:48067/world-cup/v1/players?top-players-only=true
 
 
 Example of
