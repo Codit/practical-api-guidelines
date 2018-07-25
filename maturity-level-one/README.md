@@ -1,9 +1,16 @@
 # Practical API Guidelines - Must have
 
 1. [General HTTP Guidelines](#general-http-guidelines)
+   -  [URL Naming](#url-naming)
+   -  [Versioning](#versioning)
+   -  [Data Contracts](#data-contracts)
+   -  [HTTP Methods](#http-methods)
+   -  [HTTP Status Codes](#http-status-codes)
 2. [Security-first](#security-first)
 3. [Error Handling](#error-handling)
 4. [Document your APIs](#document-your-apis)
+   - [Defining OperationIds](#defining-operationids)
+   - [Generating OpenAPI Documentation](#generating-openapi-documentation)
 5. [Use thin controllers](#document-your-apis)
 
 ## General HTTP Guidelines
