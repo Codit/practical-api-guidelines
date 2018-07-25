@@ -17,24 +17,24 @@
 ### URL Naming
 Think about your operation URIs and make them as RESTy as possible – What we mean with RESTy?
 - **The API name is a singular concept and the 'api' prefix does not provide an added value**
-   - _Don't - `api/v1/users/{id}/profile`_
-   - _Do - `https://master-data.contoso.com` or `https://api.contoso.com/master-data`_
+   - _Do - `https://api.contoso.com/master-data`_
+   - _Don't - `https://apis.contoso.com/master-data`_
 - **Use plural for collections of resources**
    - _Example -`https://api.contoso.com/master-data/items`_
 - **Don't use verbs in the url**
-   - _Don't - `https://api.contoso.com/master-data/getItems`_
    - _Do - `https://api.contoso.com/master-data/items`_
+   - _Don't - `https://api.contoso.com/master-data/getItems`_
 - **Always use lower case in uris**
-   - _Don't - `https://api.contoso.com/File-Ingestion/{collection}/{blob}`_
    - _Do - `https://api.contoso.com/file-ingestion/{collection}/{blob}`_
+   - _Don't - `https://api.contoso.com/File-Ingestion/{collection}/{blob}`_
 - **Use the `-` for better readability**
-   - _Don't - `https://api.contoso.com/technicalaccount/contracts`_
    - _Do - `https://api.contoso.com/technical-account/contracts`_
+   - _Don't - `https://api.contoso.com/technicalaccount/contracts`_
 - **Command can be part of the uri path**
    - _Example - `http://api.example.com/cart-management/users/{id}/carts/{id}/checkout`_
 - **Query strings should only be used for querying (ie filtering, paging, etc..) and not for actions nor commands.**
-   - _Don't - `GET https://api.contoso.com/master-data/contracts/{contractId}?operation=cancel`_
    - _Do - `POST https://api.contoso.com/master-data/contracts/{contractId}/cancel`_
+   - _Don't - `GET https://api.contoso.com/master-data/contracts/{contractId}?operation=cancel`_
 
 ### Versioning
 - **Version your endpoint** even if you don’t need it (yet)
