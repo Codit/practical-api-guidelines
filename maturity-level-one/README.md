@@ -17,8 +17,12 @@
 ### URL Naming
 Think about your operation URIs and make them as RESTy as possible – What we mean with RESTy?
 - **API name is a singular concept**
-   - _Do - `https://api.contoso.com/master-data`_
-   - _Don't - `https://apis.contoso.com/master-data`_
+   - _Do - where `order` is the name of the API_
+     - _`https://order.contoso.com/v1/{controller}`_
+     - _`https://api.contoso.com/order/v1/{controller}`_
+   - _Don't - where `orders` is the name of the API_
+     - _`https://orders.contoso.com/v1/{controller}`_
+     - _`https://api.contoso.com/orders/v1/{controller}`_
 - **Only use api in URLs, unless there is a need for it**
    - You should not duplicate information if there is no need for it
    - _Do_
