@@ -26,12 +26,12 @@ Think about your operation URIs and make them as RESTy as possible – What we m
 - **Only use api in URLs, unless there is a need for it**
    - You should not duplicate information if there is no need for it
    - _Do_
-     - _`https://customers.contoso.com/api/v1`_
+     - _`https://customer.contoso.com/api/v1`_
      - _`https://api.domain.com/hr/v1/{controller}`_   
    - _Don't_
-     - _`https://orders.contoso.com/api/v1/master-data`_
-     - _Avoid duplication - `https://api.contoso.com/api/customers/v1/{controller}`_
-     - _No added value - `https://data.contoso.com/api/customers/v1/{controller}`_
+     - _`https://order.contoso.com/api/v1/master-data`_
+     - _Avoid duplication - `https://api.contoso.com/api/customer/v1/{controller}`_
+     - _No added value - `https://data.contoso.com/api/customer/v1/{controller}`_
 - **Use plural for collections of resources**
    - _Example -`https://api.contoso.com/master-data/items`_
 - **Don't use verbs in the url**
