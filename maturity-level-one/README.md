@@ -1,33 +1,53 @@
 # Practical API Guidelines - Must have
 
 1. [General HTTP Guidelines](#general-http-guidelines)
+   -  [URL Naming](#url-naming)
+   -  [Versioning](#versioning)
+   -  [Data Contracts](#data-contracts)
+   -  [HTTP Methods](#http-methods)
+   -  [HTTP Status Codes](#http-status-codes)
 2. [Security-first](#security-first)
 3. [Error Handling](#error-handling)
 4. [Document your APIs](#document-your-apis)
+   - [Defining OperationIds](#defining-operationids)
+   - [Generating OpenAPI Documentation](#generating-openapi-documentation)
 5. [Use thin controllers](#document-your-apis)
 
 ## General HTTP Guidelines
 ### URL Naming
 Think about your operation URIs and make them as RESTy as possible – What we mean with RESTy?
-- **The API name is a singular concept and the 'api' prefix does not provide an added value**
-   - _Don't - `api/v1/users/{id}/profile`_
-   - _Do - `https://master-data.contoso.com` or `https://api.contoso.com/master-data`_
+- **API name is a singular concept**
+   - _Do - where `order` is the name of the API_
+     - _`https://order.contoso.com/v1/{controller}`_
+     - _`https://api.contoso.com/order/v1/{controller}`_
+   - _Don't - where `orders` is the name of the API_
+     - _`https://orders.contoso.com/v1/{controller}`_
+     - _`https://api.contoso.com/orders/v1/{controller}`_
+- **Only use api in URLs, unless there is a need for it**
+   - You should not duplicate information if there is no need for it. If API is only a segment of the URL, such as frontend and api, then it is ok to share them.
+   - _Do_
+     - _`https://customer.contoso.com/api/v1/{controller}`_
+     - _`https://api.domain.com/hr/v1/{controller}`_   
+   - _Don't_
+     - _`https://order.contoso.com/api/v1/{controller}`_
+     - _Avoid duplication - `https://api.contoso.com/api/customer/v1/{controller}`_
+     - _No added value - `https://data.contoso.com/api/customer/v1/{controller}`_
 - **Use plural for collections of resources**
    - _Example -`https://api.contoso.com/master-data/items`_
 - **Don't use verbs in the url**
-   - _Don't - `https://api.contoso.com/master-data/getItems`_
    - _Do - `https://api.contoso.com/master-data/items`_
+   - _Don't - `https://api.contoso.com/master-data/getItems`_
 - **Always use lower case in uris**
-   - _Don't - `https://api.contoso.com/File-Ingestion/{collection}/{blob}`_
    - _Do - `https://api.contoso.com/file-ingestion/{collection}/{blob}`_
+   - _Don't - `https://api.contoso.com/File-Ingestion/{collection}/{blob}`_
 - **Use the `-` for better readability**
-   - _Don't - `https://api.contoso.com/technicalaccount/contracts`_
    - _Do - `https://api.contoso.com/technical-account/contracts`_
+   - _Don't - `https://api.contoso.com/technicalaccount/contracts`_
 - **Command can be part of the uri path**
    - _Example - `http://api.example.com/cart-management/users/{id}/carts/{id}/checkout`_
 - **Query strings should only be used for querying (ie filtering, paging, etc..) and not for actions nor commands.**
-   - _Don't - `GET https://api.contoso.com/master-data/contracts/{contractId}?operation=cancel`_
    - _Do - `POST https://api.contoso.com/master-data/contracts/{contractId}/cancel`_
+   - _Don't - `GET https://api.contoso.com/master-data/contracts/{contractId}?operation=cancel`_
 
 ### Versioning
 - **Version your endpoint** even if you don’t need it (yet)
