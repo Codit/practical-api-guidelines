@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,24 +16,16 @@ namespace Codit.LevelOne
 {
     public class Startup
     {
-        public static IConfiguration Configuration { get; set; }
-      public Startup(IHostingEnvironment env)
+        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddEnvironmentVariables();
-
-
-
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Startup.Configuration.GetConnectionString("WorldCupDB");
+            var connectionString = Configuration.GetConnectionString("WorldCupDB");
             //default scope lifetime
 #if DEBUG
             services.AddDbContext<WorldCupContext>(opt => opt.UseInMemoryDatabase("WorldCupDB"));
@@ -55,6 +45,7 @@ namespace Codit.LevelOne
                     //cfg.InputFormatters.Add(new XmlSerializerInputFormatter(cfg));
                     //cfg.OutputFormatters.Add(new XmlSerializerOutputFormatter());
                 })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(opt =>
                 {
                     //explicit datetime configuration
@@ -114,11 +105,15 @@ namespace Codit.LevelOne
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
+            }
+            else
+            {
+                app.UseHsts();
             }
             // seed DB
             worldCupContext.DataSeed();
 
+            app.UseHttpsRedirection();
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
