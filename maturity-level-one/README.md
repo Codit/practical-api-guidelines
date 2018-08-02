@@ -114,7 +114,7 @@ NOTE: If there isn't a good 4XX code use 400, if there isn't a good 5XX code, us
 
 ## Security-first
 
-- Always use HTTPS, unless otherwise required
+- Always use HTTPS, unless otherwise required ([official documentation](https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-2.1))
   - In case HTTP should be supported, consider using an API gateway in front of the API.
 This allows you to be secure on the physical API while the consumers can still use HTTP
 - Do not put security keys and sensitive information in the query string
