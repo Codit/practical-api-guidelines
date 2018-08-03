@@ -1,5 +1,6 @@
 ﻿using Codit.LevelOne.DB;
 using Codit.LevelOne.Entities;
+using Codit.LevelOne.Extensions;
 using Codit.LevelOne.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -110,25 +111,24 @@ namespace Codit.LevelOne
             {
                 app.UseHsts();
             }
-            // seed DB
+            
+            // Seed DB
             worldCupContext.DataSeed();
 
-            app.UseHttpsRedirection();
+            // Configure API
             app.UseMvc();
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
+            app.UseHttpsRedirection();
+            app.UseExceptionHandlerWithProblemJson();
+            app.UseOpenApi();
+            
+            // Configure Automapper
+            app.UseAutoMapper(cfg =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", Constants.OpenApi.Title);
+                cfg.CreateMap<Entities.Team, Models.TeamDto>();
+                cfg.CreateMap<Entities.Team, Models.TeamDetailsDto>();
+                cfg.CreateMap<Entities.Player, Models.PlayerDto>();
+                cfg.CreateMap<Models.PlayerDto, Entities.Player>();
             });
-
-            AutoMapper.Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<LevelOne.Entities.Team, LevelOne.Models.TeamDto>();
-                cfg.CreateMap<LevelOne.Entities.Team, LevelOne.Models.TeamDetailsDto>();
-                cfg.CreateMap<LevelOne.Entities.Player, LevelOne.Models.PlayerDto>();
-                cfg.CreateMap<LevelOne.Models.PlayerDto, LevelOne.Entities.Player>();
-            });
-
         }
     }
 }
