@@ -1,4 +1,5 @@
-﻿using Codit.LevelOne.DB;
+﻿using System.Linq;
+using Codit.LevelOne.DB;
 using Codit.LevelOne.Entities;
 using Codit.LevelOne.Extensions;
 using Codit.LevelOne.Services;
@@ -61,10 +62,10 @@ namespace Codit.LevelOne
             // Routing naming convention
             services.AddRouting(opt => opt.LowercaseUrls = true);
 
-            services.AddSwaggerGen(cfg =>
+            services.AddSwaggerGen(swaggerGenOptions =>
             {
-                cfg.DescribeAllEnumsAsStrings();
-                cfg.SwaggerDoc("v1", new Info
+                swaggerGenOptions.DescribeAllEnumsAsStrings();
+                swaggerGenOptions.SwaggerDoc("v1", new Info
                 {
                     Version = "v1",
                     Title = Constants.OpenApi.Title,
