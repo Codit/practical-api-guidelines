@@ -52,12 +52,12 @@ namespace Codit.LevelOne
             app.UseOpenApi();
 
             // Configure Automapper
-            app.UseAutoMapper(cfg =>
+            app.UseAutoMapper(mapperConfig =>
             {
-                cfg.CreateMap<Entities.Team, Models.TeamDto>();
-                cfg.CreateMap<Entities.Team, Models.TeamDetailsDto>();
-                cfg.CreateMap<Entities.Player, Models.PlayerDto>();
-                cfg.CreateMap<Models.PlayerDto, Entities.Player>();
+                mapperConfig.CreateMap<Entities.Team, Models.TeamDto>();
+                mapperConfig.CreateMap<Entities.Team, Models.TeamDetailsDto>();
+                mapperConfig.CreateMap<Entities.Player, Models.PlayerDto>();
+                mapperConfig.CreateMap<Models.PlayerDto, Entities.Player>();
             });
         }
     }
