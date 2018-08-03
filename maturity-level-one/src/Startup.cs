@@ -1,4 +1,5 @@
-﻿using Codit.LevelOne.DB;
+﻿using System.Linq;
+using Codit.LevelOne.DB;
 using Codit.LevelOne.Entities;
 using Codit.LevelOne.Services;
 using Microsoft.AspNetCore.Builder;
@@ -60,10 +61,10 @@ namespace Codit.LevelOne
             // Routing naming convention
             services.AddRouting(opt => opt.LowercaseUrls = true);
 
-            services.AddSwaggerGen(cfg =>
+            services.AddSwaggerGen(swaggerGenOptions =>
             {
-                cfg.DescribeAllEnumsAsStrings();
-                cfg.SwaggerDoc("v1", new Info
+                swaggerGenOptions.DescribeAllEnumsAsStrings();
+                swaggerGenOptions.SwaggerDoc("v1", new Info
                 {
                     Version = "v1",
                     Title = Constants.OpenApi.Title,
@@ -115,10 +116,10 @@ namespace Codit.LevelOne
 
             app.UseHttpsRedirection();
             app.UseMvc();
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
+            app.UseSwagger(UseLowercaseUrls);
+            app.UseSwaggerUI(swaggerUiOptions =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", Constants.OpenApi.Title);
+                swaggerUiOptions.SwaggerEndpoint("/swagger/v1/swagger.json", Constants.OpenApi.Title);
             });
 
             AutoMapper.Mapper.Initialize(cfg =>
@@ -129,6 +130,15 @@ namespace Codit.LevelOne
                 cfg.CreateMap<LevelOne.Models.PlayerDto, LevelOne.Entities.Player>();
             });
 
+        }
+
+        // Makes sure that the urls are lower case. See https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/74
+        private static void UseLowercaseUrls(SwaggerOptions swaggerOptions)
+        {
+            swaggerOptions.PreSerializeFilters.Add((document, request) =>
+            {
+                document.Paths = document.Paths.ToDictionary(p => p.Key.ToLowerInvariant(), p => p.Value);
+            });
         }
     }
 }
