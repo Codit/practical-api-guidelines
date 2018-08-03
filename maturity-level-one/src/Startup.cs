@@ -116,9 +116,9 @@ namespace Codit.LevelOne
             worldCupContext.DataSeed();
 
             // Configure API
-            app.UseMvc();
             app.UseHttpsRedirection();
             app.UseExceptionHandlerWithProblemJson();
+            app.UseMvc();
             app.UseOpenApi();
             
             // Configure Automapper
