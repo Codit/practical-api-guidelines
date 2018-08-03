@@ -1,17 +1,10 @@
-﻿using System.Linq;
-using Codit.LevelOne.DB;
+﻿using Codit.LevelOne.DB;
 using Codit.LevelOne.Entities;
-using Codit.LevelOne.Services;
+using Codit.LevelOne.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace Codit.LevelOne
 {
@@ -26,78 +19,15 @@ namespace Codit.LevelOne
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration.GetConnectionString("WorldCupDB");
-            //default scope lifetime
-#if DEBUG
-            services.AddDbContext<WorldCupContext>(opt => opt.UseInMemoryDatabase("WorldCupDB"));
-#else
-            services.AddDbContext<WorldCupContext>(o => o.UseSqlServer(connectionString)); 
-#endif
-            services.AddScoped<IWorldCupRepository, WorldCupRepository>(); //scoped
+            // Configure database
+            services.ConfigureDatabase(Configuration);
 
-            // Versioning
+            // Configure API
             services.AddApiVersioning();
-
-            services
-                .AddMvc(cfg =>
-                {
-                    cfg.RespectBrowserAcceptHeader = true;
-                    cfg.ReturnHttpNotAcceptable = true;
-                    //cfg.InputFormatters.Add(new XmlSerializerInputFormatter(cfg));
-                    //cfg.OutputFormatters.Add(new XmlSerializerOutputFormatter());
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddJsonOptions(opt =>
-                {
-                    //explicit datetime configuration
-                    opt.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-                    opt.SerializerSettings.DateFormatString = "o";
-                    opt.SerializerSettings.Converters.Add(new StringEnumConverter
-                    {
-                        CamelCaseText = false
-                    });
-                });
-
-            // Routing naming convention
-            services.AddRouting(opt => opt.LowercaseUrls = true);
-
-            services.AddSwaggerGen(swaggerGenOptions =>
-            {
-                swaggerGenOptions.DescribeAllEnumsAsStrings();
-                swaggerGenOptions.SwaggerDoc("v1", new Info
-                {
-                    Version = "v1",
-                    Title = Constants.OpenApi.Title,
-                    Description = Constants.OpenApi.Description,
-                    TermsOfService = Constants.OpenApi.TermsOfService,
-                    Contact = new Contact()
-                    {
-                        Name = Constants.OpenApi.ContactName,
-                        Email = Constants.OpenApi.ContactEmail,
-                        Url = Constants.OpenApi.ContactUrl
-                    }
-                });
-            });
-
-            //Problem+Json
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.InvalidModelStateResponseFactory = context =>
-                {
-                    var problemDetails = new ValidationProblemDetails(context.ModelState)
-                    {
-                        Instance = context.HttpContext.Request.Path,
-                        Status = StatusCodes.Status400BadRequest,
-                        Type = "https://asp.net/core",
-                        Detail = Constants.Messages.ProblemDetailsDetail
-                    };
-                    return new BadRequestObjectResult(problemDetails)
-                    {
-                        ContentTypes = { "application/problem+json", "application/problem+xml" }
-                    };
-                };
-            });
-
+            services.ConfigureMvc();
+            services.ConfigureOpenApiGeneration();
+            services.ConfigureRouting();
+            services.ConfigureInvalidStateHandling();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -111,33 +41,23 @@ namespace Codit.LevelOne
             {
                 app.UseHsts();
             }
-            // seed DB
+
+            // Seed DB
             worldCupContext.DataSeed();
 
+            // Configure API
             app.UseHttpsRedirection();
+            app.UseExceptionHandlerWithProblemJson();
             app.UseMvc();
-            app.UseSwagger(UseLowercaseUrls);
-            app.UseSwaggerUI(swaggerUiOptions =>
-            {
-                swaggerUiOptions.SwaggerEndpoint("/swagger/v1/swagger.json", Constants.OpenApi.Title);
-            });
+            app.UseOpenApi();
 
-            AutoMapper.Mapper.Initialize(cfg =>
+            // Configure Automapper
+            app.UseAutoMapper(mapperConfig =>
             {
-                cfg.CreateMap<LevelOne.Entities.Team, LevelOne.Models.TeamDto>();
-                cfg.CreateMap<LevelOne.Entities.Team, LevelOne.Models.TeamDetailsDto>();
-                cfg.CreateMap<LevelOne.Entities.Player, LevelOne.Models.PlayerDto>();
-                cfg.CreateMap<LevelOne.Models.PlayerDto, LevelOne.Entities.Player>();
-            });
-
-        }
-
-        // Makes sure that the urls are lower case. See https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/74
-        private static void UseLowercaseUrls(SwaggerOptions swaggerOptions)
-        {
-            swaggerOptions.PreSerializeFilters.Add((document, request) =>
-            {
-                document.Paths = document.Paths.ToDictionary(p => p.Key.ToLowerInvariant(), p => p.Value);
+                mapperConfig.CreateMap<Entities.Team, Models.TeamDto>();
+                mapperConfig.CreateMap<Entities.Team, Models.TeamDetailsDto>();
+                mapperConfig.CreateMap<Entities.Player, Models.PlayerDto>();
+                mapperConfig.CreateMap<Models.PlayerDto, Entities.Player>();
             });
         }
     }
