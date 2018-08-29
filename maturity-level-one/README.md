@@ -84,7 +84,7 @@ Example:
 | GET     | :heavy_check_mark: | :heavy_check_mark: | Getting the current resource or a list of resources | |
 | POST    | :x:                | :x:                | Create a new resource, execute a command (e.g. cart checkout) | If you are not a REST extremist: It can also be used to send a complex query and GET a query result. |
 | PUT     | :heavy_check_mark: | :x:                | This should be used to update the whole object | This is NOK for incremental updates. |
-| PATCH   | :x:                | :x:                | Incremental update | If you want to update a limited number of fields. |
+| PATCH   | :x:                | :x:                | Incremental update | If you want to update a limited number of fields. See [json-patch](https://tools.ietf.org/html/rfc6902) and [merge-patch](https://tools.ietf.org/html/rfc7386)  |
 | DELETE  | :heavy_check_mark: | :x:                | Hard/Soft delete | |
 | OPTIONS | :heavy_check_mark: | :heavy_check_mark: | Mainly used for CORS | |
 
@@ -114,7 +114,7 @@ NOTE: If there isn't a good 4XX code use 400, if there isn't a good 5XX code, us
 
 ## Security-first
 
-- Always use HTTPS, unless otherwise required
+- Always use HTTPS, unless otherwise required ([official documentation](https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-2.1))
   - In case HTTP should be supported, consider using an API gateway in front of the API.
 This allows you to be secure on the physical API while the consumers can still use HTTP
 - Do not put security keys and sensitive information in the query string
