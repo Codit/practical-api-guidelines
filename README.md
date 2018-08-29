@@ -1,5 +1,5 @@
 # Practical API Guidelines
-[![Build Status](https://travis-ci.com/tomkerkhove/practical-api-guidelines.svg?token=GsSXSXe5xF8ZdYK5qExq&branch=master)](https://travis-ci.com/tomkerkhove/practical-api-guidelines)
+[![Build Status](https://travis-ci.com/CoditEU/practical-api-guidelines.svg?branch=master)](https://travis-ci.com/CoditEU/practical-api-guidelines)
 
 Practical guidelines for designing, building and documenting REST APIs with .NET.
 
