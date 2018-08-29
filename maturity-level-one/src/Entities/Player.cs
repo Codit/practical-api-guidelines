@@ -5,14 +5,19 @@ namespace Codit.LevelOne.Entities
 {
     public class Player
     {
-        [Key]
-        public int Id { get; set; }
+        public string Description { get; set; }
+
         [Required]
         public string FirstName { get; set; }
-        public string Description { get; set; }
+
+        [Key]
+        public int Id { get; set; }
+
         public bool IsTopPlayer { get; set; }
-        [ForeignKey("TeamId")]
+
+        [ForeignKey(name: "TeamId")]
         public Team Team { get; set; }
+
         public int TeamId { get; set; }
     }
 }
