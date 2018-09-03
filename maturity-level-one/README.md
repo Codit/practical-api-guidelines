@@ -17,13 +17,13 @@
 ### URL Naming
 Think about your operation URIs and make them as RESTy as possible – What we mean with RESTy?
 - **API name is a singular concept**
-   - _Do - where `order` is the name of the API_
+   - _Do - use `order` in the name of the API_
      - _`https://order.contoso.com/v1/{controller}`_
      - _`https://api.contoso.com/order/v1/{controller}`_
-   - _Don't - where `orders` is the name of the API_
+   - _Don't - use `orders` in the name of the API_
      - _`https://orders.contoso.com/v1/{controller}`_
      - _`https://api.contoso.com/orders/v1/{controller}`_
-- **Only use api in URLs, unless there is a need for it**
+- **Only use api once in URLs, unless there is a need for it**
    - You should not duplicate information if there is no need for it. If API is only a segment of the URL, such as frontend and api, then it is ok to share them.
    - _Do_
      - _`https://customer.contoso.com/api/v1/{controller}`_
@@ -40,7 +40,7 @@ Think about your operation URIs and make them as RESTy as possible – What we m
 - **Always use lower case in uris**
    - _Do - `https://api.contoso.com/file-ingestion/{collection}/{blob}`_
    - _Don't - `https://api.contoso.com/File-Ingestion/{collection}/{blob}`_
-- **Use the `-` for better readability**
+- **Use the `-` hyphen-character for better readability**
    - _Do - `https://api.contoso.com/technical-account/contracts`_
    - _Don't - `https://api.contoso.com/technicalaccount/contracts`_
 - **Command can be part of the uri path**
@@ -83,7 +83,7 @@ Example:
 |:--------|:-------------------|:-------------------|:------------|:------|
 | GET     | :heavy_check_mark: | :heavy_check_mark: | Getting the current resource or a list of resources | |
 | POST    | :x:                | :x:                | Create a new resource, execute a command (e.g. cart checkout) | If you are not a REST extremist: It can also be used to send a complex query and GET a query result. |
-| PUT     | :heavy_check_mark: | :x:                | This should be used to update the whole object | This is NOK for incremental updates. |
+| PUT     | :heavy_check_mark: | :x:                | This should be used to update the whole object | This is not OK for incremental updates. |
 | PATCH   | :x:                | :x:                | Incremental update | If you want to update a limited number of fields. See [json-patch](https://tools.ietf.org/html/rfc6902) and [merge-patch](https://tools.ietf.org/html/rfc7386)  |
 | DELETE  | :heavy_check_mark: | :x:                | Hard/Soft delete | |
 | OPTIONS | :heavy_check_mark: | :heavy_check_mark: | Mainly used for CORS | |
@@ -166,5 +166,5 @@ public IHttpActionResult Get()
 ```
 
 ## Use thin controllers
-- Put less logic as possible in the controller.
-- Testing and dependency injection.
+- Put as less as possible logic in the controller.
+- Enhance testing possibilities through dependeny injection.
