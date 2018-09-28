@@ -119,6 +119,7 @@ NOTE: If there isn't a good 4XX code use 400, if there isn't a good 5XX code, us
 This allows you to be secure on the physical API while the consumers can still use HTTP
 - Do not put security keys and sensitive information in the query string
   - Certain scenarios are exceptional such as exposing webhooks. When this is the case the keys need to be limited in time to live.
+- Frontdoor/Backdoor security will be addressed in the next maturity levels. Authentication / Authorization can be delagated to gateway components.
 
 ## Error Handling
 
