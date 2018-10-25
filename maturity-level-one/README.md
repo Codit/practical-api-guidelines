@@ -144,7 +144,7 @@ Documentation should provide information about the following at least:
 ### Defining OperationIds
 An operationId is a unique identifier for an operation that is provided on an API. It is important to think carefully when assigning an operationId as changing these later on will be a breaking change.
 
-OpenAPI tooling, such as [AutoRest](https://github.com/Azure/autorest) & [NSwag](https://github.com/RSuter/NSwag), use the operationId to generate API clients based on this convention so it is important to provide a descriptive operationId. In order to ease the use of your API we recommend using the `{controller}_{operationName}` pattern.
+OpenAPI tooling, such as [AutoRest](https://github.com/Azure/autorest) & [NSwag](https://github.com/RSuter/NSwag), use the operationId to generate API clients based on this convention so it is important to provide a descriptive operationId. In order to ease the use of your API we recommend using the `{controller}_{operationName}` pattern in Pascal Case.
 
 ### Generating OpenAPI Documentation
 Every API should have documentation in the OpenAPI format. If you want to generate those based on your code you can use tools like [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle) & [NSwag](https://github.com/RSuter/NSwag).
@@ -157,7 +157,7 @@ Here is an example on how to generate them with Swashbuckle
 /// <remarks>Gets the current health status of the API</remarks>
 [HttpGet]
 [Route("health")]
-[SwaggerOperation("get-health")]
+[SwaggerOperation("Controller_Get")]
 [SwaggerResponse(HttpStatusCode.OK, "API is up & running")]
 [SwaggerResponse(HttpStatusCode.InternalServerError, "API is not available")]
 public IHttpActionResult Get()
