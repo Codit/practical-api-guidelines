@@ -157,7 +157,7 @@ Here is an example on how to generate them with Swashbuckle
 /// <remarks>Gets the current health status of the API</remarks>
 [HttpGet]
 [Route("health")]
-[SwaggerOperation("Controller_Get")]
+[SwaggerOperation("Health_Get")]
 [SwaggerResponse(HttpStatusCode.OK, "API is up & running")]
 [SwaggerResponse(HttpStatusCode.InternalServerError, "API is not available")]
 public IHttpActionResult Get()
