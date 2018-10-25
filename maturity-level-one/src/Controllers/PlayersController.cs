@@ -77,7 +77,7 @@ namespace maturity_level_one.Controllers
         }
 
         [HttpPut("{id}")]
-        [SwaggerOperation("Players_Update")]
+        [SwaggerOperation("Players_UpdateFull")]
         [SwaggerResponse(204, "No Content")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
