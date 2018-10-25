@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Codit.LevelOne.Extensions;
 using Codit.LevelOne.Models;
 using Codit.LevelOne.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -26,7 +23,7 @@ namespace maturity_level_one.Controllers
         }
 
         [HttpGet()]
-        [SwaggerOperation("get-teams")]
+        [SwaggerOperation("Teams_GetTeams")]
         [SwaggerResponse(200, "OK")]
         [SwaggerResponse(500, "API is not available")]
         public async Task<IActionResult> GetTeams()
@@ -39,7 +36,7 @@ namespace maturity_level_one.Controllers
         }
 
         [HttpGet("{id}")]
-        [SwaggerOperation("get-team-by-id")]
+        [SwaggerOperation("Teams_GetTeam")]
         [SwaggerResponse(200, "Accepted")]
         [SwaggerResponse(404, "Team not found")]
         [SwaggerResponse(500, "API is not available")]
