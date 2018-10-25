@@ -116,7 +116,7 @@ namespace maturity_level_one.Controllers
         }
 
         [HttpPatch("{id}/update")]
-        [SwaggerOperation("Players_Patch")]
+        [SwaggerOperation("Players_UpdateIncrementalJsonPatch")]
         [SwaggerResponse(204, "No Content")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
