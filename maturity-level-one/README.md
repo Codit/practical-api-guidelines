@@ -29,7 +29,6 @@ Think about your operation URIs and make them as RESTy as possible – What we m
      - _`https://customer.contoso.com/api/v1/{controller}`_
      - _`https://api.domain.com/hr/v1/{controller}`_   
    - _Don't_
-     - _`https://order.contoso.com/api/v1/{controller}`_
      - _Avoid duplication - `https://api.contoso.com/api/customer/v1/{controller}`_
      - _No added value - `https://data.contoso.com/api/customer/v1/{controller}`_
 - **Use plural for collections of resources**
