@@ -53,7 +53,7 @@ Think about your operation URIs and make them as RESTy as possible – What we m
    - Allows you to introduce new versions later one without breaking anything
    - Path versioning is the advised approach
      - _Example - `https://api.contoso.com/master-data/v1/items/{itemId}/components/{componentId}`_
-- **Data contract versioning is determined by using content-negotiation and custom media types**
+- **Data contract versioning is determined by [using content-negotiation and custom media types](https://github.com/Microsoft/aspnet-api-versioning/wiki/Versioning-by-Media-Type)**
    - _Example - `GET /items/H12652 Accept: application/vnd.mdm.v2+json`_
 
 ### Data Contracts
