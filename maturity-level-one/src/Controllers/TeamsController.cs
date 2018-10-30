@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Codit.LevelOne.Extensions;
 using Codit.LevelOne.Models;
 using Codit.LevelOne.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -18,7 +15,7 @@ namespace maturity_level_one.Controllers
     [ValidateModel]
     public class TeamsController : ControllerBase
     {
-        private IWorldCupRepository _worldCupRepository;
+        private readonly IWorldCupRepository _worldCupRepository;
 
         public TeamsController(IWorldCupRepository worldCupRepository)
         {
@@ -29,7 +26,7 @@ namespace maturity_level_one.Controllers
         [SwaggerOperation("get-teams")]
         [SwaggerResponse(200, "OK")]
         [SwaggerResponse(500, "API is not available")]
-        public async Task<IActionResult> GetTeams()
+        public async Task<IActionResult> GetTeamsAsync()
         {
 
             var teams = await _worldCupRepository.GetTeamsAsync();
@@ -43,14 +40,13 @@ namespace maturity_level_one.Controllers
         [SwaggerResponse(200, "Accepted")]
         [SwaggerResponse(404, "Team not found")]
         [SwaggerResponse(500, "API is not available")]
-        public async Task<IActionResult> GetTeam(int id)
+        public async Task<IActionResult> GetTeamAsync(int id)
         {
             var team = await _worldCupRepository.GetTeamAsync(id, true);
             if (team == null) return NotFound();
 
             var teamResult = Mapper.Map<TeamDetailsDto>(team);
             return Ok(teamResult);
-
         }
     }
 }
