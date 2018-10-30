@@ -32,7 +32,7 @@ namespace maturity_level_one.Controllers
         public async Task<IActionResult> GetTeams()
         {
 
-            var teams = await _worldCupRepository.GetTeams();
+            var teams = await _worldCupRepository.GetTeamsAsync();
             var results = Mapper.Map<IEnumerable<TeamDto>>(teams);
 
             return Ok(results);
@@ -45,7 +45,7 @@ namespace maturity_level_one.Controllers
         [SwaggerResponse(500, "API is not available")]
         public async Task<IActionResult> GetTeam(int id)
         {
-            var team = await _worldCupRepository.GetTeam(id, true);
+            var team = await _worldCupRepository.GetTeamAsync(id, true);
             if (team == null) return NotFound();
 
             var teamResult = Mapper.Map<TeamDetailsDto>(team);
