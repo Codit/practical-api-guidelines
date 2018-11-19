@@ -26,7 +26,7 @@ namespace maturity_level_one.Controllers
         [SwaggerOperation("get-teams")]
         [SwaggerResponse(200, "OK")]
         [SwaggerResponse(500, "API is not available")]
-        public async Task<IActionResult> GetTeamsAsync()
+        public async Task<IActionResult> GetTeams()
         {
 
             var teams = await _worldCupRepository.GetTeamsAsync();
@@ -40,7 +40,7 @@ namespace maturity_level_one.Controllers
         [SwaggerResponse(200, "Accepted")]
         [SwaggerResponse(404, "Team not found")]
         [SwaggerResponse(500, "API is not available")]
-        public async Task<IActionResult> GetTeamAsync(int id)
+        public async Task<IActionResult> GetTeam(int id)
         {
             var team = await _worldCupRepository.GetTeamAsync(id, true);
             if (team == null) return NotFound();
