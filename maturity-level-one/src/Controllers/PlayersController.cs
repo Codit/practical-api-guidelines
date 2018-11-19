@@ -42,15 +42,18 @@ namespace maturity_level_one.Controllers
 
         [HttpPost("{id}/vote")]
         [SwaggerOperation("vote-as-best-player")]
-        [SwaggerResponse(204, "No Content")]
+        [SwaggerResponse(202, "Vote accepted")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
         public async Task<IActionResult> VoteAsBestPlayerAsync(int id)
         {
             var player = await _worldCupRepository.GetPlayerAsync(id);
             if (player == null) return NotFound();
-            
-            return NoContent();
+
+            // Voting is not implemented yet, but this kind of api method should return '202' or '200'
+            // depending on how it is implemented.
+
+            return Accepted();
 
         }
 
