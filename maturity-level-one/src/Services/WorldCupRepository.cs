@@ -4,14 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Codit.LevelOne.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Codit.LevelOne.Extensions;
 
 namespace Codit.LevelOne.Services
 {
     public class WorldCupRepository : IWorldCupRepository
     {
-        private WorldCupContext _context;
+        private readonly WorldCupContext _context;
 
         public WorldCupRepository(WorldCupContext context)
         {
