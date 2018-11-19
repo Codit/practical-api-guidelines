@@ -33,7 +33,7 @@ namespace maturity_level_one.Controllers
         [SwaggerOperation("get-all-players")]
         [SwaggerResponse(200, "OK")]
         [SwaggerResponse(500, "API is not available")]
-        public async Task<IActionResult> GetPlayersAsync([FromQuery(Name = "top-players-only")]bool topPlayersOnly)
+        public async Task<IActionResult> GetPlayers([FromQuery(Name = "top-players-only")]bool topPlayersOnly)
         {
             var players = await _worldCupRepository.GetAllPlayersAsync(topPlayersOnly);
             var results = Mapper.Map<IEnumerable<PlayerDto>>(players);
@@ -45,7 +45,7 @@ namespace maturity_level_one.Controllers
         [SwaggerResponse(202, "Vote accepted")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
-        public async Task<IActionResult> VoteAsBestPlayerAsync(int id)
+        public async Task<IActionResult> VoteAsBestPlayer(int id)
         {
             var player = await _worldCupRepository.GetPlayerAsync(id);
             if (player == null) return NotFound();
@@ -63,7 +63,7 @@ namespace maturity_level_one.Controllers
         [SwaggerResponse(200, "OK")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
-        public async Task<IActionResult> GetPlayerAsync(int id)
+        public async Task<IActionResult> GetPlayer(int id)
         {
             var player = await _worldCupRepository.GetPlayerAsync(id);
             if (player == null) return NotFound();
@@ -77,7 +77,7 @@ namespace maturity_level_one.Controllers
         [SwaggerOperation("create-player")]
         [SwaggerResponse(201, "Created")]
         [SwaggerResponse(500, "API is not available")]
-        public async Task<IActionResult> CreateAsync(Player player)
+        public async Task<IActionResult> Create(Player player)
         {
             await _worldCupRepository.CreatePlayerAsync(player);
             return CreatedAtRoute("get-player-byid", new { id = player.Id }, player);
@@ -88,7 +88,7 @@ namespace maturity_level_one.Controllers
         [SwaggerResponse(204, "No Content")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
-        public async Task<IActionResult> UpdateFullAsync(int id, [FromBody] PlayerDto player)
+        public async Task<IActionResult> UpdateFull(int id, [FromBody] PlayerDto player)
         {
             var playerObj = await _worldCupRepository.GetPlayerAsync(id);
             if (playerObj == null)
@@ -107,7 +107,7 @@ namespace maturity_level_one.Controllers
         [SwaggerResponse(204, "No Content")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
-        public async Task<IActionResult> UpdateIncrementalAsync(int id, [FromBody] PlayerDto player)
+        public async Task<IActionResult> UpdateIncremental(int id, [FromBody] PlayerDto player)
         {
             var playerObj = await _worldCupRepository.GetPlayerAsync(id);
             if (playerObj == null)
@@ -127,7 +127,7 @@ namespace maturity_level_one.Controllers
         [SwaggerResponse(204, "No Content")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
-        public async Task<IActionResult> PatchAsync(int id, [FromBody]JsonPatchDocument<PlayerDto> player)
+        public async Task<IActionResult> Patch(int id, [FromBody]JsonPatchDocument<PlayerDto> player)
         {
             // Get our original person object from the DB 
             var playerDb = await _worldCupRepository.GetPlayerAsync(id);
