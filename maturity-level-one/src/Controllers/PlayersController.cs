@@ -72,7 +72,7 @@ namespace maturity_level_one.Controllers
         [SwaggerResponse(500, "API is not available")]
         public async Task<IActionResult> Create(NewPlayerDto player)
         {
-            var team = await _worldCupRepository.GetTeamAsync(player.TeamId, includePlayers: false);
+            var team = await _worldCupRepository.GetTeam(player.TeamId, includePlayers: false);
 
             if (team == null)
             {
@@ -87,7 +87,7 @@ namespace maturity_level_one.Controllers
                 TeamId = player.TeamId
             };
 
-            await _worldCupRepository.CreatePlayerAsync(playerEntity);
+            await _worldCupRepository.CreatePlayer(playerEntity);
 
             var result = Mapper.Map<PlayerDto>(playerEntity);
 
