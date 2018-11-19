@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Codit.LevelOne.Entities;
 using Codit.LevelOne.Extensions;
 using Codit.LevelOne.Models;
 using Codit.LevelOne.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -74,10 +70,28 @@ namespace maturity_level_one.Controllers
         [SwaggerOperation("create-player")]
         [SwaggerResponse(201, "Created")]
         [SwaggerResponse(500, "API is not available")]
-        public async Task<IActionResult> Create(Player player)
+        public async Task<IActionResult> Create(NewPlayerDto player)
         {
-            await _worldCupRepository.CreatePlayer(player);
-            return CreatedAtRoute("get-player-byid", new { id = player.Id }, player);
+            var team = await _worldCupRepository.GetTeamAsync(player.TeamId, includePlayers: false);
+
+            if (team == null)
+            {
+                return BadRequest($"The Team with Id {player.TeamId} does not exist.");
+            }
+
+            var playerEntity = new Player
+            {
+                FirstName = player.FirstName,
+                Description = player.Description,
+                IsTopPlayer = player.IsTopPlayer,
+                TeamId = player.TeamId
+            };
+
+            await _worldCupRepository.CreatePlayerAsync(playerEntity);
+
+            var result = Mapper.Map<PlayerDto>(playerEntity);
+
+            return CreatedAtRoute("get-player-byid", new { id = result.Id }, result);
         }
 
         [HttpPut("{id}")]
@@ -112,7 +126,7 @@ namespace maturity_level_one.Controllers
                 return NotFound();
             }
 
-            var playerToBeUpdated= Mapper.Map<Player>(player);
+            var playerToBeUpdated = Mapper.Map<Player>(player);
             playerToBeUpdated.Id = id;
 
             await _worldCupRepository.ApplyPatch<Player, PlayerDto>(playerToBeUpdated, player);
