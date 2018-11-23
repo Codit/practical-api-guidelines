@@ -12,53 +12,52 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace maturity_level_one.Controllers
 {
 
-    [ApiVersion("1")]
-    [Route("world-cup/v{version:apiVersion}/[controller]")]
+    [Route("world-cup/v1/[controller]")]
     [ApiController]
     [ValidateModel]
     public class PlayersController : ControllerBase
     {
-        private IWorldCupRepository _worldCupRepository;
+        private readonly IWorldCupRepository _worldCupRepository;
 
         public PlayersController(IWorldCupRepository worldCupRepository)
         {
             _worldCupRepository = worldCupRepository;
         }
 
-        [HttpGet()]
-        [SwaggerOperation("get-all-players")]
+        [HttpGet(Name = "Players_GetPlayers")]
         [SwaggerResponse(200, "OK")]
         [SwaggerResponse(500, "API is not available")]
         public async Task<IActionResult> GetPlayers([FromQuery(Name = "top-players-only")]bool topPlayersOnly)
         {
-            var players = await _worldCupRepository.GetAllPlayers(topPlayersOnly);
+            var players = await _worldCupRepository.GetAllPlayersAsync(topPlayersOnly);
             var results = Mapper.Map<IEnumerable<PlayerDto>>(players);
             return Ok(results);
         }
 
-        [HttpPost("{id}/vote")]
-        [SwaggerOperation("vote-as-best-player")]
-        [SwaggerResponse(204, "No Content")]
+        [HttpPost("{id}/vote", Name = "Players_VoteAsBestPlayer")]
+        [SwaggerResponse(202, "Vote accepted")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
         public async Task<IActionResult> VoteAsBestPlayer(int id)
         {
-            var player = await _worldCupRepository.GetPlayer(id);
+            var player = await _worldCupRepository.GetPlayerAsync(id);
             if (player == null) return NotFound();
-            
-            return NoContent();
+
+            // Voting is not implemented yet, but this kind of api method should return '202' or '200'
+            // depending on how it is implemented.
+
+            return Accepted();
 
         }
 
 
-        [HttpGet("{id}", Name = "get-player-byid")]
-        [SwaggerOperation("get-player-byid")]
+        [HttpGet("{id}", Name = "Players_GetPlayer")]
         [SwaggerResponse(200, "OK")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
         public async Task<IActionResult> GetPlayer(int id)
         {
-            var player = await _worldCupRepository.GetPlayer(id);
+            var player = await _worldCupRepository.GetPlayerAsync(id);
             if (player == null) return NotFound();
             var results = Mapper.Map<PlayerDto>(player);
 
@@ -66,8 +65,7 @@ namespace maturity_level_one.Controllers
 
         }
 
-        [HttpPost]
-        [SwaggerOperation("create-player")]
+        [HttpPost(Name = "Players_Create")]
         [SwaggerResponse(201, "Created")]
         [SwaggerResponse(500, "API is not available")]
         public async Task<IActionResult> Create(NewPlayerDto player)
@@ -87,21 +85,19 @@ namespace maturity_level_one.Controllers
                 TeamId = player.TeamId
             };
 
-            await _worldCupRepository.CreatePlayer(playerEntity);
-
+            await _worldCupRepository.CreatePlayerAsync(playerEntity);
             var result = Mapper.Map<PlayerDto>(playerEntity);
 
             return CreatedAtRoute("get-player-byid", new { id = result.Id }, result);
         }
 
-        [HttpPut("{id}")]
-        [SwaggerOperation("update-player")]
+        [HttpPut("{id}", Name="Players_UpdateFull")]
         [SwaggerResponse(204, "No Content")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
         public async Task<IActionResult> UpdateFull(int id, [FromBody] PlayerDto player)
         {
-            var playerObj = await _worldCupRepository.GetPlayer(id);
+            var playerObj = await _worldCupRepository.GetPlayerAsync(id);
             if (playerObj == null)
             {
                 return NotFound();
@@ -109,18 +105,17 @@ namespace maturity_level_one.Controllers
             var playerToBeUpdated = Mapper.Map<Player>(player);
             playerToBeUpdated.Id = id;
 
-            await _worldCupRepository.UpdatePlayer(playerToBeUpdated);
+            await _worldCupRepository.UpdatePlayerAsync(playerToBeUpdated);
             return NoContent();
         }
 
-        [HttpPatch("{id}")]
-        [SwaggerOperation("update-player-incremental")]
+        [HttpPatch("{id}", Name = "Players_UpdateIncremental")]
         [SwaggerResponse(204, "No Content")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
         public async Task<IActionResult> UpdateIncremental(int id, [FromBody] PlayerDto player)
         {
-            var playerObj = await _worldCupRepository.GetPlayer(id);
+            var playerObj = await _worldCupRepository.GetPlayerAsync(id);
             if (playerObj == null)
             {
                 return NotFound();
@@ -129,19 +124,18 @@ namespace maturity_level_one.Controllers
             var playerToBeUpdated = Mapper.Map<Player>(player);
             playerToBeUpdated.Id = id;
 
-            await _worldCupRepository.ApplyPatch<Player, PlayerDto>(playerToBeUpdated, player);
+            await _worldCupRepository.ApplyPatchAsync<Player, PlayerDto>(playerToBeUpdated, player);
             return NoContent();
         }
 
-        [HttpPatch("{id}/update")]
-        [SwaggerOperation("update-player-jsonpatch")]
+        [HttpPatch("{id}/update",Name = "Players_UpdateIncrementalJsonPatch")]
         [SwaggerResponse(204, "No Content")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
         public async Task<IActionResult> Patch(int id, [FromBody]JsonPatchDocument<PlayerDto> player)
         {
             // Get our original person object from the DB 
-            var playerDb = await _worldCupRepository.GetPlayer(id);
+            var playerDb = await _worldCupRepository.GetPlayerAsync(id);
             if (playerDb == null)
             {
                 return NotFound();
@@ -151,7 +145,7 @@ namespace maturity_level_one.Controllers
             //Apply the patch to the DTO. 
             player.ApplyTo(playerToBeUpdated);
             Mapper.Map(playerToBeUpdated, playerDb);
-            await _worldCupRepository.UpdatePlayer(playerDb);
+            await _worldCupRepository.UpdatePlayerAsync(playerDb);
 
 
             var results = Mapper.Map<PlayerDto>(playerDb);

@@ -4,14 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Codit.LevelOne.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Codit.LevelOne.Extensions;
 
 namespace Codit.LevelOne.Services
 {
     public class WorldCupRepository : IWorldCupRepository
     {
-        private WorldCupContext _context;
+        private readonly WorldCupContext _context;
 
         public WorldCupRepository(WorldCupContext context)
         {
@@ -19,17 +18,17 @@ namespace Codit.LevelOne.Services
             //_context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
-        public async Task<Player> GetPlayerOfTeam(int teamId, int playerId)
+        public async Task<Player> GetPlayerOfTeamAsync(int teamId, int playerId)
         {
             return await _context.Players.Where(p => p.TeamId == teamId && p.Id == playerId).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Player>> GetPlayersOfTeam(int teamId)
+        public async Task<IEnumerable<Player>> GetPlayersOfTeamAsync(int teamId)
         {
             return await _context.Players.Where(t => t.TeamId == teamId).ToListAsync();
         }
 
-        public async Task<IEnumerable<Player>> GetAllPlayers(bool topPlayersOnly)
+        public async Task<IEnumerable<Player>> GetAllPlayersAsync(bool topPlayersOnly)
         {
             if (topPlayersOnly)
             {
@@ -37,7 +36,7 @@ namespace Codit.LevelOne.Services
             }
             return await _context.Players.ToListAsync();
         }
-        public async Task<Team> GetTeam(int teamId, bool includePlayers)
+        public async Task<Team> GetTeamAsync(int teamId, bool includePlayers)
         {
             if (includePlayers)
             {
@@ -48,27 +47,27 @@ namespace Codit.LevelOne.Services
             return await _context.Teams.Where(t => t.Id == teamId).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Team>> GetTeams()
+        public async Task<IEnumerable<Team>> GetTeamsAsync()
         {
             return await _context.Teams.OrderBy(t => t.Name).ToListAsync();
         }
 
-        public async Task<Player> GetPlayer(int playerId)
+        public async Task<Player> GetPlayerAsync(int playerId)
         {
             return await _context.Players.AsNoTracking().Where(p => p.Id == playerId).FirstOrDefaultAsync();
         }
 
-        public async Task<bool> Save()
+        public async Task<bool> SaveAsync()
         {
             return (await _context.SaveChangesAsync() >= 0);
         }
 
-        public async Task<bool> TeamExists(int teamId)
+        public async Task<bool> TeamExistsAsync(int teamId)
         {
             return await _context.Teams.AnyAsync(t => t.Id == teamId);
         }
 
-        public async Task CreatePlayer(Player player)
+        public async Task CreatePlayerAsync(Player player)
         {
 
             _context.Players.Add(player);
@@ -76,7 +75,7 @@ namespace Codit.LevelOne.Services
 
         }
 
-        public async Task UpdatePlayer(Player player)
+        public async Task UpdatePlayerAsync(Player player)
         {
             _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.TrackAll;
             _context.Players.Update(player);
@@ -84,7 +83,7 @@ namespace Codit.LevelOne.Services
 
         }
 
-        public async Task ApplyPatch<TEntity, TDto>(TEntity entityToUpdate, TDto dto) where TEntity : class
+        public async Task ApplyPatchAsync<TEntity, TDto>(TEntity entityToUpdate, TDto dto) where TEntity : class
         {
             if (dto == null)
                 throw new ArgumentNullException($"{nameof(dto)}", $"{nameof(dto)} cannot be null.");
