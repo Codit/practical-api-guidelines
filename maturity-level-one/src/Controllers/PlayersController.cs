@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Codit.LevelOne.Entities;
 using Codit.LevelOne.Extensions;
 using Codit.LevelOne.Models;
 using Codit.LevelOne.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -30,7 +26,7 @@ namespace maturity_level_one.Controllers
         }
 
         [HttpGet()]
-        [SwaggerOperation("get-all-players")]
+        [SwaggerOperation("Players_GetPlayers")]
         [SwaggerResponse(200, "OK")]
         [SwaggerResponse(500, "API is not available")]
         public async Task<IActionResult> GetPlayers([FromQuery(Name = "top-players-only")]bool topPlayersOnly)
@@ -41,7 +37,7 @@ namespace maturity_level_one.Controllers
         }
 
         [HttpPost("{id}/vote")]
-        [SwaggerOperation("vote-as-best-player")]
+        [SwaggerOperation("Players_VoteAsBestPlayer")]
         [SwaggerResponse(202, "Vote accepted")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
@@ -59,7 +55,7 @@ namespace maturity_level_one.Controllers
 
 
         [HttpGet("{id}", Name = "get-player-byid")]
-        [SwaggerOperation("get-player-byid")]
+        [SwaggerOperation("Players_GetPlayer")]
         [SwaggerResponse(200, "OK")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
@@ -74,7 +70,7 @@ namespace maturity_level_one.Controllers
         }
 
         [HttpPost]
-        [SwaggerOperation("create-player")]
+        [SwaggerOperation("Players_Create")]
         [SwaggerResponse(201, "Created")]
         [SwaggerResponse(500, "API is not available")]
         public async Task<IActionResult> Create(Player player)
@@ -84,7 +80,7 @@ namespace maturity_level_one.Controllers
         }
 
         [HttpPut("{id}")]
-        [SwaggerOperation("update-player")]
+        [SwaggerOperation("Players_UpdateFull")]
         [SwaggerResponse(204, "No Content")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
@@ -103,7 +99,7 @@ namespace maturity_level_one.Controllers
         }
 
         [HttpPatch("{id}")]
-        [SwaggerOperation("update-player-incremental")]
+        [SwaggerOperation("Players_UpdateIncremental")]
         [SwaggerResponse(204, "No Content")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
@@ -115,7 +111,7 @@ namespace maturity_level_one.Controllers
                 return NotFound();
             }
 
-            var playerToBeUpdated= Mapper.Map<Player>(player);
+            var playerToBeUpdated = Mapper.Map<Player>(player);
             playerToBeUpdated.Id = id;
 
             await _worldCupRepository.ApplyPatchAsync<Player, PlayerDto>(playerToBeUpdated, player);
@@ -123,7 +119,7 @@ namespace maturity_level_one.Controllers
         }
 
         [HttpPatch("{id}/update")]
-        [SwaggerOperation("update-player-jsonpatch")]
+        [SwaggerOperation("Players_UpdateIncrementalJsonPatch")]
         [SwaggerResponse(204, "No Content")]
         [SwaggerResponse(404, "Player not found")]
         [SwaggerResponse(500, "API is not available")]
