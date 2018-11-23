@@ -20,7 +20,7 @@ namespace Codit.LevelOne
             public const string TermsOfService = "N/A";
             public const string ContactName = "API at Codit";
             public const string ContactEmail = "support@codit.eu";
-            public const string ContactUrl = "www.codit.eu";
+            public const string ContactUrl = "https://www.codit.eu";
         }
     }
 }
