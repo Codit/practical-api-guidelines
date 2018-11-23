@@ -9,8 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace maturity_level_one.Controllers
 {
-    [ApiVersion("1")]
-    [Route("world-cup/v{version:apiVersion}/[controller]")]
+    [Route("world-cup/v1/[controller]")]
     [ApiController]
     [ValidateModel]
     public class TeamsController : ControllerBase
@@ -22,8 +21,7 @@ namespace maturity_level_one.Controllers
             _worldCupRepository = worldCupRepository;
         }
 
-        [HttpGet()]
-        [SwaggerOperation("Teams_GetTeams")]
+        [HttpGet(Name = "Teams_GetTeams")]
         [SwaggerResponse(200, "OK")]
         [SwaggerResponse(500, "API is not available")]
         public async Task<IActionResult> GetTeams()
@@ -35,8 +33,7 @@ namespace maturity_level_one.Controllers
             return Ok(results);
         }
 
-        [HttpGet("{id}")]
-        [SwaggerOperation("Teams_GetTeam")]
+        [HttpGet("{id}", Name = "Teams_GetTeam")]
         [SwaggerResponse(200, "Accepted")]
         [SwaggerResponse(404, "Team not found")]
         [SwaggerResponse(500, "API is not available")]
