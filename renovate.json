@@ -1,7 +1,7 @@
 {
   "branchPrefix":"renovate-",
   "labels":["dependencies"],
-  "assignees": ["@tomkerkhove", "@samneirinck"],
+  "assignees": ["@tomkerkhove"],
   "ignoreDeps":[],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
