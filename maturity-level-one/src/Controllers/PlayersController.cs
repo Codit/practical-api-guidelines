@@ -68,10 +68,27 @@ namespace maturity_level_one.Controllers
         [HttpPost(Name = "Players_Create")]
         [SwaggerResponse(201, "Created")]
         [SwaggerResponse(500, "API is not available")]
-        public async Task<IActionResult> Create(Player player)
+        public async Task<IActionResult> Create(NewPlayerDto player)
         {
-            await _worldCupRepository.CreatePlayerAsync(player);
-            return CreatedAtRoute("get-player-byid", new { id = player.Id }, player);
+            var team = await _worldCupRepository.GetTeamAsync(player.TeamId, includePlayers: false);
+
+            if (team == null)
+            {
+                return BadRequest($"The Team with Id {player.TeamId} does not exist.");
+            }
+
+            var playerEntity = new Player
+            {
+                FirstName = player.FirstName,
+                Description = player.Description,
+                IsTopPlayer = player.IsTopPlayer,
+                TeamId = player.TeamId
+            };
+
+            await _worldCupRepository.CreatePlayerAsync(playerEntity);
+            var result = Mapper.Map<PlayerDto>(playerEntity);
+
+            return CreatedAtRoute("get-player-byid", new { id = result.Id }, result);
         }
 
         [HttpPut("{id}", Name="Players_UpdateFull")]
