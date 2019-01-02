@@ -23,7 +23,6 @@ namespace Codit.LevelOne
             services.ConfigureDatabase(Configuration);
 
             // Configure API
-            services.AddApiVersioning();
             services.ConfigureMvc();
             services.ConfigureOpenApiGeneration();
             services.ConfigureRouting();
