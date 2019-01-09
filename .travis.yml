@@ -3,8 +3,8 @@ dotnet: 2.2.100
 dist: xenial
 script:
 - dotnet --info
-- dotnet restore maturity-level-one/src/maturity-level-one.sln
-- dotnet build maturity-level-one/src/maturity-level-one.sln
+- dotnet restore maturity-level-one/src/Codit.LevelOne.sln
+- dotnet build maturity-level-one/src/Codit.LevelOne.sln
 branches:
   only:
   - master
