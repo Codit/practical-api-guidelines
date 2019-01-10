@@ -70,7 +70,7 @@ namespace Codit.IntegrationTest
                 IsTopPlayer = false,
                 TeamId = 1
             };
-            var request = TestUtils.GetJsonRequest(player, httpMethod, $"/world-cup/v1/players");
+            var request = TestExtensions.GetJsonRequest(player, httpMethod, $"/world-cup/v1/players");
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
@@ -86,7 +86,7 @@ namespace Codit.IntegrationTest
                 Description = "He plays for Codit.",
                 IsTopPlayer = false
             };
-            var request = TestUtils.GetJsonRequest(player, httpMethod, "/world-cup/v1/players");
+            var request = TestExtensions.GetJsonRequest(player, httpMethod, "/world-cup/v1/players");
             var response = await _httpClient.SendAsync(request);
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -129,7 +129,7 @@ namespace Codit.IntegrationTest
             var response = await _httpClient.SendAsync(request);
             var actualDto = JsonConvert.DeserializeObject<PlayerDto>(response.Content.ReadAsStringAsync().Result);
 
-            request = TestUtils.GetJsonRequest(player, httpMethod, $"/world-cup/v1/players/{playerId}");
+            request = TestExtensions.GetJsonRequest(player, httpMethod, $"/world-cup/v1/players/{playerId}");
             response = await _httpClient.SendAsync(request);
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
 
@@ -158,7 +158,7 @@ namespace Codit.IntegrationTest
             var response = await _httpClient.SendAsync(request);
             var actualDto = JsonConvert.DeserializeObject<PlayerDto>(response.Content.ReadAsStringAsync().Result);
 
-            request = TestUtils.GetJsonRequest(player, httpMethod, $"/world-cup/v1/players/{playerId}");
+            request = TestExtensions.GetJsonRequest(player, httpMethod, $"/world-cup/v1/players/{playerId}");
             response = await _httpClient.SendAsync(request);
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
 
@@ -186,7 +186,7 @@ namespace Codit.IntegrationTest
             var response = await _httpClient.SendAsync(request);
             var actualDto = JsonConvert.DeserializeObject<PlayerDto>(response.Content.ReadAsStringAsync().Result);
 
-            request = TestUtils.GetJsonRequest(player, httpMethod, $"/world-cup/v1/players/{playerId}/update", "application/json-patch+json");
+            request = TestExtensions.GetJsonRequest(player, httpMethod, $"/world-cup/v1/players/{playerId}/update", "application/json-patch+json");
             response = await _httpClient.SendAsync(request);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
@@ -209,7 +209,7 @@ namespace Codit.IntegrationTest
                 Description = "He's still playing for Chelsea."
             };
 
-            var request = TestUtils.GetJsonRequest(player, httpMethod, $"/world-cup/v1/players/{playerId}/update");
+            var request = TestExtensions.GetJsonRequest(player, httpMethod, $"/world-cup/v1/players/{playerId}/update");
             var response = await _httpClient.SendAsync(request);
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
