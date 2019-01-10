@@ -9,6 +9,7 @@ using Codit.LevelOne.Models;
 using Newtonsoft.Json;
 using System.Text;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Codit.IntegrationTest
 {
@@ -39,7 +40,8 @@ namespace Codit.IntegrationTest
         [InlineData("GET")]
         public async Task GetSinglePlayer_Ok_TestAsync(string httpMethod)
         {
-            var request = new HttpRequestMessage(new HttpMethod(httpMethod), "/world-cup/v1/players/1");
+            int playerId = 1;
+            var request = new HttpRequestMessage(new HttpMethod(httpMethod), $"/world-cup/v1/players/{playerId}");
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -50,7 +52,8 @@ namespace Codit.IntegrationTest
         [InlineData("GET")]
         public async Task GetSinglePlayer_NotFound_TestAsync(string httpMethod)
         {
-            var request = new HttpRequestMessage(new HttpMethod(httpMethod), "/world-cup/v1/players/-1");
+            int playerId = -1;
+            var request = new HttpRequestMessage(new HttpMethod(httpMethod), $"/world-cup/v1/players/{playerId}");
             var response = await _httpClient.SendAsync(request);
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
@@ -67,13 +70,7 @@ namespace Codit.IntegrationTest
                 IsTopPlayer = false,
                 TeamId = 1
             };
-            var data = JsonConvert.SerializeObject(player);
-            var content = new ByteArrayContent(Encoding.UTF8.GetBytes(data));
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-            var request = new HttpRequestMessage(new HttpMethod(httpMethod), "/world-cup/v1/players");
-            request.Content = content;
-
+            var request = TestUtils.GetJsonRequest(player, httpMethod, $"/world-cup/v1/players");
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
@@ -89,15 +86,142 @@ namespace Codit.IntegrationTest
                 Description = "He plays for Codit.",
                 IsTopPlayer = false
             };
-            var data = JsonConvert.SerializeObject(player);
-            var content = new ByteArrayContent(Encoding.UTF8.GetBytes(data));
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-            var request = new HttpRequestMessage(new HttpMethod(httpMethod), "/world-cup/v1/players");
-            request.Content = content;
-
+            var request = TestUtils.GetJsonRequest(player, httpMethod, "/world-cup/v1/players");
             var response = await _httpClient.SendAsync(request);
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Theory]
+        [InlineData("POST")]
+        public async Task VoteAsBestPlayer_Accepted_TestAsync(string httpMethod)
+        {
+            int playerId = 1;
+            var request = new HttpRequestMessage(new HttpMethod(httpMethod), $"/world-cup/v1/players/{playerId}/vote");
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            Assert.Equal(HttpStatusCode.Accepted, response.StatusCode);
+        }
+
+        [Theory]
+        [InlineData("POST")]
+        public async Task VoteAsBestPlayer_NotFound_TestAsync(string httpMethod)
+        {
+            int playerId = -1;
+            var request = new HttpRequestMessage(new HttpMethod(httpMethod), $"/world-cup/v1/players/{playerId}/vote");
+            var response = await _httpClient.SendAsync(request);
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [Theory]
+        [InlineData("PUT")]
+        public async Task UpdatePlayer_NoContent_TestAsync(string httpMethod)
+        {
+            int playerId = 1;
+            var player = new PlayerDto
+            {
+                FirstName = "Hazard",
+                Description = "He plays in Chelsea.",
+                IsTopPlayer = true,
+                TeamId = 2
+            };
+
+            var request = new HttpRequestMessage(new HttpMethod("GET"), $"/world-cup/v1/players/{playerId}");
+            var response = await _httpClient.SendAsync(request);
+            var actualDto = JsonConvert.DeserializeObject<PlayerDto>(response.Content.ReadAsStringAsync().Result);
+
+            request = TestUtils.GetJsonRequest(player, httpMethod, $"/world-cup/v1/players/{playerId}");
+            response = await _httpClient.SendAsync(request);
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+
+            request = new HttpRequestMessage(new HttpMethod("GET"), $"/world-cup/v1/players/{playerId}");
+            response = await _httpClient.SendAsync(request);
+            var updatedDto = JsonConvert.DeserializeObject<PlayerDto>(response.Content.ReadAsStringAsync().Result);
+
+            Assert.Equal(actualDto.FirstName, updatedDto.FirstName);
+            Assert.Equal(actualDto.Description, updatedDto.Description);
+            Assert.Equal(actualDto.IsTopPlayer, updatedDto.IsTopPlayer);
+            Assert.Equal(2, updatedDto.TeamId);
+
+        }
+
+        [Theory]
+        [InlineData("PATCH")]
+        public async Task UpdatePlayerIncremental_NoContent_TestAsync(string httpMethod)
+        {
+            int playerId = 1;
+            var player = new PlayerDto
+            {
+                Description = "He's still playing for Chelsea."
+            };
+
+            var request = new HttpRequestMessage(new HttpMethod("GET"), $"/world-cup/v1/players/{playerId}");
+            var response = await _httpClient.SendAsync(request);
+            var actualDto = JsonConvert.DeserializeObject<PlayerDto>(response.Content.ReadAsStringAsync().Result);
+
+            request = TestUtils.GetJsonRequest(player, httpMethod, $"/world-cup/v1/players/{playerId}");
+            response = await _httpClient.SendAsync(request);
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+
+            request = new HttpRequestMessage(new HttpMethod("GET"), $"/world-cup/v1/players/{playerId}");
+            response = await _httpClient.SendAsync(request);
+            var updatedDto = JsonConvert.DeserializeObject<PlayerDto>(response.Content.ReadAsStringAsync().Result);
+
+            Assert.Equal(actualDto.FirstName, updatedDto.FirstName);
+            Assert.NotEqual(actualDto.Description, updatedDto.Description);
+            Assert.Equal(actualDto.IsTopPlayer, updatedDto.IsTopPlayer);
+            Assert.Equal(actualDto.TeamId, updatedDto.TeamId);
+
+        }
+
+        [Theory]
+        [InlineData("PATCH")]
+        public async Task UpdatePlayerIncrementalJsonPatch_Ok_TestAsync(string httpMethod)
+        {
+            int playerId = 1;
+            JsonPatchDocument<PlayerDto> player = new JsonPatchDocument<PlayerDto>();
+            player.Replace(p => p.Description, "He's still playing for Chelsea.");
+            player.Replace(p => p.IsTopPlayer, false);
+
+            var request = new HttpRequestMessage(new HttpMethod("GET"), $"/world-cup/v1/players/{playerId}");
+            var response = await _httpClient.SendAsync(request);
+            var actualDto = JsonConvert.DeserializeObject<PlayerDto>(response.Content.ReadAsStringAsync().Result);
+
+            request = TestUtils.GetJsonRequest(player, httpMethod, $"/world-cup/v1/players/{playerId}/update", "application/json-patch+json");
+            response = await _httpClient.SendAsync(request);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var updatedDto = JsonConvert.DeserializeObject<PlayerDto>(response.Content.ReadAsStringAsync().Result);
+
+            Assert.Equal(actualDto.FirstName, updatedDto.FirstName);
+            Assert.NotEqual(actualDto.Description, updatedDto.Description);
+            Assert.NotEqual(actualDto.IsTopPlayer, updatedDto.IsTopPlayer);
+            Assert.Equal(actualDto.TeamId, updatedDto.TeamId);
+
+        }
+
+        [Theory]
+        [InlineData("PATCH")]
+        public async Task UpdatePlayerIncrementalJsonPatch_BadRequest_TestAsync(string httpMethod)
+        {
+            int playerId = 1;
+            var player = new PlayerDto
+            {
+                Description = "He's still playing for Chelsea."
+            };
+
+            var request = TestUtils.GetJsonRequest(player, httpMethod, $"/world-cup/v1/players/{playerId}/update");
+            var response = await _httpClient.SendAsync(request);
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Theory]
+        [InlineData("DELETE")]
+        public async Task DeletePlayer_NotFound_TestAsync(string httpMethod)
+        {
+            int playerId = 1;
+            var request = new HttpRequestMessage(new HttpMethod(httpMethod), $"/world-cup/v1/players/{playerId}");
+            var response = await _httpClient.SendAsync(request);
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
     }
 }
