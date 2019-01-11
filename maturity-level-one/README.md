@@ -11,7 +11,7 @@
 4. [Document your APIs](#document-your-apis)
    - [Defining OperationIds](#defining-operationids)
    - [Generating OpenAPI Documentation](#generating-openapi-documentation)
-5. [Use thin controllers](#document-your-apis)
+5. [Unit and Integration tests](#unit-and-integratiom-tests)
 
 ## General HTTP Guidelines
 ### URL Naming
@@ -165,6 +165,6 @@ public IHttpActionResult Get()
 }
 ```
 
-## Use thin controllers
-- Put as less as possible logic in the controller.
-- Enhance testing possibilities through dependeny injection.
+## Unit and Integration tests
+Always add Unit tests and Integration tests.
+- Put as less as possible logic in the controller and enhance testing possibilities through dependeny injection.
