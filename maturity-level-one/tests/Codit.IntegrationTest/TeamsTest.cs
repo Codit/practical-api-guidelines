@@ -1,4 +1,4 @@
-﻿using Xunit;
+using Xunit;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.AspNetCore.Hosting;
 using System.Net.Http;

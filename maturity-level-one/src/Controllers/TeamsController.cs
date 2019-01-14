@@ -20,6 +20,7 @@ namespace Codit.LevelOne.Controllers
         public TeamsController(IWorldCupRepository worldCupRepository)
         {
             _worldCupRepository = worldCupRepository;
+            AutoMapperConfig.Initialize();
         }
 
         [HttpGet(Name = "Teams_GetTeams")]

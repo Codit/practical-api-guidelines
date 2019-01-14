@@ -1,4 +1,4 @@
-﻿using Codit.LevelOne.Extensions;
+using Codit.LevelOne.Extensions;
 using FluentAssertions;
 using Newtonsoft.Json;
 using System.Net.Http;

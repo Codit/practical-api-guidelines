@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Codit.LevelOne;
 using Codit.LevelOne.Entities;
 using Codit.LevelOne.Models;
