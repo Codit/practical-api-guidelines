@@ -1,3 +1,4 @@
+using Codit.LevelOne;
 using Codit.LevelOne.Controllers;
 using Codit.LevelOne.Models;
 using Codit.LevelOne.Services;
@@ -17,6 +18,7 @@ namespace Codit.UnitTest.Controllers
         {
             _service = new WorldCupRepositoryFake();
             _controller = new TeamsController(_service);
+            AutoMapperConfig.Initialize();
         }
 
         [Fact]

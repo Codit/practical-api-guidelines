@@ -41,5 +41,12 @@ namespace Codit.LevelOne.Extensions
                         .Select(p => p.Name)
                         .ToArray();
         }
+
+        public static bool Between(this int num, int lower, int upper, bool inclusive = false)
+        {
+            return inclusive
+                ? lower <= num && num <= upper
+                : lower < num && num < upper;
+        }
     }
 }

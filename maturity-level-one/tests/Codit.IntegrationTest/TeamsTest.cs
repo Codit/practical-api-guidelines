@@ -55,7 +55,7 @@ namespace Codit.IntegrationTest
             int teamId = -1;
             var request = new HttpRequestMessage(new HttpMethod(httpMethod), $"/world-cup/v1/teams/{teamId}");
             var response = await _httpClient.SendAsync(request);
-            response.Content.Headers.Should().BeEmpty();
+            response.Content.Headers.Should().NotBeNullOrEmpty();
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 

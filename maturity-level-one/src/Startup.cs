@@ -47,9 +47,9 @@ namespace Codit.LevelOne
             // Configure API
             app.UseHttpsRedirection();
             app.UseExceptionHandlerWithProblemJson();
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
             app.UseMvc();
             app.UseOpenApi();
-
             // Configure Automapper
             AutoMapperConfig.Initialize();
         }

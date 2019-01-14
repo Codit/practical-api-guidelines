@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -41,13 +42,12 @@ namespace Codit.LevelOne.Extensions
                     var problemDetails = new ProblemDetails
                     {
                         Title = "An unexpected error occurred!",
-                        Status = 500,
+                        Status = StatusCodes.Status500InternalServerError,
                         Detail = errorDetail,
-                        Instance = $"urn:codit:error:{Guid.NewGuid()}"
+                        Instance = $"urn:codit.eu:server-error:{Guid.NewGuid()}"
                     };
 
                     // TODO: Plug in telemetry
-
                     context.Response.WriteJson(problemDetails, contentType: "application/problem+json");
                 });
             });
