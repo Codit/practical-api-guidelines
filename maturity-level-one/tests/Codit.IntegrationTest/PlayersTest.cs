@@ -32,7 +32,6 @@ namespace Codit.IntegrationTest
         {
             var request = new HttpRequestMessage(new HttpMethod(httpMethod), "/world-cup/v1/players");
             var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -43,7 +42,6 @@ namespace Codit.IntegrationTest
             int playerId = 1;
             var request = new HttpRequestMessage(new HttpMethod(httpMethod), $"/world-cup/v1/players/{playerId}");
             var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -72,7 +70,6 @@ namespace Codit.IntegrationTest
             };
             var request = TestExtensions.GetJsonRequest(player, httpMethod, $"/world-cup/v1/players");
             var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         }
 
@@ -98,7 +95,6 @@ namespace Codit.IntegrationTest
             int playerId = 1;
             var request = new HttpRequestMessage(new HttpMethod(httpMethod), $"/world-cup/v1/players/{playerId}/vote");
             var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
             Assert.Equal(HttpStatusCode.Accepted, response.StatusCode);
         }
 

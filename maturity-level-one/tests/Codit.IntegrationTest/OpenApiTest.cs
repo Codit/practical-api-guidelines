@@ -28,7 +28,6 @@ namespace Codit.IntegrationTest
         {
             var request = new HttpRequestMessage(new HttpMethod(httpMethod), "/swagger/v1/swagger.json");
             var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode().ShouldBeNotNull();
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var swaggerDoc = JObject.Parse(response.Content.ReadAsStringAsync().Result);
