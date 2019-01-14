@@ -25,10 +25,9 @@ namespace Codit.UnitTest.Mappings
                 IsTopPlayer = true,
                 TeamId = 1
             };
-            var playerDto = new PlayerDto();
 
             //Act
-            playerDto = Mapper.Map<PlayerDto>(objInstance);
+            var playerDto = Mapper.Map<PlayerDto>(objInstance);
 
             //Assert
             playerDto.Should().NotBeNull();
