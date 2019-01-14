@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Codit.LevelOne.Entities;
@@ -82,6 +83,8 @@ namespace Codit.LevelOne.Controllers
                 return BadRequest(new ProblemDetailsError(StatusCodes.Status400BadRequest, $"The Team with Id {player.TeamId} does not exist."));
             }
 
+            if (player.Description == "Evil") throw new ArgumentException("this is evil code");
+
             var playerEntity = new Player
             {
                 FirstName = player.FirstName,
@@ -89,7 +92,7 @@ namespace Codit.LevelOne.Controllers
                 IsTopPlayer = player.IsTopPlayer,
                 TeamId = player.TeamId
             };
-
+            
             await _worldCupRepository.CreatePlayerAsync(playerEntity);
             var result = Mapper.Map<PlayerDto>(playerEntity);
 

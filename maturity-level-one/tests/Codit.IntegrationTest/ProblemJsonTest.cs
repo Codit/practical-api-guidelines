@@ -6,6 +6,9 @@ using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Codit.LevelOne.Models;
+using Codit.LevelOne.Extensions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Codit.IntegrationTest
 {
@@ -32,7 +35,7 @@ namespace Codit.IntegrationTest
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
             response.Content.Headers.ContentLength.Should().BeGreaterThan(0);
-            // TODO validate content
+            response.ShouldBeProblemJson();
         }
 
         [Fact]
@@ -51,6 +54,7 @@ namespace Codit.IntegrationTest
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             response.Content.Headers.ContentLength.Should().BeGreaterThan(0);
+            response.ShouldBeProblemJson();
         }
 
         [Fact]
@@ -70,7 +74,27 @@ namespace Codit.IntegrationTest
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.UnsupportedMediaType);
             response.Content.Headers.ContentLength.Should().BeGreaterThan(0);
+            response.ShouldBeProblemJson();
         }
 
+        [Fact]
+        public async Task ProblemJson_InternalServerError_500_Test()
+        {
+            //Arrange
+            var player = new NewPlayerDto
+            {
+                FirstName = "Test Player",
+                Description = "Evil",
+                IsTopPlayer = false,
+                TeamId = 1
+            };
+            var request = TestExtensions.GetJsonRequest(player, "POST", "/world-cup/v1/players");
+            //Act
+            var response = await _httpClient.SendAsync(request);
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            response.Content.Headers.ContentLength.Should().BeGreaterThan(0);
+            response.ShouldBeProblemJson();
+        }
     }
 }

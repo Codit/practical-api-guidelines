@@ -8,6 +8,7 @@ using Codit.LevelOne.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.JsonPatch;
 using FluentAssertions;
+using Codit.LevelOne.Extensions;
 
 namespace Codit.IntegrationTest
 {
@@ -194,7 +195,7 @@ namespace Codit.IntegrationTest
             var request = new HttpRequestMessage(new HttpMethod("GET"), $"/world-cup/v1/players/{playerId}");
             var response = await _httpClient.SendAsync(request);
             var actualDto = JsonConvert.DeserializeObject<PlayerDto>(response.Content.ReadAsStringAsync().Result);
-            request = TestExtensions.GetJsonRequest(player, "PATCH", $"/world-cup/v1/players/{playerId}/update", "application/json-patch+json");
+            request = TestExtensions.GetJsonRequest(player, "PATCH", $"/world-cup/v1/players/{playerId}/update", ContentTypeNames.Application.JsonPatch);
 
             //Act
             response = await _httpClient.SendAsync(request);
