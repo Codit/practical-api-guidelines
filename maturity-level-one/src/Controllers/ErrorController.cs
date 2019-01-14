@@ -12,7 +12,7 @@ namespace Codit.LevelOne.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Error(int code)
         {
-            return new ObjectResult(new ProblemDetails4XX5XX(code));
+            return new ObjectResult(new ProblemDetailsError(code));
         }
     }
 }

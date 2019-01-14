@@ -2,6 +2,7 @@ using Codit.LevelOne;
 using Codit.LevelOne.Controllers;
 using Codit.LevelOne.Models;
 using Codit.LevelOne.Services;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -24,11 +25,12 @@ namespace Codit.UnitTest.Controllers
         [Fact]
         public void GetTeams_Test()
         {
+            //Arrange
             //Act
             var okTeams = _controller.GetTeams().Result as OkObjectResult;
             //Assert
-            var teams = Assert.IsType<List<TeamDto>>(okTeams.Value);
-            Assert.Equal(2, teams.Count);
+            okTeams.Value.Should().BeOfType(typeof(List<TeamDto>));
+            ((List<TeamDto>)okTeams.Value).Count.Should().Be(2);
         }
     }
 }

@@ -1,8 +1,6 @@
 # Practical API Guidelines - Maturity level One "Must have" - Code Samples
-Code samples for maturity level One "Must have".
-
 ****************************************************************
-**do not upgrade "Microsoft.AspNetCore.All" 2.1.0 to the 2.1.2**
+Code samples for maturity level One "Must have".
 ****************************************************************
 
 These include:
@@ -16,11 +14,10 @@ These include:
 	+ querystring for filters
 
 - VERSIONING in the path & ApiVersion attribute
-	+ check how to handle the version parameter in the OpenAPI specification (WIP)
 
 - DATA CONTRACTS
 	+ camlCase (dotnetcore >2 has camlCase by default)
-	+ dateFormat (WIP ... to be reviewed)
+	+ dateFormat (to be added to the model)
 	+ enumerations serialized to strings
 
 - HTTP METHODS
@@ -29,11 +26,9 @@ These include:
 	+ PUT
 	+ PATCH
 	+ PATCH (application/json-patch+json)
-	- TODO PATCH (application/merge-patch+json)
+	- TODO PATCH (application/merge-patch+json .. added to the second maturity level)
 
 - HTTP Status Codes (200, 201, 204, 404, 406-ReturnHttpNotAcceptable, 500)
-
-- Security (TODO)
 
 - Error Handling (WIP)
 	+ problem+json (when model is not valid)
@@ -55,8 +50,7 @@ These include:
 - Document your API (WIP)
 	+ TODO controller names should be camlCase
 
-- Use thin controllers (WIP)
-	+ Add unit tests (TODO)
+- Add Unit and integration tests (WIP)
 
 
 Example of the URLs:

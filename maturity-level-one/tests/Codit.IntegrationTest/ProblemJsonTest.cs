@@ -22,34 +22,55 @@ namespace Codit.IntegrationTest
             _httpClient = srv.CreateClient();
         }
 
-        [Theory]
-        [InlineData("GET")]
-        public async Task ProblemJson_RouteNotExists_404_Test(string httpMethod)
+        [Fact]
+        public async Task ProblemJson_RouteNotExists_404_Test()
         {
-            var request = new HttpRequestMessage(new HttpMethod(httpMethod), "/world-cup/2018/players");
+            //Arrange
+            var request = new HttpRequestMessage(new HttpMethod("GET"), "/world-cup/2018/players");
+            //Act
             var response = await _httpClient.SendAsync(request);
+            //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
             response.Content.Headers.ContentLength.Should().BeGreaterThan(0);
             // TODO validate content
         }
 
-        [Theory]
-        [InlineData("POST")]
-        public async Task ProblemJson_Validation_400_Test(string httpMethod)
+        [Fact]
+        public async Task ProblemJson_Validation_400_Test()
         {
+            //Arrange
             var player = new NewPlayerDto
             {
                 FirstName = "Test Player",
                 Description = "He plays for Codit.",
                 IsTopPlayer = false
             };
-            var request = TestExtensions.GetJsonRequest(player, httpMethod, "/world-cup/v1/players");
+            var request = TestExtensions.GetJsonRequest(player, "POST", "/world-cup/v1/players");
+            //Act
             var response = await _httpClient.SendAsync(request);
+            //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             response.Content.Headers.ContentLength.Should().BeGreaterThan(0);
         }
 
-        // TODO content type not provided .. 415
+        [Fact]
+        public async Task ProblemJson_UnsupportedContentType_415_Test()
+        {
+            //Arrange
+            var player = new NewPlayerDto
+            {
+                FirstName = "Test Player",
+                Description = "He plays for MUTD.",
+                IsTopPlayer = false,
+                TeamId = 1
+            };
+            var request = TestExtensions.GetJsonRequest(player, "POST", "/world-cup/v1/players", "application/pdf");
+            //Act
+            var response = await _httpClient.SendAsync(request);
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.UnsupportedMediaType);
+            response.Content.Headers.ContentLength.Should().BeGreaterThan(0);
+        }
 
     }
 }

@@ -4,9 +4,9 @@ using System;
 
 namespace Codit.LevelOne.Extensions
 {
-    public class ProblemDetails4XX5XX : ProblemDetails
+    public class ProblemDetailsError : ProblemDetails
     {
-        public ProblemDetails4XX5XX(int statusCode, string detail=""): base()
+        public ProblemDetailsError(int statusCode, string detail=""): base()
         {
             var errorType = statusCode.Between(500, 599, true) ? "server-error" :
                 (statusCode.Between(400, 499, true) ? "client-error" : "unknown");
@@ -16,6 +16,8 @@ namespace Codit.LevelOne.Extensions
             if (!String.IsNullOrEmpty(detail)) this.Detail = detail;
             this.Instance = $"urn:codit:{errorType}:{Guid.NewGuid()}";
         }
+        public ProblemDetailsError() : base()
+        { }
 
     }
 }

@@ -45,7 +45,7 @@ namespace Codit.LevelOne.Controllers
             var player = await _worldCupRepository.GetPlayerAsync(id);
             if (player == null)
             {
-                return NotFound(new ProblemDetails4XX5XX(StatusCodes.Status404NotFound));
+                return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
             }
 
             // Voting is not implemented yet, but this kind of api method should return '202' or '200'
@@ -63,7 +63,7 @@ namespace Codit.LevelOne.Controllers
             var player = await _worldCupRepository.GetPlayerAsync(id);
             if (player == null)
             {
-                return NotFound(new ProblemDetails4XX5XX(StatusCodes.Status404NotFound));
+                return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
             }
 
             var results = Mapper.Map<PlayerDto>(player);
@@ -79,7 +79,7 @@ namespace Codit.LevelOne.Controllers
             var team = await _worldCupRepository.GetTeamAsync(player.TeamId, includePlayers: false);
             if (team == null)
             {
-                return BadRequest(new ProblemDetails4XX5XX(StatusCodes.Status400BadRequest, $"The Team with Id {player.TeamId} does not exist."));
+                return BadRequest(new ProblemDetailsError(StatusCodes.Status400BadRequest, $"The Team with Id {player.TeamId} does not exist."));
             }
 
             var playerEntity = new Player
@@ -105,7 +105,7 @@ namespace Codit.LevelOne.Controllers
             var playerObj = await _worldCupRepository.GetPlayerAsync(id);
             if (playerObj == null)
             {
-                return NotFound(new ProblemDetails4XX5XX(StatusCodes.Status404NotFound));
+                return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
             }
 
             var playerToBeUpdated = Mapper.Map<Player>(player);
@@ -124,7 +124,7 @@ namespace Codit.LevelOne.Controllers
             var playerObj = await _worldCupRepository.GetPlayerAsync(id);
             if (playerObj == null)
             {
-                return NotFound(new ProblemDetails4XX5XX(StatusCodes.Status404NotFound));
+                return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
             }
 
             var playerToBeUpdated = Mapper.Map<Player>(player);
@@ -144,7 +144,7 @@ namespace Codit.LevelOne.Controllers
             var playerDb = await _worldCupRepository.GetPlayerAsync(id);
             if (playerDb == null)
             {
-                return NotFound(new ProblemDetails4XX5XX(StatusCodes.Status404NotFound));
+                return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
             }
 
             // DB to DTO

@@ -41,7 +41,7 @@ namespace Codit.LevelOne.Controllers
         public async Task<IActionResult> GetTeam(int id)
         {
             var team = await _worldCupRepository.GetTeamAsync(id, true);
-            if (team == null) return NotFound(new ProblemDetails4XX5XX(StatusCodes.Status404NotFound));
+            if (team == null) return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
 
             var teamResult = Mapper.Map<TeamDetailsDto>(team);
             return Ok(teamResult);

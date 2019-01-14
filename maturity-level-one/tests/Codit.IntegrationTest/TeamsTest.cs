@@ -1,14 +1,9 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.AspNetCore.Hosting;
 using System.Net.Http;
 using System.Net;
 using System.Threading.Tasks;
-using Codit.LevelOne.Models;
-using Newtonsoft.Json;
-using System.Text;
-using System.Net.Http.Headers;
 using FluentAssertions;
 
 namespace Codit.IntegrationTest
@@ -26,35 +21,38 @@ namespace Codit.IntegrationTest
             _httpClient = srv.CreateClient();
         }
 
-        [Theory]
-        [InlineData("GET")]
-        public async Task GetTeams_Ok_TestAsync(string httpMethod)
+        [Fact]
+        public async Task GetTeams_Ok_TestAsync()
         {
-            var request = new HttpRequestMessage(new HttpMethod(httpMethod), "/world-cup/v1/teams");
+            //Arrange
+            var request = new HttpRequestMessage(new HttpMethod("GET"), "/world-cup/v1/teams");
+            //Act
             var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode().ShouldBeNotNull();
+            //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Theory]
-        [InlineData("GET")]
-        public async Task GetSingleTeam_Ok_TestAsync(string httpMethod)
+        [Fact]
+        public async Task GetSingleTeam_Ok_TestAsync()
         {
+            //Arrange
             int teamId = 1;
-            var request = new HttpRequestMessage(new HttpMethod(httpMethod), $"/world-cup/v1/teams/{teamId}");
+            var request = new HttpRequestMessage(new HttpMethod("GET"), $"/world-cup/v1/teams/{teamId}");
+            //Act
             var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode().ShouldBeNotNull();
+            //Arrange
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-
         }
 
-        [Theory]
-        [InlineData("GET")]
-        public async Task GetSingleTeam_NotFound_TestAsync(string httpMethod)
+        [Fact]
+        public async Task GetSingleTeam_NotFound_TestAsync()
         {
+            //Arrange
             int teamId = -1;
-            var request = new HttpRequestMessage(new HttpMethod(httpMethod), $"/world-cup/v1/teams/{teamId}");
+            var request = new HttpRequestMessage(new HttpMethod("GET"), $"/world-cup/v1/teams/{teamId}");
+            //Act
             var response = await _httpClient.SendAsync(request);
+            //Assert
             response.Content.Headers.Should().NotBeNullOrEmpty();
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }

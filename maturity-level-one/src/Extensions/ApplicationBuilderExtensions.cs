@@ -39,7 +39,7 @@ namespace Codit.LevelOne.Extensions
                         ? exception.Demystify().ToString()
                         : "The instance value should be used to identify the problem when calling customer support";
 
-                    var problemDetails = new ProblemDetails
+                    var problemDetails = new ProblemDetailsError
                     {
                         Title = "An unexpected error occurred!",
                         Status = StatusCodes.Status500InternalServerError,
