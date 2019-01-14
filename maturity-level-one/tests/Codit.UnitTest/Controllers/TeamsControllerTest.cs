@@ -24,8 +24,9 @@ namespace Codit.UnitTest.Controllers
         [Fact]
         public void GetTeams_Test()
         {
-            // Act
+            //Act
             var okTeams = _controller.GetTeams().Result as OkObjectResult;
+            //Assert
             var teams = Assert.IsType<List<TeamDto>>(okTeams.Value);
             Assert.Equal(2, teams.Count);
         }

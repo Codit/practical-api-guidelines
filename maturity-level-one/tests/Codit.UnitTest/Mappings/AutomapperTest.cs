@@ -2,9 +2,6 @@
 using Codit.LevelOne;
 using Codit.LevelOne.Entities;
 using Codit.LevelOne.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 using FluentAssertions;
 
@@ -12,11 +9,15 @@ namespace Codit.UnitTest.Mappings
 {
     public class AutomapperTest
     {
+        public AutomapperTest()
+        {
+            AutoMapperConfig.Initialize();
+        }
 
         [Fact]
         public void Map_PlayerToDto_Test()
         {
-            AutoMapperConfig.Initialize();
+            //Arrange
             var objInstance = new Player
             {
                 FirstName = "Mario",
@@ -24,10 +25,12 @@ namespace Codit.UnitTest.Mappings
                 IsTopPlayer = true,
                 TeamId = 1
             };
-
             var playerDto = new PlayerDto();
+
+            //Act
             playerDto = Mapper.Map<PlayerDto>(objInstance);
 
+            //Assert
             playerDto.Should().NotBeNull();
             playerDto.Id.Should().Be(objInstance.Id);
             playerDto.FirstName.Should().Be(objInstance.FirstName);
@@ -35,12 +38,6 @@ namespace Codit.UnitTest.Mappings
             playerDto.IsTopPlayer.Should().Be(objInstance.IsTopPlayer);
             playerDto.TeamId.Should().Be(objInstance.TeamId);
 
-            playerDto.Should().BeEquivalentTo(objInstance, options => options
-                .Including(o => o.Id)
-                .Including(o => o.FirstName)
-                .Including(o => o.Description)
-                .Including(o => o.IsTopPlayer)
-                .Including(o => o.TeamId));
         }
     }
 }
