@@ -51,13 +51,7 @@ namespace Codit.LevelOne
             app.UseOpenApi();
 
             // Configure Automapper
-            app.UseAutoMapper(mapperConfig =>
-            {
-                mapperConfig.CreateMap<Entities.Team, Models.TeamDto>();
-                mapperConfig.CreateMap<Entities.Team, Models.TeamDetailsDto>();
-                mapperConfig.CreateMap<Entities.Player, Models.PlayerDto>();
-                mapperConfig.CreateMap<Models.PlayerDto, Entities.Player>();
-            });
+            AutoMapperConfig.Initialize();
         }
     }
 }
