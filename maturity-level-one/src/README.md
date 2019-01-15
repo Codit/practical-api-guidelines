@@ -1,8 +1,6 @@
 # Practical API Guidelines - Maturity level One "Must have" - Code Samples
-Code samples for maturity level One "Must have".
-
 ****************************************************************
-**do not upgrade "Microsoft.AspNetCore.All" 2.1.0 to the 2.1.2**
+Code samples for maturity level One "Must have".
 ****************************************************************
 
 These include:
@@ -16,11 +14,9 @@ These include:
 	+ querystring for filters
 
 - VERSIONING in the path & ApiVersion attribute
-	+ check how to handle the version parameter in the OpenAPI specification (WIP)
 
 - DATA CONTRACTS
 	+ camlCase (dotnetcore >2 has camlCase by default)
-	+ dateFormat (WIP ... to be reviewed)
 	+ enumerations serialized to strings
 
 - HTTP METHODS
@@ -29,13 +25,10 @@ These include:
 	+ PUT
 	+ PATCH
 	+ PATCH (application/json-patch+json)
-	- TODO PATCH (application/merge-patch+json)
+	
+- HTTP Status Codes (200, 201, 204, 400, 404, 415, 500)
 
-- HTTP Status Codes (200, 201, 204, 404, 406-ReturnHttpNotAcceptable, 500)
-
-- Security (TODO)
-
-- Error Handling (WIP)
+- Error Handling (problem+json is returned for 4XX and 5XX)
 	+ problem+json (when model is not valid)
 		```json
 		{
@@ -51,12 +44,14 @@ These include:
 		  "instance": "/world-cup/v1/players"
 		}
 		```
+	+ 5XX by the generic exception handler
+	+ 400 for invalid model (controller decorated with [ValidateModel])
+	+ 4XX by passing ProblemDetailsError to the ActionResult (this is not an elegant solution but I preferred to limit the usage of external libraries like this https://github.com/khellang/Middleware )
+	+ unmatched routes via UseStatusCodePagesWithReExecute + error controller (e.g. 404)
 
-- Document your API (WIP)
-	+ TODO controller names should be camlCase
+- Document your API
 
-- Use thin controllers (WIP)
-	+ Add unit tests (TODO)
+- Unit and integration tests 
 
 
 Example of the URLs:

@@ -36,7 +36,7 @@ namespace Codit.LevelOne.Extensions
         /// <param name="contentType">Content type</param>
         public static void WriteJson<TResponse>(this HttpResponse response, TResponse responseObject, string contentType = null)
         {
-            response.ContentType = contentType ?? "application/json";
+            response.ContentType = contentType ?? ContentTypeNames.Application.Json;
             using (var writer = new HttpResponseStreamWriter(response.Body, Encoding.UTF8))
             {
                 using (var jsonWriter = new JsonTextWriter(writer))
