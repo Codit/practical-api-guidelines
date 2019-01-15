@@ -22,12 +22,14 @@ namespace Codit.IntegrationTest
             _httpClient = srv.CreateClient();
         }
 
-        [Theory]
-        [InlineData("GET")]
-        public async Task OpenApi_OperationId_Test(string httpMethod)
+        [Fact]
+        public async Task OpenApi_OperationId_Test()
         {
-            var request = new HttpRequestMessage(new HttpMethod(httpMethod), "/swagger/v1/swagger.json");
+            //Arrange
+            var request = new HttpRequestMessage(new HttpMethod("GET"), "/swagger/v1/swagger.json");
+            //Act
             var response = await _httpClient.SendAsync(request);
+            //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var swaggerDoc = JObject.Parse(response.Content.ReadAsStringAsync().Result);
@@ -62,7 +64,6 @@ namespace Codit.IntegrationTest
                     default:
                         break;
                 }
-
             }
         }
     }

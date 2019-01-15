@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
 
 namespace Codit.LevelOne.Extensions
 {
@@ -44,10 +45,11 @@ namespace Codit.LevelOne.Extensions
                 {
                     var problemDetails = new ValidationProblemDetails(context.ModelState)
                     {
-                        Instance = context.HttpContext.Request.Path,
+                        Type = context.HttpContext.Request.Path,
+                        Title = "Validation error",
                         Status = StatusCodes.Status400BadRequest,
-                        Type = "https://codit.eu/validation",
-                        Detail = Constants.Messages.ProblemDetailsDetail
+                        Detail = Constants.Messages.ProblemDetailsDetail,
+                        Instance = $"urn:codit.eu:client-error:{Guid.NewGuid()}"
                     };
                     return new BadRequestObjectResult(problemDetails)
                     {

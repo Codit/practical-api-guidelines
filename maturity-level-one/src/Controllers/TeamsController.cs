@@ -4,6 +4,7 @@ using AutoMapper;
 using Codit.LevelOne.Extensions;
 using Codit.LevelOne.Models;
 using Codit.LevelOne.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -41,7 +42,7 @@ namespace Codit.LevelOne.Controllers
         public async Task<IActionResult> GetTeam(int id)
         {
             var team = await _worldCupRepository.GetTeamAsync(id, true);
-            if (team == null) return NotFound();
+            if (team == null) return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
 
             var teamResult = Mapper.Map<TeamDetailsDto>(team);
             return Ok(teamResult);

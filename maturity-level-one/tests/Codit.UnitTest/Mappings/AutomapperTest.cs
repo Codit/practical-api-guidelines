@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Codit.LevelOne;
 using Codit.LevelOne.Entities;
 using Codit.LevelOne.Models;
@@ -27,7 +27,7 @@ namespace Codit.UnitTest.Mappings
             };
 
             //Act
-           var playerDto = Mapper.Map<PlayerDto>(objInstance);
+            var playerDto = Mapper.Map<PlayerDto>(objInstance);
 
             //Assert
             playerDto.Should().NotBeNull();

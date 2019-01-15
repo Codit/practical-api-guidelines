@@ -1,9 +1,9 @@
-﻿using FluentAssertions;
+using Codit.LevelOne.Extensions;
+using FluentAssertions;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Text;
 
 namespace Codit.IntegrationTest
@@ -18,7 +18,7 @@ namespace Codit.IntegrationTest
         /// <param name="requestUri">Request URI</param>
         /// <param name="contentType">Content Type of the request</param>
         /// <returns></returns>
-        public static HttpRequestMessage GetJsonRequest(object data, string method, string requestUri, string contentType = "application/json")
+        public static HttpRequestMessage GetJsonRequest(object data, string method, string requestUri, string contentType = MediaTypeNames.Application.Json)
         {
             var serializedData = JsonConvert.SerializeObject(data);
             var content = new ByteArrayContent(Encoding.UTF8.GetBytes(serializedData));
@@ -35,7 +35,7 @@ namespace Codit.IntegrationTest
         /// </summary>
         /// <param name="response">instance of HttpResponseMessage</param>
         /// <param name="mediaType">Expected media type</param>
-        public static void ShouldBeNotNull(this HttpResponseMessage response, string mediaType = "application/json")
+        public static void ShouldBeNotNull(this HttpResponseMessage response, string mediaType = MediaTypeNames.Application.Json)
         {
             response.Content.Headers.ContentLength.Should().NotBeNull();
             response.Content.Headers.ContentType.MediaType.Should().Be(mediaType);
@@ -54,6 +54,18 @@ namespace Codit.IntegrationTest
 
             string serializeObject = JsonConvert.SerializeObject(response.Content.ReadAsAsync<dynamic>().Result);
             serializeObject.Should().Be(expectedJson);
+        }
+
+        /// <summary>
+        /// Validate whether a HttpResponseMessage instance is a valid problem+json
+        /// </summary>
+        /// <param name="response">instance of HttpResponseMessage</param>
+        public static void ShouldBeProblemJson(this HttpResponseMessage response)
+        {
+            response.ShouldBeNotNull("application/problem+json");
+            var problemJsonResponse = JsonConvert.DeserializeObject<ProblemDetailsError>(response.Content.ReadAsStringAsync().Result);
+            problemJsonResponse.Title.Should().NotBeNullOrEmpty();
+            problemJsonResponse.Instance.Should().NotBeNullOrEmpty();
         }
     }
 
