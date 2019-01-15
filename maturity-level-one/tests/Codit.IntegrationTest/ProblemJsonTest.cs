@@ -17,7 +17,7 @@ namespace Codit.IntegrationTest
         private readonly HttpClient _httpClient;
         public ProblemJsonTest()
         {
-            if (_httpClient != null) return;
+            if (_httpClient != null) { return; }
             var srv = new TestServer(new WebHostBuilder()
                 .UseEnvironment("Development")
                 .UseStartup<Codit.LevelOne.Startup>());

@@ -12,8 +12,8 @@ namespace Codit.LevelOne.Extensions
                 (statusCode.Between(400, 499, true) ? "client-error" : "unknown");
 
             this.Status = statusCode;
-            this.Title = ReasonPhrases.GetReasonPhrase(statusCode); ;
-            if (!String.IsNullOrEmpty(detail)) this.Detail = detail;
+            this.Title = ReasonPhrases.GetReasonPhrase(statusCode);
+            if (!String.IsNullOrEmpty(detail)) { this.Detail = detail; }
             this.Instance = $"urn:codit:{errorType}:{Guid.NewGuid()}";
         }
         public ProblemDetailsError() : base()

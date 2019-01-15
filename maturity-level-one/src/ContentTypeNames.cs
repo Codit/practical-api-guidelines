@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Codit.LevelOne.Extensions
+﻿namespace Codit.LevelOne
 {
     public static class ContentTypeNames
     {

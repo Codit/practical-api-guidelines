@@ -8,7 +8,7 @@ using Codit.LevelOne.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.JsonPatch;
 using FluentAssertions;
-using Codit.LevelOne.Extensions;
+using Codit.LevelOne;
 
 namespace Codit.IntegrationTest
 {

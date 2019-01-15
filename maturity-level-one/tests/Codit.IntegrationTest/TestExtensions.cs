@@ -64,7 +64,6 @@ namespace Codit.IntegrationTest
         {
             response.ShouldBeNotNull("application/problem+json");
             var problemJsonResponse = JsonConvert.DeserializeObject<ProblemDetailsError>(response.Content.ReadAsStringAsync().Result);
-            problemJsonResponse.Status.Should().BeGreaterThan(100);
             problemJsonResponse.Title.Should().NotBeNullOrEmpty();
             problemJsonResponse.Instance.Should().NotBeNullOrEmpty();
         }
