@@ -151,7 +151,7 @@ Every API should have documentation in the OpenAPI format. If you want to genera
 Here is an example on how to generate them with Swashbuckle
 ```csharp
         /// <summary>
-        /// Get the profiles of the players
+        /// Get Player Profiles
         /// </summary>
         /// <param name="topPlayersOnly">Indicates whether to return the top players only</param>
         /// <remarks>Operation description here</remarks>
