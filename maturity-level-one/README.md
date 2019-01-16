@@ -158,7 +158,7 @@ Here is an example on how to generate them with Swashbuckle
         /// <returns>Return a list of Players</returns>
         [HttpGet(Name = "Players_GetPlayers")]
         [SwaggerResponse((int)HttpStatusCode.OK, "List of players")]
-        [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is no
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
 ```
 How xml comments and attributes are mapping to the OpenApi output
 
