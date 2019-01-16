@@ -4,6 +4,9 @@
     <RootNamespace>Codit.LevelOne</RootNamespace>
     <AssemblyName>Codit.LevelOne</AssemblyName>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>Open-Api-Docs.xml</DocumentationFile>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />

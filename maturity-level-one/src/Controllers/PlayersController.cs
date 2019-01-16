@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Codit.LevelOne.Entities;
@@ -14,6 +15,9 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Codit.LevelOne.Controllers
 {
 
+    /// <summary>
+    /// All about the football players
+    /// </summary>
     [Route("world-cup/v1/[controller]")]
     [ApiController]
     [ValidateModel]
@@ -21,26 +25,37 @@ namespace Codit.LevelOne.Controllers
     {
         private const string GetPlayerRoute = "Players_GetPlayer";
         private readonly IWorldCupRepository _worldCupRepository;
-
+        
         public PlayersController(IWorldCupRepository worldCupRepository)
         {
             _worldCupRepository = worldCupRepository;
         }
 
+        /// <summary>
+        /// Get the profiles of the players
+        /// </summary>
+        /// <param name="topPlayersOnly">Indicates whether to return the top players only</param>
+        /// <remarks>Provides a profile for all known players</remarks>
+        /// <returns>Return a list of Players</returns>
         [HttpGet(Name = "Players_GetPlayers")]
-        [SwaggerResponse(200, "OK")]
-        [SwaggerResponse(500, "API is not available")]
-        public async Task<IActionResult> GetPlayers([FromQuery(Name = "top-players-only")]bool topPlayersOnly)
+        [SwaggerResponse((int)HttpStatusCode.OK, "List of players")]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
+        public async Task<IActionResult> GetPlayers([FromQuery(Name = "top-players-only")]bool topPlayersOnly=false)
         {
             var players = await _worldCupRepository.GetAllPlayersAsync(topPlayersOnly);
             var results = Mapper.Map<IEnumerable<PlayerDto>>(players);
             return Ok(results);
         }
 
+        /// <summary>
+        /// Vote as a best player of the year
+        /// </summary>
+        /// <param name="id">Player identifier</param>
+        /// <returns>Acknowledge the vote has been accepted</returns>
         [HttpPost("{id}/vote", Name = "Players_VoteAsBestPlayer")]
-        [SwaggerResponse(202, "Vote accepted")]
-        [SwaggerResponse(404, "Player not found")]
-        [SwaggerResponse(500, "API is not available")]
+        [SwaggerResponse((int)HttpStatusCode.Accepted, "Vote has been accepted. No response body")]
+        [SwaggerResponse((int)HttpStatusCode.NotFound, "Player not found")]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> VoteAsBestPlayer(int id)
         {
             var player = await _worldCupRepository.GetPlayerAsync(id);
@@ -55,10 +70,15 @@ namespace Codit.LevelOne.Controllers
             return Accepted();
         }
         
+        /// <summary>
+        /// Get the profile of a single player
+        /// </summary>
+        /// <param name="id">Player identifier</param>
+        /// <returns>Return a single player</returns>
         [HttpGet("{id}", Name = GetPlayerRoute)]
-        [SwaggerResponse(200, "OK")]
-        [SwaggerResponse(404, "Player not found")]
-        [SwaggerResponse(500, "API is not available")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Player data object")]
+        [SwaggerResponse((int)HttpStatusCode.NotFound, "Player not found")]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> GetPlayer(int id)
         {
             var player = await _worldCupRepository.GetPlayerAsync(id);
@@ -72,9 +92,15 @@ namespace Codit.LevelOne.Controllers
 
         }
 
+        /// <summary>
+        /// Create a new player
+        /// </summary>
+        /// <param name="player">Instance of a Player object</param>
+        /// <returns>Acknowledge the object has been created</returns>
         [HttpPost(Name = "Players_Create")]
-        [SwaggerResponse(201, "Created")]
-        [SwaggerResponse(500, "API is not available")]
+        [SwaggerResponse((int)HttpStatusCode.Created, "Player has been created. New playes is returned along with the link to the new resource (Location header)")]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Invalid request")]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> Create(NewPlayerDto player)
         {
             var team = await _worldCupRepository.GetTeamAsync(player.TeamId, includePlayers: false);
@@ -99,10 +125,16 @@ namespace Codit.LevelOne.Controllers
             return CreatedAtRoute(GetPlayerRoute, new { id = result.Id }, result);
         }
 
+        /// <summary>
+        /// Update the player profile (full object)
+        /// </summary>
+        /// <param name="id">Player identifier</param>
+        /// <param name="player">Instance of the player object</param>
+        /// <returns>Acknowledge the object has been updated</returns>
         [HttpPut("{id}", Name="Players_UpdateFull")]
-        [SwaggerResponse(204, "No Content")]
-        [SwaggerResponse(404, "Player not found")]
-        [SwaggerResponse(500, "API is not available")]
+        [SwaggerResponse((int)HttpStatusCode.NoContent, "The data has been updated")]
+        [SwaggerResponse((int)HttpStatusCode.NotFound, "Player not found")]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> UpdateFull(int id, [FromBody] PlayerDto player)
         {
             var playerObj = await _worldCupRepository.GetPlayerAsync(id);
@@ -118,10 +150,16 @@ namespace Codit.LevelOne.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Update the player profile (incremental update)
+        /// </summary>
+        /// <param name="id">Player identifier</param>
+        /// <param name="player">Instance of the player object</param>
+        /// <returns>Acknowledge the object has been updated</returns>
         [HttpPatch("{id}", Name = "Players_UpdateIncremental")]
-        [SwaggerResponse(204, "No Content")]
-        [SwaggerResponse(404, "Player not found")]
-        [SwaggerResponse(500, "API is not available")]
+        [SwaggerResponse((int)HttpStatusCode.NoContent, "The data has been updated")]
+        [SwaggerResponse((int)HttpStatusCode.NotFound, "Player not found")]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> UpdateIncremental(int id, [FromBody] PlayerDto player)
         {
             var playerObj = await _worldCupRepository.GetPlayerAsync(id);
@@ -137,11 +175,17 @@ namespace Codit.LevelOne.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Update the player profile (incremental update with Json Patch)
+        /// </summary>
+        /// <param name="id">Player identifier</param>
+        /// <param name="player">Operation to be performed on the Player in json-patch+json format</param>
+        /// <returns>Acknowledge the object has been updated</returns>
         [HttpPatch("{id}/update",Name = "Players_UpdateIncrementalJsonPatch")]
-        [SwaggerResponse(204, "No Content")]
-        [SwaggerResponse(404, "Player not found")]
-        [SwaggerResponse(500, "API is not available")]
-        public async Task<IActionResult> Patch(int id, [FromBody]JsonPatchDocument<PlayerDto> player)
+        [SwaggerResponse((int)HttpStatusCode.NoContent, "The data has been updated")]
+        [SwaggerResponse((int)HttpStatusCode.NotFound, "Player not found")]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
+        public async Task<IActionResult> UpdateIncrementalJsonPatch(int id, [FromBody]JsonPatchDocument<PlayerDto> player)
         {
             // Get our original person object from the DB 
             var playerDb = await _worldCupRepository.GetPlayerAsync(id);

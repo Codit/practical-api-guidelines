@@ -58,6 +58,19 @@ namespace Codit.IntegrationTest
         }
 
         [Fact]
+        public async Task ProblemJson_ContentNegotiationNotOk_406_Test()
+        {
+            //Arrange
+            var request = new HttpRequestMessage(new HttpMethod("GET"), "/world-cup/2018/players");
+            _httpClient.DefaultRequestHeaders.Add("Accept", "custom/content+type");
+            //Act
+            var response = await _httpClient.SendAsync(request);
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotAcceptable);
+            response.Content.Headers.Should().BeNullOrEmpty(); // With 406 the body is suppressed
+        }
+
+        [Fact]
         public async Task ProblemJson_UnsupportedContentType_415_Test()
         {
             //Arrange
