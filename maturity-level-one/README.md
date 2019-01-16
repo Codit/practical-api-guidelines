@@ -150,20 +150,28 @@ Every API should have documentation in the OpenAPI format. If you want to genera
 
 Here is an example on how to generate them with Swashbuckle
 ```csharp
-/// <summary>
-///     Get Health
-/// </summary>
-/// <remarks>Gets the current health status of the API</remarks>
-[HttpGet]
-[Route("health")]
-[SwaggerOperation("Health_Get")]
-[SwaggerResponse(HttpStatusCode.OK, "API is up & running")]
-[SwaggerResponse(HttpStatusCode.InternalServerError, "API is not available")]
-public IHttpActionResult Get()
-{
-    return Ok();
-}
+        /// <summary>
+        /// Get the profiles of the players
+        /// </summary>
+        /// <param name="topPlayersOnly">Indicates whether to return the top players only</param>
+        /// <remarks>Operation description here</remarks>
+        /// <returns>Return a list of Players</returns>
+        [HttpGet(Name = "Players_GetPlayers")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "List of players")]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is no
 ```
+How xml comments and attributes are mapping to the OpenApi output
+
+| Type | Value | Open Api field | Notes |
+|:--------|:-------------------|:-------------------|:------|
+| XML comment | Summary | Summary | Short description. Human readable, business oriented |
+| XML comment| Remarks | Description | Long description. Human readble, business oriented |
+| XML comment | Returns | N/A | Not used |
+| XML comment | Param name | Parameters/Name | - |
+| XML comment | Param value | Parameters/Description | - |
+| Http Attribute | Name | OperationId | - |
+| SwaggerResponse Attribute | StatusCode | Responseses/{StatusCode} | - |
+| SwaggerResponse Attribute | Description | Responses/Description |  Technical description. Describe whether a body is returned and any particular header.|
 
 ## Unit and Integration tests
 Always add Unit tests and Integration tests.
