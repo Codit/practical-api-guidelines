@@ -179,6 +179,7 @@ How xml comments and attributes are mapping to the OpenApi output
 | Http Attribute | Name | OperationId | - |
 | SwaggerResponse Attribute | StatusCode | Responseses/{StatusCode} | - |
 | SwaggerResponse Attribute | Description | Responses/Description |  Technical description. Describe whether a body is returned and any particular header.|
+| Required Attribute | Required | N/A | Used to determine if parameters/fields are required or optional |
 
 ## Unit and Integration tests
 Always add Unit tests and Integration tests.
