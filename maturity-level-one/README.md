@@ -148,23 +148,21 @@ OpenAPI tooling, such as [AutoRest](https://github.com/Azure/autorest) & [NSwag]
 ### Generating OpenAPI Documentation
 Every API should have documentation in the OpenAPI format. If you want to generate those based on your code you can use tools like [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle) & [NSwag](https://github.com/RSuter/NSwag).
 
-Naming convention for **OperationId** is composed of `{Controller}_{OperationName}`
-
 Here is an example on how to generate them with Swashbuckle
 ```csharp
         /// <summary>
         /// Get Player Profiles
         /// </summary>
         /// <param name="topPlayersOnly">Indicates whether to return the top players only</param>
-        /// <remarks>Operation description here</remarks>
+        /// <remarks>Provides a profile for all known players</remarks>
         /// <returns>Return a list of Players</returns>
         [HttpGet(Name = "Players_GetPlayers")]
         [SwaggerResponse((int)HttpStatusCode.OK, "List of players")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
-         public IHttpActionResult GetPlayers(bool topPlayersOnly)	
-         {	
-             return Ok();	
-         }
+        public IHttpActionResult GetPlayers(bool topPlayersOnly)	
+        {	
+            return Ok();	
+        }
       
 ```
 How xml comments and attributes are mapping to the OpenApi output
