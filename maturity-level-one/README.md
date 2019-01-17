@@ -167,7 +167,9 @@ Here is an example on how to generate them with Swashbuckle
          }
       
 ```
-How xml comments and attributes are mapping to the OpenApi output
+How xml comments and attributes are mapping to the OpenApi output.
+
+`Summary` should provide a brief and clear name for the operation where `Remarks` provides a well-written business description of what the operation does and should not leak any technical information.
 
 | Type | Value | Open Api field | Notes |
 |:--------|:-------------------|:-------------------|:------|
