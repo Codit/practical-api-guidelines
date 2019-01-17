@@ -76,9 +76,6 @@ namespace Codit.LevelOne.Extensions
                 {
                     cfg.RespectBrowserAcceptHeader = true;
                     cfg.ReturnHttpNotAcceptable = true; // Return 406 for not acceptable media types
-                    //cfg.InputFormatters.Clear();
-                    //cfg.InputFormatters.Add(new XmlSerializerInputFormatter(cfg));
-                    //cfg.OutputFormatters.Add(new XmlSerializerOutputFormatter());
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(opt =>

@@ -21,6 +21,5 @@ namespace Codit.LevelOne.Controllers
         {
             return Ok();
         }
-
     }
 }
