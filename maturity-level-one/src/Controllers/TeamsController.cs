@@ -31,8 +31,8 @@ namespace Codit.LevelOne.Controllers
         /// <summary>
         /// Get Teams
         /// </summary>
-        /// <remarks>Return a list of Teams</remarks>
-        /// <returns></returns>
+        /// <remarks>Provides the details for all known team</remarks>
+        /// <returns>Return a list of Team</returns>
         [HttpGet(Name = "Teams_GetTeams")]
         [SwaggerResponse((int)HttpStatusCode.OK, "List of teams")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
@@ -45,6 +45,11 @@ namespace Codit.LevelOne.Controllers
             return Ok(results);
         }
 
+        /// <summary>
+        /// Get Team
+        /// </summary>
+        /// <remarks>Provides the details of a single team</remarks>
+        /// <returns>Return a Team instance</returns>
         [HttpGet("{id}", Name = "Teams_GetTeam")]
         [SwaggerResponse((int)HttpStatusCode.OK, "Team data")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, "Team not found")]

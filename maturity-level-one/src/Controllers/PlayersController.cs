@@ -32,7 +32,7 @@ namespace Codit.LevelOne.Controllers
         }
 
         /// <summary>
-        /// Get the profiles of the players
+        /// Get players profiles
         /// </summary>
         /// <param name="topPlayersOnly">Indicates whether to return the top players only</param>
         /// <remarks>Provides a profile for all known players</remarks>
@@ -48,7 +48,7 @@ namespace Codit.LevelOne.Controllers
         }
 
         /// <summary>
-        /// Vote as a best player of the year
+        /// Vote as best player
         /// </summary>
         /// <param name="id">Player identifier</param>
         /// <returns>Acknowledge the vote has been accepted</returns>
@@ -69,11 +69,12 @@ namespace Codit.LevelOne.Controllers
 
             return Accepted();
         }
-        
+
         /// <summary>
-        /// Get the profile of a single player
+        /// Get player profile
         /// </summary>
         /// <param name="id">Player identifier</param>
+        /// <remarks>Get the profile of a single player</remarks>
         /// <returns>Return a single player</returns>
         [HttpGet("{id}", Name = GetPlayerRoute)]
         [SwaggerResponse((int)HttpStatusCode.OK, "Player data object")]
@@ -93,9 +94,10 @@ namespace Codit.LevelOne.Controllers
         }
 
         /// <summary>
-        /// Create a new player
+        /// Create player
         /// </summary>
         /// <param name="player">Instance of a Player object</param>
+        /// <remarks>Add new player to the repository</remarks>
         /// <returns>Acknowledge the object has been created</returns>
         [HttpPost(Name = "Players_Create")]
         [SwaggerResponse((int)HttpStatusCode.Created, "Player has been created. New playes is returned along with the link to the new resource (Location header)")]
@@ -126,10 +128,11 @@ namespace Codit.LevelOne.Controllers
         }
 
         /// <summary>
-        /// Update the player profile (full object)
+        /// Update player profile #1
         /// </summary>
         /// <param name="id">Player identifier</param>
         /// <param name="player">Instance of the player object</param>
+        /// <remarks>Update the player profile (full update)</remarks>
         /// <returns>Acknowledge the object has been updated</returns>
         [HttpPut("{id}", Name="Players_UpdateFull")]
         [SwaggerResponse((int)HttpStatusCode.NoContent, "The data has been updated")]
@@ -151,10 +154,11 @@ namespace Codit.LevelOne.Controllers
         }
 
         /// <summary>
-        /// Update the player profile (incremental update)
+        /// Update player profile #2
         /// </summary>
         /// <param name="id">Player identifier</param>
         /// <param name="player">Instance of the player object</param>
+        /// <remarks>Update the player profile (incremental update)</remarks>
         /// <returns>Acknowledge the object has been updated</returns>
         [HttpPatch("{id}", Name = "Players_UpdateIncremental")]
         [SwaggerResponse((int)HttpStatusCode.NoContent, "The data has been updated")]
@@ -176,10 +180,11 @@ namespace Codit.LevelOne.Controllers
         }
 
         /// <summary>
-        /// Update the player profile (incremental update with Json Patch)
+        /// Update player profile #3
         /// </summary>
         /// <param name="id">Player identifier</param>
         /// <param name="player">Operation to be performed on the Player in json-patch+json format</param>
+        /// <remarks>Update the player profile (incremental update with Json Patch)</remarks>
         /// <returns>Acknowledge the object has been updated</returns>
         [HttpPatch("{id}/update",Name = "Players_UpdateIncrementalJsonPatch")]
         [SwaggerResponse((int)HttpStatusCode.NoContent, "The data has been updated")]

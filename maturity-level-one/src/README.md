@@ -46,19 +46,19 @@ This implementation includes:
 
 ## Document your API
 	* Swagger generation with OperationId, Xml comments, Swagger attributes
-		```csharp
-        /// <summary>
-        /// Get the profiles of the players
-        /// </summary>
-        /// <param name="topPlayersOnly">Indicates whether to return the top players only</param>
-        /// <remarks>Operation description here</remarks>
-        /// <returns>Return a list of Players</returns>
-        [HttpGet(Name = "Players_GetPlayers")]
-        [SwaggerResponse((int)HttpStatusCode.OK, "List of players")]
-        [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
-		```
-	+ [ApiExplorerSettings(IgnoreApi = true)] used to exclude operations from OpenAPI output
-    
+	* [ApiExplorerSettings(IgnoreApi = true)] used to exclude operations from OpenAPI output
+XMLDocs and Attributes example
+```csharp
+/// <summary>
+/// Get the profiles of the players
+/// </summary>
+/// <param name="topPlayersOnly">Indicates whether to return the top players only</param>
+/// <remarks>Provides a profile for all known players</remarks>
+/// <returns>Return a list of Players</returns>
+[HttpGet(Name = "Players_GetPlayers")]
+[SwaggerResponse((int)HttpStatusCode.OK, "List of players")]
+[SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
+```
 ## Unit and integration tests 
 	* controllers unit test
 	* contract mapping unuit test
@@ -69,21 +69,21 @@ This implementation includes:
 ## Examples
 Example of the response in case of 400 BadRequest
 ```json
-	{
-	  "errors": {
-		"FirstName": [
-		  "The FirstName field is required."
-		],
-		"Description": [
-		  "The Description field is required."
-		]
-	  },
-	  "type": "/world-cup/v1/players",
-	  "title": "Validation error",
-	  "status": 400,
-	  "detail": "Please refer to the errors property for additional details.",
-	  "instance": "urn:codit.eu:client-error:11ebf6c0-c80d-416c-8c0d-010cbd5a2fa1"
-	}
+{
+  "errors": {
+	"FirstName": [
+	  "The FirstName field is required."
+	],
+	"Description": [
+	  "The Description field is required."
+	]
+  },
+  "type": "/world-cup/v1/players",
+  "title": "Validation error",
+  "status": 400,
+  "detail": "Please refer to the errors property for additional details.",
+  "instance": "urn:codit.eu:client-error:11ebf6c0-c80d-416c-8c0d-010cbd5a2fa1"
+}
 ```
 
 Example of the URLs:
