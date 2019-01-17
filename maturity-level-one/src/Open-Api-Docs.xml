@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Codit.LevelOne</name>
+    </assembly>
+    <members>
+        <member name="M:Codit.LevelOne.Controllers.ErrorController.Error(System.Int32)">
+            <summary>
+            Manages the unmatched routes
+            </summary>
+            <param name="code">HTTP status code</param>
+            <returns>Error formatted as application/problem+json</returns>
+        </member>
+        <member name="M:Codit.LevelOne.Controllers.HealthController.Get">
+            <summary>
+                Get Health
+            </summary>
+            <remarks>Provides an indication about the health of the runtime</remarks>
+        </member>
+        <member name="T:Codit.LevelOne.Controllers.PlayersController">
+            <summary>
+            All about the football players
+            </summary>
+        </member>
+        <member name="M:Codit.LevelOne.Controllers.PlayersController.GetPlayers(System.Boolean)">
+            <summary>
+            Get the profiles of the players
+            </summary>
+            <param name="topPlayersOnly">Indicates whether to return the top players only</param>
+            <remarks>Operation description here</remarks>
+            <returns>Return a list of Players</returns>
+        </member>
+        <member name="M:Codit.LevelOne.Controllers.PlayersController.VoteAsBestPlayer(System.Int32)">
+            <summary>
+            Vote as a best player of the year
+            </summary>
+            <param name="id">Player identifier</param>
+            <returns>Acknowledge the vote has been accepted</returns>
+        </member>
+        <member name="M:Codit.LevelOne.Controllers.PlayersController.GetPlayer(System.Int32)">
+            <summary>
+            Get the profile of a single player
+            </summary>
+            <param name="id">Player identifier</param>
+            <returns>Return a single player</returns>
+        </member>
+        <member name="M:Codit.LevelOne.Controllers.PlayersController.Create(Codit.LevelOne.Models.NewPlayerDto)">
+            <summary>
+            Create a new player
+            </summary>
+            <param name="player">Instance of a Player object</param>
+            <returns>Acknowledge the object has been created</returns>
+        </member>
+        <member name="M:Codit.LevelOne.Controllers.PlayersController.UpdateFull(System.Int32,Codit.LevelOne.Models.PlayerDto)">
+            <summary>
+            Update the player profile (full object)
+            </summary>
+            <param name="id">Player identifier</param>
+            <param name="player">Instance of the player object</param>
+            <returns>Acknowledge the object has been updated</returns>
+        </member>
+        <member name="M:Codit.LevelOne.Controllers.PlayersController.UpdateIncremental(System.Int32,Codit.LevelOne.Models.PlayerDto)">
+            <summary>
+            Update the player profile (incremental update)
+            </summary>
+            <param name="id">Player identifier</param>
+            <param name="player">Instance of the player object</param>
+            <returns>Acknowledge the object has been updated</returns>
+        </member>
+        <member name="M:Codit.LevelOne.Controllers.PlayersController.UpdateIncrementalJsonPatch(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{Codit.LevelOne.Models.PlayerDto})">
+            <summary>
+            Update the player profile (incremental update with Json Patch)
+            </summary>
+            <param name="id">Player identifier</param>
+            <param name="player">Operation to be performed on the Player in json-patch+json format</param>
+            <returns>Acknowledge the object has been updated</returns>
+        </member>
+        <member name="T:Codit.LevelOne.Controllers.TeamsController">
+            <summary>
+            All about the teams qualified to the World Cup
+            </summary>
+        </member>
+        <member name="M:Codit.LevelOne.Controllers.TeamsController.GetTeams">
+            <summary>
+            Get Teams
+            </summary>
+            <remarks>Return a list of Teams</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:Codit.LevelOne.Extensions.ApplicationBuilderExtensions.UseAutoMapper(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action{AutoMapper.IMapperConfigurationExpression})">
+            <summary>
+                Configure to use AutoMapper
+            </summary>
+            <param name="applicationbuilder">Application builder to use</param>
+            <param name="mapperConfigExpression">AutoMapper configuration to use</param>
+        </member>
+        <member name="M:Codit.LevelOne.Extensions.ApplicationBuilderExtensions.UseExceptionHandlerWithProblemJson(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+                Configure to use global exception handler with application/problem+json
+            </summary>
+            <param name="applicationBuilder">Application builder to use</param>
+        </member>
+        <member name="M:Codit.LevelOne.Extensions.ApplicationBuilderExtensions.UseOpenApi(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+                Configure to use OpenAPI with UI
+            </summary>
+            <param name="applicationbuilder">Application builder to use</param>
+        </member>
+        <member name="M:Codit.LevelOne.Extensions.HttpExtensions.IsLocalRequest(Microsoft.AspNetCore.Http.HttpRequest)">
+            <summary>
+                Determines if the request was made locally or not
+            </summary>
+        </member>
+        <member name="M:Codit.LevelOne.Extensions.HttpExtensions.WriteJson``1(Microsoft.AspNetCore.Http.HttpResponse,``0,System.String)">
+            <summary>
+                Write a JSON response
+            </summary>
+            <typeparam name="TResponse">Type of the response message to serizalize</typeparam>
+            <param name="response">Http response</param>
+            <param name="responseObject">Response object to serialize</param>
+            <param name="contentType">Content type</param>
+        </member>
+        <member name="M:Codit.LevelOne.Extensions.ServiceCollectionExtensions.ConfigureDatabase(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+                Configure database
+            </summary>
+            <param name="services">Collections of services in application</param>
+            <param name="configuration">Configuration properties</param>
+        </member>
+        <member name="M:Codit.LevelOne.Extensions.ServiceCollectionExtensions.ConfigureInvalidStateHandling(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+                Configure how to handle invalid state with problem+json
+            </summary>
+            <param name="services">Collections of services in application</param>
+        </member>
+        <member name="M:Codit.LevelOne.Extensions.ServiceCollectionExtensions.ConfigureMvc(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+                Configure the MVC stack
+            </summary>
+            <param name="services">Collections of services in application</param>
+        </member>
+        <member name="M:Codit.LevelOne.Extensions.ServiceCollectionExtensions.ConfigureOpenApiGeneration(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+                Configure OpenAPI generation
+            </summary>
+            <param name="services">Collections of services in application</param>
+        </member>
+        <member name="M:Codit.LevelOne.Extensions.ServiceCollectionExtensions.ConfigureRouting(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+                Configure routing
+            </summary>
+        </member>
+    </members>
+</doc>

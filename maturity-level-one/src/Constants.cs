@@ -10,7 +10,6 @@ namespace Codit.LevelOne
         public static class Messages
         {
             public const string ProblemDetailsDetail = "Please refer to the errors property for additional details.";
-            public const string Hello = "Hello ...";
         }
 
         public static class OpenApi

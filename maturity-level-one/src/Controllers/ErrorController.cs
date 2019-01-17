@@ -8,6 +8,11 @@ namespace Codit.LevelOne.Controllers
     [ApiController]
     public class ErrorController : ControllerBase
     {
+        /// <summary>
+        /// Manages the unmatched routes
+        /// </summary>
+        /// <param name="code">HTTP status code</param>
+        /// <returns>Error formatted as application/problem+json</returns>
         [Route("{code}")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Error(int code)

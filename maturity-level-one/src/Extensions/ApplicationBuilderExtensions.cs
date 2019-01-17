@@ -5,8 +5,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace Codit.LevelOne.Extensions
 {
@@ -48,7 +48,7 @@ namespace Codit.LevelOne.Extensions
                     };
 
                     // TODO: Plug in telemetry
-                    context.Response.WriteJson(problemDetails, contentType: "application/problem+json");
+                    context.Response.WriteJson(problemDetails, contentType: ContentTypeNames.Application.JsonProblem);
                 });
             });
         }
@@ -60,7 +60,16 @@ namespace Codit.LevelOne.Extensions
         public static void UseOpenApi(this IApplicationBuilder applicationbuilder)
         {
             applicationbuilder.UseSwagger(UseLowercaseUrls);
-            applicationbuilder.UseSwaggerUI(c => { c.SwaggerEndpoint(url: "/swagger/v1/swagger.json", name: Constants.OpenApi.Title); });
+            applicationbuilder.UseSwaggerUI(opt => 
+            {
+                opt.SwaggerEndpoint(url: "/swagger/v1/swagger.json", name: Constants.OpenApi.Title);
+                opt.DisplayOperationId();
+                opt.EnableDeepLinking();
+                opt.DocumentTitle = Constants.OpenApi.Title;
+                opt.DocExpansion(DocExpansion.List);
+                opt.DisplayRequestDuration();
+                opt.EnableFilter();
+            });
         }
 
         // Makes sure that the urls are lower case. See https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/74
