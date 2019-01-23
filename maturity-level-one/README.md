@@ -195,3 +195,5 @@ How xml comments and attributes are mapping to the OpenApi output.
 ## Unit and Integration tests
 Always add Unit tests and Integration tests.
 - Put as less as possible logic in the controller and enhance testing possibilities through dependeny injection.
+- Tests all the routes, status codes and content-types.
+- Tests the generated Open API document.
