@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Codit.LevelOne.Controllers
+namespace Codit.LevelOne.Controllers.v1
 {
 
     /// <summary>
