@@ -49,10 +49,21 @@ Think about your operation URIs and make them as RESTy as possible – What we m
    - _Don't - `GET https://api.contoso.com/master-data/contracts/{contractId}?operation=cancel`_
 
 ### Versioning
+API versioning supports four methods of versioning out-of-the-box:
+| Versioning  | Example    | Notes |
+|:--------|:-------------------|:-----|
+| by URL segment | https://api.contoso.com/master-data/v1/items/{itemId}| This URI-based resource versioning doesn't support a default or implicit matching of the current version. On the other hand is the simplest  approach, the less error prone therefore the most used.|
+| by querystring |https://api.contoso.com/master-data/v1/items/{itemId}?version=1.0|Query strings, unlikely URL segments, can have default values, so it easily support default versioning. If clients don't request a specific version, should they get the earliest or the latest version?|
+| by media type (Resource versioning) |Accept: application/vnd.mdm.v2+json|The most RESTful approach but the most complex one for consumers especially when the header is optional.|
+| by header |Version:1.0|Less used, with the header approach you do not mix up version parameters with resource filters as with querystring.| 
+
+Versioning is highly debated topic and for sure there is no 'right way' to version your APIs.
+
 - **Version your endpoint** even if you don’t need it (yet)
    - Allows you to introduce new versions later one without breaking anything
-   - Path versioning is the advised approach
-     - _Example - `https://api.contoso.com/master-data/v1/items/{itemId}/components/{componentId}`_
+   - Path versioning (by URL segment) is the advised approach because of its simplicity. 
+     - Example - `https://api.contoso.com/master-data/v1/items/{itemId}/components/{componentId} 
+   - Think how your api will evolve avoinding breaking changes before picking up a versioning style.
 - **Data contract versioning is determined by [using content-negotiation and custom media types](https://github.com/Microsoft/aspnet-api-versioning/wiki/Versioning-by-Media-Type)**
    - _Example - `GET /items/H12652 Accept: application/vnd.mdm.v2+json`_
 
