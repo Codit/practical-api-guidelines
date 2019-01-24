@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Codit.LevelOne.Controllers
+namespace Codit.LevelOne.Controllers.v1
 {
     [Route("world-cup/v1/[controller]")]
     [ApiController]

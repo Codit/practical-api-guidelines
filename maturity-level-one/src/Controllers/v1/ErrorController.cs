@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Codit.LevelOne.Controllers
+namespace Codit.LevelOne.Controllers.v1
 {
     [Route("/errors")]
     [ApiController]
