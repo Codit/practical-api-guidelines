@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Codit.LevelOne.Controllers
+namespace Codit.LevelOne.Controllers.v1
 {
     /// <summary>
     /// All about the teams qualified to the World Cup

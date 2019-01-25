@@ -1,5 +1,5 @@
 using Codit.LevelOne;
-using Codit.LevelOne.Controllers;
+using Codit.LevelOne.Controllers.v1;
 using Codit.LevelOne.Models;
 using Codit.LevelOne.Services;
 using FluentAssertions;

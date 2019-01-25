@@ -4,88 +4,100 @@
         <name>Codit.LevelOne</name>
     </assembly>
     <members>
-        <member name="M:Codit.LevelOne.Controllers.ErrorController.Error(System.Int32)">
+        <member name="M:Codit.LevelOne.Controllers.v1.ErrorController.Error(System.Int32)">
             <summary>
             Manages the unmatched routes
             </summary>
             <param name="code">HTTP status code</param>
             <returns>Error formatted as application/problem+json</returns>
         </member>
-        <member name="M:Codit.LevelOne.Controllers.HealthController.Get">
+        <member name="M:Codit.LevelOne.Controllers.v1.HealthController.Get">
             <summary>
                 Get Health
             </summary>
             <remarks>Provides an indication about the health of the runtime</remarks>
         </member>
-        <member name="T:Codit.LevelOne.Controllers.PlayersController">
+        <member name="T:Codit.LevelOne.Controllers.v1.PlayersController">
             <summary>
             All about the football players
             </summary>
         </member>
-        <member name="M:Codit.LevelOne.Controllers.PlayersController.GetPlayers(System.Boolean)">
+        <member name="M:Codit.LevelOne.Controllers.v1.PlayersController.GetPlayers(System.Boolean)">
             <summary>
-            Get the profiles of the players
+            Get players profiles
             </summary>
             <param name="topPlayersOnly">Indicates whether to return the top players only</param>
-            <remarks>Operation description here</remarks>
+            <remarks>Provides a profile for all known players</remarks>
             <returns>Return a list of Players</returns>
         </member>
-        <member name="M:Codit.LevelOne.Controllers.PlayersController.VoteAsBestPlayer(System.Int32)">
+        <member name="M:Codit.LevelOne.Controllers.v1.PlayersController.VoteAsBestPlayer(System.Int32)">
             <summary>
-            Vote as a best player of the year
+            Vote as best player
             </summary>
             <param name="id">Player identifier</param>
             <returns>Acknowledge the vote has been accepted</returns>
         </member>
-        <member name="M:Codit.LevelOne.Controllers.PlayersController.GetPlayer(System.Int32)">
+        <member name="M:Codit.LevelOne.Controllers.v1.PlayersController.GetPlayer(System.Int32)">
             <summary>
-            Get the profile of a single player
+            Get player profile
             </summary>
             <param name="id">Player identifier</param>
+            <remarks>Get the profile of a single player</remarks>
             <returns>Return a single player</returns>
         </member>
-        <member name="M:Codit.LevelOne.Controllers.PlayersController.Create(Codit.LevelOne.Models.NewPlayerDto)">
+        <member name="M:Codit.LevelOne.Controllers.v1.PlayersController.Create(Codit.LevelOne.Models.NewPlayerDto)">
             <summary>
-            Create a new player
+            Create player
             </summary>
             <param name="player">Instance of a Player object</param>
+            <remarks>Add new player to the repository</remarks>
             <returns>Acknowledge the object has been created</returns>
         </member>
-        <member name="M:Codit.LevelOne.Controllers.PlayersController.UpdateFull(System.Int32,Codit.LevelOne.Models.PlayerDto)">
+        <member name="M:Codit.LevelOne.Controllers.v1.PlayersController.UpdateFull(System.Int32,Codit.LevelOne.Models.PlayerDto)">
             <summary>
-            Update the player profile (full object)
+            Update player profile #1
             </summary>
             <param name="id">Player identifier</param>
             <param name="player">Instance of the player object</param>
+            <remarks>Update the player profile (full update)</remarks>
             <returns>Acknowledge the object has been updated</returns>
         </member>
-        <member name="M:Codit.LevelOne.Controllers.PlayersController.UpdateIncremental(System.Int32,Codit.LevelOne.Models.PlayerDto)">
+        <member name="M:Codit.LevelOne.Controllers.v1.PlayersController.UpdateIncremental(System.Int32,Codit.LevelOne.Models.PlayerDto)">
             <summary>
-            Update the player profile (incremental update)
+            Update player profile #2
             </summary>
             <param name="id">Player identifier</param>
             <param name="player">Instance of the player object</param>
+            <remarks>Update the player profile (incremental update)</remarks>
             <returns>Acknowledge the object has been updated</returns>
         </member>
-        <member name="M:Codit.LevelOne.Controllers.PlayersController.UpdateIncrementalJsonPatch(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{Codit.LevelOne.Models.PlayerDto})">
+        <member name="M:Codit.LevelOne.Controllers.v1.PlayersController.UpdateIncrementalJsonPatch(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{Codit.LevelOne.Models.PlayerDto})">
             <summary>
-            Update the player profile (incremental update with Json Patch)
+            Update player profile #3
             </summary>
             <param name="id">Player identifier</param>
             <param name="player">Operation to be performed on the Player in json-patch+json format</param>
+            <remarks>Update the player profile (incremental update with Json Patch)</remarks>
             <returns>Acknowledge the object has been updated</returns>
         </member>
-        <member name="T:Codit.LevelOne.Controllers.TeamsController">
+        <member name="T:Codit.LevelOne.Controllers.v1.TeamsController">
             <summary>
             All about the teams qualified to the World Cup
             </summary>
         </member>
-        <member name="M:Codit.LevelOne.Controllers.TeamsController.GetTeams">
+        <member name="M:Codit.LevelOne.Controllers.v1.TeamsController.GetTeams">
             <summary>
             Get Teams
             </summary>
-            <remarks>Return a list of Teams</remarks>
-            <returns></returns>
+            <remarks>Provides the details for all known team</remarks>
+            <returns>Return a list of Team</returns>
+        </member>
+        <member name="M:Codit.LevelOne.Controllers.v1.TeamsController.GetTeam(System.Int32)">
+            <summary>
+            Get Team
+            </summary>
+            <remarks>Provides the details of a single team</remarks>
+            <returns>Return a Team instance</returns>
         </member>
         <member name="M:Codit.LevelOne.Extensions.ApplicationBuilderExtensions.UseAutoMapper(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action{AutoMapper.IMapperConfigurationExpression})">
             <summary>
