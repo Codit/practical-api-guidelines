@@ -47,6 +47,7 @@ This implementation includes:
 ## Document your API
 	* Swagger generation with OperationId, Xml comments, Swagger attributes
 	* [ApiExplorerSettings(IgnoreApi = true)] used to exclude operations from OpenAPI output
+	* Consider to introduce a SwaggerOperationFilter to have more control on the consumed/produced media types. [SwaggerConsumesProduces(Consumes="application/json, text/json", Produces="application/json", Clear=true)]
 XMLDocs and Attributes example
 ```csharp
 /// <summary>
