@@ -36,6 +36,7 @@ namespace Codit.LevelOne.Controllers.v1
         [HttpGet(Name = "Teams_GetTeams")]
         [SwaggerResponse((int)HttpStatusCode.OK, "List of teams")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
+        [SwaggerConsumesProduces(Consumes = "application/json", Produces = "application/json", Clear = true)]
         public async Task<IActionResult> GetTeams()
         {
 
@@ -54,6 +55,7 @@ namespace Codit.LevelOne.Controllers.v1
         [SwaggerResponse((int)HttpStatusCode.OK, "Team data")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, "Team not found")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
+        [SwaggerConsumesProduces(Consumes = "application/json", Produces = "application/json", Clear = true)]
         public async Task<IActionResult> GetTeam(int id)
         {
             var team = await _worldCupRepository.GetTeamAsync(id, true);

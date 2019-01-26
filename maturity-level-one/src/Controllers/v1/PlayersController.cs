@@ -40,6 +40,7 @@ namespace Codit.LevelOne.Controllers.v1
         [HttpGet(Name = "Players_GetPlayers")]
         [SwaggerResponse((int)HttpStatusCode.OK, "List of players")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
+        [SwaggerConsumesProduces(Consumes = "application/json", Produces = "application/json", Clear = true)]
         public async Task<IActionResult> GetPlayers([FromQuery(Name = "top-players-only")]bool topPlayersOnly=false)
         {
             var players = await _worldCupRepository.GetAllPlayersAsync(topPlayersOnly);
@@ -56,6 +57,7 @@ namespace Codit.LevelOne.Controllers.v1
         [SwaggerResponse((int)HttpStatusCode.Accepted, "Vote has been accepted. No response body")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, "Player not found")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
+        [SwaggerConsumesProduces(Consumes = "", Produces = "", Clear = true)]
         public async Task<IActionResult> VoteAsBestPlayer(int id)
         {
             var player = await _worldCupRepository.GetPlayerAsync(id);
@@ -80,6 +82,7 @@ namespace Codit.LevelOne.Controllers.v1
         [SwaggerResponse((int)HttpStatusCode.OK, "Player data object")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, "Player not found")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
+        [SwaggerConsumesProduces(Consumes = "", Produces = "application/json", Clear = true)]
         public async Task<IActionResult> GetPlayer(int id)
         {
             var player = await _worldCupRepository.GetPlayerAsync(id);
@@ -103,6 +106,7 @@ namespace Codit.LevelOne.Controllers.v1
         [SwaggerResponse((int)HttpStatusCode.Created, "Player has been created. New playes is returned along with the link to the new resource (Location header)")]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Invalid request")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
+        [SwaggerConsumesProduces(Consumes = "application/json, text/json", Produces = "application/json", Clear = true)]
         public async Task<IActionResult> Create(NewPlayerDto player)
         {
             var team = await _worldCupRepository.GetTeamAsync(player.TeamId, includePlayers: false);
@@ -138,6 +142,7 @@ namespace Codit.LevelOne.Controllers.v1
         [SwaggerResponse((int)HttpStatusCode.NoContent, "The data has been updated")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, "Player not found")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
+        [SwaggerConsumesProduces(Consumes = "application/json", Produces = "", Clear = true)]
         public async Task<IActionResult> UpdateFull(int id, [FromBody] PlayerDto player)
         {
             var playerObj = await _worldCupRepository.GetPlayerAsync(id);
@@ -164,6 +169,7 @@ namespace Codit.LevelOne.Controllers.v1
         [SwaggerResponse((int)HttpStatusCode.NoContent, "The data has been updated")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, "Player not found")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
+        [SwaggerConsumesProduces(Consumes = "application/json", Produces = "", Clear = true)]
         public async Task<IActionResult> UpdateIncremental(int id, [FromBody] PlayerDto player)
         {
             var playerObj = await _worldCupRepository.GetPlayerAsync(id);
@@ -190,6 +196,7 @@ namespace Codit.LevelOne.Controllers.v1
         [SwaggerResponse((int)HttpStatusCode.NoContent, "The data has been updated")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, "Player not found")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
+        [SwaggerConsumesProduces(Consumes = "application/json-patch+json", Produces = "application/json", Clear = true)]
         public async Task<IActionResult> UpdateIncrementalJsonPatch(int id, [FromBody]JsonPatchDocument<PlayerDto> player)
         {
             // Get our original person object from the DB 

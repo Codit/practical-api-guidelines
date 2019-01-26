@@ -102,6 +102,7 @@ namespace Codit.LevelOne.Extensions
             {
                 swaggerGenOptions.EnableAnnotations();
                 swaggerGenOptions.DescribeAllEnumsAsStrings();
+                swaggerGenOptions.OperationFilter<SwaggerConsumesProducesOperationFilter>();
                 swaggerGenOptions.SwaggerDoc(name: "v1", info: new Info
                 {
                     Version = "v1",
