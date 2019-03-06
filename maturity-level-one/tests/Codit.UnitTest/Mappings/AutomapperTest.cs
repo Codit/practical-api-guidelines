@@ -20,6 +20,7 @@ namespace Codit.UnitTest.Mappings
             //Arrange
             var objInstance = new Player
             {
+                Id = 17,
                 FirstName = "Mario",
                 Description = "He plays for Nice.",
                 IsTopPlayer = true,
