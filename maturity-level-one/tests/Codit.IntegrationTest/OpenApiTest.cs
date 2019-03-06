@@ -32,7 +32,7 @@ namespace Codit.IntegrationTest
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var swaggerDoc = JObject.Parse(response.Content.ReadAsStringAsync().Result);
+            var swaggerDoc = JObject.Parse(await response.Content.ReadAsStringAsync());
             var paths = (JObject)swaggerDoc.SelectToken("paths");
             paths.Count.Should().Be(6);
 
@@ -62,6 +62,7 @@ namespace Codit.IntegrationTest
                         ((string)item.Value.SelectToken("get.operationId")).Should().Be("Teams_GetTeam");
                         break;
                     default:
+                        Assert.True(false, $"{item.Key} is an unexpected path");
                         break;
                 }
             }
