@@ -6,29 +6,29 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Codit.UnitTest.Controllers
 {
     public class TeamsControllerTest
     {
-        TeamsController _controller;
-        IWorldCupRepository _service;
+        private readonly TeamsController _controller;
 
         public TeamsControllerTest()
         {
-            _service = new WorldCupRepositoryFake();
-            _controller = new TeamsController(_service);
+            _controller = new TeamsController(new WorldCupRepositoryFake());
             AutoMapperConfig.Initialize();
         }
 
         [Fact]
-        public void GetTeams_Test()
+        public async Task GetTeams_Test()
         {
-            //Arrange
             //Act
-            var okTeams = _controller.GetTeams().Result as OkObjectResult;
+            var okTeams = (await _controller.GetTeams()) as OkObjectResult;
+
             //Assert
+            Assert.NotNull(okTeams);
             okTeams.Value.Should().BeOfType(typeof(List<TeamDto>));
             ((List<TeamDto>)okTeams.Value).Count.Should().Be(2);
         }
