@@ -136,7 +136,7 @@ namespace Codit.IntegrationTest
 
             var request = new HttpRequestMessage(new HttpMethod("GET"), $"/world-cup/v1/players/{playerId}");
             var response = await _httpClient.SendAsync(request);
-            var actualDto = JsonConvert.DeserializeObject<PlayerDto>(response.Content.ReadAsStringAsync().Result);
+            var actualDto = JsonConvert.DeserializeObject<PlayerDto>(await response.Content.ReadAsStringAsync());
             request = TestExtensions.GetJsonRequest(player, "PUT", $"/world-cup/v1/players/{playerId}");
 
             //Act
@@ -146,7 +146,7 @@ namespace Codit.IntegrationTest
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
             request = new HttpRequestMessage(new HttpMethod("GET"), $"/world-cup/v1/players/{playerId}");
             response = await _httpClient.SendAsync(request);
-            var updatedDto = JsonConvert.DeserializeObject<PlayerDto>(response.Content.ReadAsStringAsync().Result);
+            var updatedDto = JsonConvert.DeserializeObject<PlayerDto>(await response.Content.ReadAsStringAsync());
 
             updatedDto.FirstName.Should().Be(actualDto.FirstName);
             updatedDto.Description.Should().Be(actualDto.Description);
@@ -166,7 +166,7 @@ namespace Codit.IntegrationTest
 
             var request = new HttpRequestMessage(new HttpMethod("GET"), $"/world-cup/v1/players/{playerId}");
             var response = await _httpClient.SendAsync(request);
-            var actualDto = JsonConvert.DeserializeObject<PlayerDto>(response.Content.ReadAsStringAsync().Result);
+            var actualDto = JsonConvert.DeserializeObject<PlayerDto>(await response.Content.ReadAsStringAsync());
             request = TestExtensions.GetJsonRequest(player, "PATCH", $"/world-cup/v1/players/{playerId}");
             
             // Act
@@ -176,7 +176,7 @@ namespace Codit.IntegrationTest
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
             request = new HttpRequestMessage(new HttpMethod("GET"), $"/world-cup/v1/players/{playerId}");
             response = await _httpClient.SendAsync(request);
-            var updatedDto = JsonConvert.DeserializeObject<PlayerDto>(response.Content.ReadAsStringAsync().Result);
+            var updatedDto = JsonConvert.DeserializeObject<PlayerDto>(await response.Content.ReadAsStringAsync());
             updatedDto.FirstName.Should().Be(actualDto.FirstName);
             updatedDto.Description.Should().NotBe(actualDto.Description);
             updatedDto.IsTopPlayer.Should().Be(actualDto.IsTopPlayer);
@@ -194,7 +194,7 @@ namespace Codit.IntegrationTest
 
             var request = new HttpRequestMessage(new HttpMethod("GET"), $"/world-cup/v1/players/{playerId}");
             var response = await _httpClient.SendAsync(request);
-            var actualDto = JsonConvert.DeserializeObject<PlayerDto>(response.Content.ReadAsStringAsync().Result);
+            var actualDto = JsonConvert.DeserializeObject<PlayerDto>(await response.Content.ReadAsStringAsync());
             request = TestExtensions.GetJsonRequest(player, "PATCH", $"/world-cup/v1/players/{playerId}/update", ContentTypeNames.Application.JsonPatch);
 
             //Act
@@ -202,7 +202,7 @@ namespace Codit.IntegrationTest
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var updatedDto = JsonConvert.DeserializeObject<PlayerDto>(response.Content.ReadAsStringAsync().Result);
+            var updatedDto = JsonConvert.DeserializeObject<PlayerDto>(await response.Content.ReadAsStringAsync());
 
             updatedDto.FirstName.Should().Be(actualDto.FirstName);
             updatedDto.Description.Should().NotBe(actualDto.Description);
