@@ -1,4 +1,4 @@
-﻿namespace Codit.LevelOne
+﻿namespace Codit.LevelTwo
 {
     public static class ContentTypeNames
     {

@@ -6,26 +6,28 @@ using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
 
+using Codit.LevelTwo;
+
 namespace Codit.IntegrationTest
 {
-    public class TeamsTest
+    public class CarTest
     {
         private readonly HttpClient _httpClient;
-        public TeamsTest()
+        public CarTest()
         {
             if (_httpClient != null) return;
             var srv = new TestServer(new WebHostBuilder()
                 .UseEnvironment("Development")
-                .UseStartup<Codit.LevelOne.Startup>());
+                .UseStartup<Startup>());
 
             _httpClient = srv.CreateClient();
         }
 
         [Fact]
-        public async Task GetTeams_Ok_TestAsync()
+        public async Task GetCars_Ok_TestAsync()
         {
             //Arrange
-            var request = new HttpRequestMessage(new HttpMethod("GET"), "/world-cup/v1/teams");
+            var request = new HttpRequestMessage(new HttpMethod("GET"), "/codito/v1/car");
             //Act
             var response = await _httpClient.SendAsync(request);
             //Assert
@@ -36,8 +38,8 @@ namespace Codit.IntegrationTest
         public async Task GetSingleTeam_Ok_TestAsync()
         {
             //Arrange
-            int teamId = 1;
-            var request = new HttpRequestMessage(new HttpMethod("GET"), $"/world-cup/v1/teams/{teamId}");
+            int id = 1;
+            var request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/car/{id}");
             //Act
             var response = await _httpClient.SendAsync(request);
             //Arrange
@@ -48,8 +50,8 @@ namespace Codit.IntegrationTest
         public async Task GetSingleTeam_NotFound_TestAsync()
         {
             //Arrange
-            int teamId = -1;
-            var request = new HttpRequestMessage(new HttpMethod("GET"), $"/world-cup/v1/teams/{teamId}");
+            int id = -1;
+            var request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/car/{id}");
             //Act
             var response = await _httpClient.SendAsync(request);
             //Assert

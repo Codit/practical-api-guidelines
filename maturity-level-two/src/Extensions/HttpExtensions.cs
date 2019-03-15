@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
 
-namespace Codit.LevelOne.Extensions
+namespace Codit.LevelTwo.Extensions
 {
     public static class HttpExtensions
     {

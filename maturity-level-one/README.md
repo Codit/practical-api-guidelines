@@ -49,6 +49,7 @@ Think about your operation URIs and make them as RESTy as possible – What we m
    - _Don't - `GET https://api.contoso.com/master-data/contracts/{contractId}?operation=cancel`_
 
 ### Versioning
+
 API versioning supports four methods of versioning out-of-the-box:  
 
 | Versioning  | Example    | Notes |

@@ -5,9 +5,11 @@ using System.Net.Http;
 using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Codit.LevelOne.Models;
-using Codit.LevelOne.Extensions;
+using Codit.LevelTwo.Models;
+using Codit.LevelTwo.Extensions;
+using Codit.LevelTwo;
 using Newtonsoft.Json;
+
 using Newtonsoft.Json.Linq;
 
 namespace Codit.IntegrationTest
@@ -20,7 +22,7 @@ namespace Codit.IntegrationTest
             if (_httpClient != null) { return; }
             var srv = new TestServer(new WebHostBuilder()
                 .UseEnvironment("Development")
-                .UseStartup<Codit.LevelOne.Startup>());
+                .UseStartup<Startup>());
 
             _httpClient = srv.CreateClient();
         }
@@ -29,7 +31,7 @@ namespace Codit.IntegrationTest
         public async Task ProblemJson_RouteNotExists_404_Test()
         {
             //Arrange
-            var request = new HttpRequestMessage(new HttpMethod("GET"), "/world-cup/2018/players");
+            var request = new HttpRequestMessage(new HttpMethod("GET"), "/codito/api/v1/car");
             //Act
             var response = await _httpClient.SendAsync(request);
             //Assert
@@ -42,13 +44,11 @@ namespace Codit.IntegrationTest
         public async Task ProblemJson_Validation_400_Test()
         {
             //Arrange
-            var player = new NewPlayerDto
+            var customization = new NewCustomizationDto
             {
-                FirstName = "Test Player",
-                Description = "He plays for Codit.",
-                IsTopPlayer = false
+                Name = "My customization",
             };
-            var request = TestExtensions.GetJsonRequest(player, "POST", "/world-cup/v1/players");
+            var request = TestExtensions.GetJsonRequest(customization, "POST", "/codito/v1/customization");
             //Act
             var response = await _httpClient.SendAsync(request);
             //Assert
@@ -61,7 +61,7 @@ namespace Codit.IntegrationTest
         public async Task ProblemJson_ContentNegotiationNotOk_406_Test()
         {
             //Arrange
-            var request = new HttpRequestMessage(new HttpMethod("GET"), "/world-cup/2018/players");
+            var request = new HttpRequestMessage(new HttpMethod("GET"), "/codito/codito/car");
             _httpClient.DefaultRequestHeaders.Add("Accept", "custom/content+type");
             //Act
             var response = await _httpClient.SendAsync(request);
@@ -74,14 +74,12 @@ namespace Codit.IntegrationTest
         public async Task ProblemJson_UnsupportedContentType_415_Test()
         {
             //Arrange
-            var player = new NewPlayerDto
+            var customization = new NewCustomizationDto
             {
-                FirstName = "Test Player",
-                Description = "He plays for MUTD.",
-                IsTopPlayer = false,
-                TeamId = 1
+                Name = "My customization",
+                CarId = 1
             };
-            var request = TestExtensions.GetJsonRequest(player, "POST", "/world-cup/v1/players", "application/pdf");
+            var request = TestExtensions.GetJsonRequest(customization, "POST", "/codito/v1/customization/", "application/pdf");
             //Act
             var response = await _httpClient.SendAsync(request);
             //Assert
@@ -94,14 +92,13 @@ namespace Codit.IntegrationTest
         public async Task ProblemJson_InternalServerError_500_Test()
         {
             //Arrange
-            var player = new NewPlayerDto
+            var customization = new NewCustomizationDto
             {
-                FirstName = "Test Player",
-                Description = "Evil",
-                IsTopPlayer = false,
-                TeamId = 1
+                Name = "My customization",
+                CarId = -9999 // "evil" request
             };
-            var request = TestExtensions.GetJsonRequest(player, "POST", "/world-cup/v1/players");
+            
+            var request = TestExtensions.GetJsonRequest(customization, "POST", "/codito/v1/customization");
             //Act
             var response = await _httpClient.SendAsync(request);
             //Assert

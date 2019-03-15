@@ -1,5 +1,5 @@
-﻿using Codit.LevelOne.Entities;
-using Codit.LevelOne.Services;
+﻿using Codit.LevelTwo.Entities;
+using Codit.LevelTwo.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +14,11 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace Codit.LevelOne.Extensions
+namespace Codit.LevelTwo.Extensions
 {
     public static class ServiceCollectionExtensions
     {
+
         /// <summary>
         ///     Configure database
         /// </summary>
@@ -30,15 +31,19 @@ namespace Codit.LevelOne.Extensions
                 return;
             }
 
-            var connectionString = configuration.GetConnectionString(name: "WorldCupDB");
+
+            //var connectionString = configuration.GetConnectionString(name: "CoditoDB");
             //default scope lifetime
 #if DEBUG
-            services.AddDbContext<WorldCupContext>(opt => opt.UseInMemoryDatabase(databaseName: "WorldCupDB"));
+            services.AddDbContext<CoditoContext>(opt => opt.UseInMemoryDatabase(databaseName: "CoditoDB"));
 #else
-            services.AddDbContext<WorldCupContext>(o => o.UseSqlServer(connectionString)); 
+            var connectionString = configuration.GetConnectionString(name: "CoditoDB");
+            services.AddDbContext<CoditoContext>(o => o.UseSqlServer(connectionString)); 
 #endif
-            services.AddScoped<IWorldCupRepository, WorldCupRepository>(); //scoped
+
+            services.AddScoped<ICoditoRepository, CoditoRepository>(); //scoped
         }
+
 
         /// <summary>
         ///     Configure how to handle invalid state with problem+json

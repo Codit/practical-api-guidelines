@@ -1,4 +1,4 @@
-﻿namespace Codit.LevelOne.Entities
+﻿namespace Codit.LevelTwo.Entities
 {
     public enum ContinentCode
     {

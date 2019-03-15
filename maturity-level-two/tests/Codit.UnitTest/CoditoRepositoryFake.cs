@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Codit.LevelTwo.Entities;
+using Codit.LevelTwo.Services;
 
-namespace Codit.LevelTwo.DB
+namespace Codit.UnitTest
 {
-    public static class DbDataSeed
+    internal class CoditoRepositoryFake : ICoditoRepository
     {
-        public static void DataSeed(this CoditoContext context)
-        {
-            if (context.Cars.Any())
-            {
-                return;
-            }
+        private readonly List<Car> _cars;
 
-            var cars = new List<Car>
+        public CoditoRepositoryFake()
+        {
+            _cars = new List<Car>
             {
                 new Car
                 {
@@ -22,7 +21,7 @@ namespace Codit.LevelTwo.DB
                     Model = "Tiguan",
                     BodyType = CarBodyType.SUV,
                     Description = "Volkswagen's SUV model.",
-                    
+
                     Customizations = new List<Customization>
                     {
                         new Customization
@@ -30,14 +29,14 @@ namespace Codit.LevelTwo.DB
                             NumberSold = 5,
                             Name = "Tiguan Trendline",
                             Url = "https://fake-url.com",
-                            InventoryLevel = 4
+                            InventoryLevel = 14
                         },
                         new Customization
                         {
                             NumberSold = 3,
                             Name = "Tiguan Comfortline",
                             Url = "https://fake-url.com",
-                            InventoryLevel = 4
+                            InventoryLevel = 12
                         }
                     }
                 },
@@ -67,9 +66,55 @@ namespace Codit.LevelTwo.DB
                     }
                 }
             };
+        }
 
-            context.Cars.AddRange(cars);
-            context.SaveChanges();
+        public Task ApplyCustomizationSaleAsync(Customization customization)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ApplyPatchAsync<TEntity, TDto>(TEntity entityToUpdate, TDto dto) where TEntity : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> CarExistsAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task CreateCustomizationAsync(Customization customization)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteCustomizationAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Customization>> GetAllCustomizationsAsync()
+        {
+            // BodyType query not tested!
+            return Task.FromResult((IEnumerable<Customization>)_cars[0].Customizations);
+        }
+
+        public Task<Car> GetCarAsync(int id, bool includeCustomization)
+        {
+            var filtered = _cars.Where(c => (c.Id == id)).ToArray();
+            Car car = filtered[0];
+            return Task.FromResult(car);
+        }
+
+        public Task<IEnumerable<Car>> GetCarsAsync(CarBodyType? bodyType)
+        {
+            return Task.FromResult<IEnumerable<Car>>(_cars);
+            
+        }
+
+        public Task<Customization> GetCustomizationAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Codit.LevelOne.Extensions
+namespace Codit.LevelTwo.Extensions
 {
     [System.AttributeUsageAttribute(System.AttributeTargets.All, AllowMultiple = false)]
     public class ValidateModelAttribute : ActionFilterAttribute

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Codit.LevelOne
+
+namespace Codit.LevelTwo
 {
     public static class AutoMapperConfig
     {
@@ -18,10 +19,9 @@ namespace Codit.LevelOne
                 {
                     AutoMapper.Mapper.Initialize(mapperConfig =>
                     {
-                        mapperConfig.CreateMap<Entities.Team, Models.TeamDto>();
-                        mapperConfig.CreateMap<Entities.Team, Models.TeamDetailsDto>();
-                        mapperConfig.CreateMap<Entities.Player, Models.PlayerDto>();
-                        mapperConfig.CreateMap<Models.PlayerDto, Entities.Player>();
+                        mapperConfig.CreateMap<Entities.Car, Models.CarDto>();
+                        mapperConfig.CreateMap<Entities.Customization, Models.CustomizationDto>();
+                        mapperConfig.CreateMap<Models.CustomizationDto, Entities.Customization>();
                     });
                     _initialized = true;
                 }

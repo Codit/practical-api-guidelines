@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Codit.LevelOne.Extensions
+namespace Codit.LevelTwo.Extensions
 {
     public static class TypeExtensions
     {

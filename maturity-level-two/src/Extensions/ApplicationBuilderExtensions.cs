@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace Codit.LevelOne.Extensions
+namespace Codit.LevelTwo.Extensions
 {
     public static class ApplicationBuilderExtensions
     {

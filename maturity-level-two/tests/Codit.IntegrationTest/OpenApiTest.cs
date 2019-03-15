@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
 
+using Codit.LevelTwo;
+
 namespace Codit.IntegrationTest
 {
     public class OpenApiTest
@@ -17,7 +19,7 @@ namespace Codit.IntegrationTest
             if (_httpClient != null) return;
             var srv = new TestServer(new WebHostBuilder()
                 .UseEnvironment("Development")
-                .UseStartup<Codit.LevelOne.Startup>());
+                .UseStartup<Startup>());
 
             _httpClient = srv.CreateClient();
         }
@@ -34,32 +36,30 @@ namespace Codit.IntegrationTest
 
             var swaggerDoc = JObject.Parse(await response.Content.ReadAsStringAsync());
             var paths = (JObject)swaggerDoc.SelectToken("paths");
-            paths.Count.Should().Be(6);
+
+            paths.Count.Should().Be(5);
 
             foreach (var item in paths)
             {
                 switch (item.Key)
                 {
-                    case "/world-cup/v1/players":
-                        ((string)item.Value.SelectToken("get.operationId")).Should().Be("Players_GetPlayers");
-                        ((string)item.Value.SelectToken("post.operationId")).Should().Be("Players_Create");
+                    case "/codito/v1/customization":
+                        ((string)item.Value.SelectToken("get.operationId")).Should().Be(Constants.RouteNames.v1.GetCustomizations);
+                        ((string)item.Value.SelectToken("post.operationId")).Should().Be(Constants.RouteNames.v1.CreateCustomization);
                         break;
-                    case "/world-cup/v1/players/{id}/vote":
-                        ((string)item.Value.SelectToken("post.operationId")).Should().Be("Players_VoteAsBestPlayer");
+                    case "/codito/v1/customization/{id}/sale":
+                        ((string)item.Value.SelectToken("post.operationId")).Should().Be(Constants.RouteNames.v1.SellCustomization);
                         break;
-                    case "/world-cup/v1/players/{id}":
-                        ((string)item.Value.SelectToken("get.operationId")).Should().Be("Players_GetPlayer");
-                        ((string)item.Value.SelectToken("put.operationId")).Should().Be("Players_UpdateFull");
-                        ((string)item.Value.SelectToken("patch.operationId")).Should().Be("Players_UpdateIncremental");
+                    case "/codito/v1/customization/{id}":
+                        ((string)item.Value.SelectToken("get.operationId")).Should().Be(Constants.RouteNames.v1.GetCustomization);
+                        ((string)item.Value.SelectToken("patch.operationId")).Should().Be(Constants.RouteNames.v1.UpdateCustomizationIncremental);
+                        ((string)item.Value.SelectToken("delete.operationId")).Should().Be(Constants.RouteNames.v1.DeleteCustomization);
                         break;
-                    case "/world-cup/v1/players/{id}/update":
-                        ((string)item.Value.SelectToken("patch.operationId")).Should().Be("Players_UpdateIncrementalJsonPatch");
+                    case "/codito/v1/car":
+                        ((string)item.Value.SelectToken("get.operationId")).Should().Be(Constants.RouteNames.v1.GetCars); 
                         break;
-                    case "/world-cup/v1/teams":
-                        ((string)item.Value.SelectToken("get.operationId")).Should().Be("Teams_GetTeams");
-                        break;
-                    case "/world-cup/v1/teams/{id}":
-                        ((string)item.Value.SelectToken("get.operationId")).Should().Be("Teams_GetTeam");
+                    case "/codito/v1/car/{id}":
+                        ((string)item.Value.SelectToken("get.operationId")).Should().Be(Constants.RouteNames.v1.GetCar);
                         break;
                     default:
                         Assert.True(false, $"{item.Key} is an unexpected path");

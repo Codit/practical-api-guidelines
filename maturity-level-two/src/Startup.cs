@@ -1,12 +1,12 @@
-﻿using Codit.LevelOne.DB;
-using Codit.LevelOne.Entities;
-using Codit.LevelOne.Extensions;
+﻿using Codit.LevelTwo.DB;
+using Codit.LevelTwo.Entities;
+using Codit.LevelTwo.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Codit.LevelOne
+namespace Codit.LevelTwo
 {
     public class Startup
     {
@@ -30,7 +30,7 @@ namespace Codit.LevelOne
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, WorldCupContext worldCupContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, CoditoContext coditoContext)
         {
             if (env.IsDevelopment())
             {
@@ -42,7 +42,7 @@ namespace Codit.LevelOne
             }
 
             // Seed DB
-            worldCupContext.DataSeed();
+            coditoContext.DataSeed();
 
             // Configure API
             app.UseHttpsRedirection();

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.WebUtilities;
 using System;
 
-namespace Codit.LevelOne.Extensions
+namespace Codit.LevelTwo.Extensions
 {
     public class ProblemDetailsError : ProblemDetails
     {
