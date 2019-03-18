@@ -14,15 +14,15 @@ namespace Codit.IntegrationTest
 {
     public class CustomizationTest
     {
-        private readonly HttpClient _httpClient;
-        public CustomizationTest()
+        private static readonly HttpClient httpClient;
+        static CustomizationTest()
         {
-            if (_httpClient != null) return;
+            if (httpClient != null) return;
             var srv = new TestServer(new WebHostBuilder()
                 .UseEnvironment("Development")
                 .UseStartup<Startup>());
 
-            _httpClient = srv.CreateClient();
+            httpClient = srv.CreateClient();
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace Codit.IntegrationTest
             //Arrange
             var request = new HttpRequestMessage(new HttpMethod("GET"), "/codito/v1/customization");
             //Act
-            var response = await _httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -43,7 +43,7 @@ namespace Codit.IntegrationTest
             int id = 1;
             var request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/customization/{id}");
             //Act
-            var response = await _httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -56,7 +56,7 @@ namespace Codit.IntegrationTest
             int id = -1;
             var request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/customization/{id}");
             //Act
-            var response = await _httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -74,7 +74,7 @@ namespace Codit.IntegrationTest
             };
             var request = TestExtensions.GetJsonRequest(customization, "POST", $"/codito/v1/customization/");
             //Act
-            var response = await _httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Created);
         }
@@ -91,7 +91,7 @@ namespace Codit.IntegrationTest
             };
             var request = TestExtensions.GetJsonRequest(newCustomization, "POST", "/codito/v1/customization/");
             //Act
-            var response = await _httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
            
@@ -104,7 +104,7 @@ namespace Codit.IntegrationTest
             int id = -1;
             var request = new HttpRequestMessage(new HttpMethod("DELETE"), $"/codito/v1/customization/{id}");
             //Act
-            var response = await _httpClient.SendAsync(request);           
+            var response = await httpClient.SendAsync(request);           
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -114,16 +114,16 @@ namespace Codit.IntegrationTest
         public async Task DeleteCustomization_NoContent_TestAsync()
         {
             //Arrange
-            int id = 1;
+            int id = 2;
             var request = new HttpRequestMessage(new HttpMethod("DELETE"), $"/codito/v1/customization/{id}");
             //Act
-            var response = await _httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
             request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/customization/{id}");
-            response = await _httpClient.SendAsync(request);
+            response = await httpClient.SendAsync(request);
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
@@ -134,17 +134,17 @@ namespace Codit.IntegrationTest
             int id = 1;
 
             var request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/customization/{id}");
-            var response = await _httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
             var actualDto = JsonConvert.DeserializeObject<CustomizationDto>(await response.Content.ReadAsStringAsync());
 
             request = new HttpRequestMessage(new HttpMethod("POST"), $"/codito/v1/customization/{id}/sale");
             //Act
-            response = await _httpClient.SendAsync(request);
+            response = await httpClient.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Accepted);
             // (Inventory must be decremented, number of sales incremented.
             request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/customization/{id}");
-            response = await _httpClient.SendAsync(request);
+            response = await httpClient.SendAsync(request);
             var updatedDto = JsonConvert.DeserializeObject<CustomizationDto>(await response.Content.ReadAsStringAsync());
 
             updatedDto.InventoryLevel.Should().Be(actualDto.InventoryLevel - 1);
@@ -159,7 +159,7 @@ namespace Codit.IntegrationTest
             int id = -1;
             var request = new HttpRequestMessage(new HttpMethod("POST"), $"/codito/v1/customization/{id}/sale");
             //Act
-            var response = await _httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -176,7 +176,7 @@ namespace Codit.IntegrationTest
             };
 
             var request = TestExtensions.GetJsonRequest(newCustomization, "POST", "/codito/v1/customization/");
-            var response = await _httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
             response.StatusCode.Should().Be(HttpStatusCode.Created);
             //(Get Id of this new customization)
             var newDto = JsonConvert.DeserializeObject<CustomizationDto>(await response.Content.ReadAsStringAsync());
@@ -185,7 +185,7 @@ namespace Codit.IntegrationTest
             request = new HttpRequestMessage(new HttpMethod("POST"), $"/codito/v1/customization/{id}/sale");
 
             //Act
-            response = await _httpClient.SendAsync(request);
+            response = await httpClient.SendAsync(request);
             
             //Assert
             response.StatusCode.Should().Be(409);
@@ -205,7 +205,7 @@ namespace Codit.IntegrationTest
             var request = TestExtensions.GetJsonRequest(customization, "PATCH", $"/codito/v1/customization/{id}");
 
             // Act
-            var response = await _httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -222,19 +222,19 @@ namespace Codit.IntegrationTest
             };
 
             var request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/customization/{id}");
-            var response = await _httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
             var actualDto = JsonConvert.DeserializeObject<CustomizationDto>(await response.Content.ReadAsStringAsync());
             request = TestExtensions.GetJsonRequest(customization, "PATCH", $"/codito/v1/customization/{id}");
 
             //actualDto.Should().BeNull();
 
             // Act
-            response = await _httpClient.SendAsync(request);
+            response = await httpClient.SendAsync(request);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
             request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/customization/{id}");
-            response = await _httpClient.SendAsync(request);
+            response = await httpClient.SendAsync(request);
             var updatedDto = JsonConvert.DeserializeObject<CustomizationDto>(await response.Content.ReadAsStringAsync());
             updatedDto.Id.Should().Be(actualDto.Id);
 
