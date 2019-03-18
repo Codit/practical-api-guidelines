@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Codit.LevelTwo</name>
+    </assembly>
+    <members>
+        <member name="M:Codit.LevelTwo.Controllers.v1.CarController.GetCars(System.Nullable{Codit.LevelTwo.Entities.CarBodyType})">
+            <summary>
+            Get all cars
+            </summary>
+            /// <param name="bodyType">Filter a specific body Type (optional)</param>
+            <remarks>Get all cars</remarks>
+            <returns>List of cars</returns>
+        </member>
+        <member name="M:Codit.LevelTwo.Controllers.v1.CarController.GetCar(System.Int32)">
+            <summary>
+            Get car by Id
+            </summary>
+            <param name="id">car identifier</param>
+            <remarks>Get a car by Id</remarks>
+            <returns>a Car instance</returns>
+        </member>
+        <member name="M:Codit.LevelTwo.Controllers.v1.CustomizationController.GetCustomizations">
+            <summary>
+            Get all customizations
+            </summary>
+            <remarks>Get all customizations, ordered by popularity</remarks>
+            <returns>List of customizations</returns>
+        </member>
+        <member name="M:Codit.LevelTwo.Controllers.v1.CustomizationController.GetCustomization(System.Int32)">
+            <summary>
+            Get customization by Id
+            </summary>
+            <param name="id">customization identifier</param>
+            <remarks>Get a customization by Id</remarks>
+            <returns>a Customization instance</returns>
+        </member>
+        <member name="M:Codit.LevelTwo.Controllers.v1.CustomizationController.Create(Codit.LevelTwo.Models.NewCustomizationDto)">
+            <summary>
+            Create customization
+            </summary>
+            <param name="customization">Instance of a customization object</param>
+            <remarks>Add new customization to the database</remarks>
+            <returns>Acknowledge the object has been created</returns>
+        </member>
+        <member name="M:Codit.LevelTwo.Controllers.v1.CustomizationController.DeleteCustomization(System.Int32)">
+            <summary>
+            Delete customization by id
+            </summary>
+            <param name="customization">Instance of a customization object</param>
+            <remarks>Remove a customization from the database</remarks>
+            <returns>Acknowledge the object has been deleted</returns>
+        </member>
+        <member name="M:Codit.LevelTwo.Controllers.v1.CustomizationController.UpdateIncremental(System.Int32,Codit.LevelTwo.Models.CustomizationDto)">
+            <summary>
+            Update customization
+            </summary>
+            <param name="id">customization identifier</param>
+            <param name="customizationDto">Update for the customization object</param>
+            <remarks>Update the customization profile (incremental update)</remarks>
+            <returns>Acknowledge the object has been updated</returns>
+        </member>
+        <member name="M:Codit.LevelTwo.Controllers.v1.CustomizationController.VoteAsBestPlayer(System.Int32)">
+            <summary>
+            Sell a car customization
+            </summary>
+            <param name="id">Customization identifier</param>
+            <returns>Acknowledge that the c</returns>
+        </member>
+        <member name="M:Codit.LevelTwo.Controllers.v1.HealthController.Get">
+            <summary>
+                Get Health
+            </summary>
+            <remarks>Provides an indication about the health of the runtime</remarks>
+        </member>
+        <member name="M:Codit.LevelTwo.Extensions.ApplicationBuilderExtensions.UseAutoMapper(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action{AutoMapper.IMapperConfigurationExpression})">
+            <summary>
+                Configure to use AutoMapper
+            </summary>
+            <param name="applicationbuilder">Application builder to use</param>
+            <param name="mapperConfigExpression">AutoMapper configuration to use</param>
+        </member>
+        <member name="M:Codit.LevelTwo.Extensions.ApplicationBuilderExtensions.UseExceptionHandlerWithProblemJson(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+                Configure to use global exception handler with application/problem+json
+            </summary>
+            <param name="applicationBuilder">Application builder to use</param>
+        </member>
+        <member name="M:Codit.LevelTwo.Extensions.ApplicationBuilderExtensions.UseOpenApi(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+                Configure to use OpenAPI with UI
+            </summary>
+            <param name="applicationbuilder">Application builder to use</param>
+        </member>
+        <member name="M:Codit.LevelTwo.Extensions.HttpExtensions.IsLocalRequest(Microsoft.AspNetCore.Http.HttpRequest)">
+            <summary>
+                Determines if the request was made locally or not
+            </summary>
+        </member>
+        <member name="M:Codit.LevelTwo.Extensions.HttpExtensions.WriteJson``1(Microsoft.AspNetCore.Http.HttpResponse,``0,System.String)">
+            <summary>
+                Write a JSON response
+            </summary>
+            <typeparam name="TResponse">Type of the response message to serizalize</typeparam>
+            <param name="response">Http response</param>
+            <param name="responseObject">Response object to serialize</param>
+            <param name="contentType">Content type</param>
+        </member>
+        <member name="M:Codit.LevelTwo.Extensions.ServiceCollectionExtensions.ConfigureDatabase(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+                Configure database
+            </summary>
+            <param name="services">Collections of services in application</param>
+            <param name="configuration">Configuration properties</param>
+        </member>
+        <member name="M:Codit.LevelTwo.Extensions.ServiceCollectionExtensions.ConfigureInvalidStateHandling(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+                Configure how to handle invalid state with problem+json
+            </summary>
+            <param name="services">Collections of services in application</param>
+        </member>
+        <member name="M:Codit.LevelTwo.Extensions.ServiceCollectionExtensions.ConfigureMvc(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+                Configure the MVC stack
+            </summary>
+            <param name="services">Collections of services in application</param>
+        </member>
+        <member name="M:Codit.LevelTwo.Extensions.ServiceCollectionExtensions.ConfigureOpenApiGeneration(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+                Configure OpenAPI generation
+            </summary>
+            <param name="services">Collections of services in application</param>
+        </member>
+        <member name="M:Codit.LevelTwo.Extensions.ServiceCollectionExtensions.ConfigureRouting(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+                Configure routing
+            </summary>
+        </member>
+        <member name="M:Codit.LevelOne.Controllers.v1.ErrorController.Error(System.Int32)">
+            <summary>
+            Manages the unmatched routes
+            </summary>
+            <param name="code">HTTP status code</param>
+            <returns>Error formatted as application/problem+json</returns>
+        </member>
+    </members>
+</doc>
