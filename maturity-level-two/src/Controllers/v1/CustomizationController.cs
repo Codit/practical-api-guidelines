@@ -115,11 +115,6 @@ namespace Codit.LevelTwo.Controllers.v1
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> DeleteCustomization(int id)
         {
-            //var customizationObj = await _coditoRepository.GetCustomizationAsync(id);
-            //if (customizationObj == null)
-            //{
-            //    return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
-            //}
             int numberOfChanges = await _coditoRepository.DeleteCustomizationAsync(id);
             if(numberOfChanges > 0)
             {
@@ -128,8 +123,7 @@ namespace Codit.LevelTwo.Controllers.v1
             else
             {
                 return NotFound();
-            }
-            
+            }           
         }
 
         /// <summary>

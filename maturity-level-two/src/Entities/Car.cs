@@ -21,7 +21,5 @@ namespace Codit.LevelTwo.Entities
         public string Description { get; set; }
 
         public ICollection<Customization> Customizations { get; } = new List<Customization>();
-
-
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+
 using System.Threading.Tasks;
 
 using Codit.LevelTwo.Entities;
@@ -12,7 +13,6 @@ namespace Codit.LevelTwo.Services
 {
     public class CoditoRepository : ICoditoRepository
     {
-
         private readonly CoditoContext _coditoContext;
 
         public CoditoRepository(CoditoContext coditoContext)

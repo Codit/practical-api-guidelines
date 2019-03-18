@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace Codit.LevelTwo.DB
 {
     public static class DbDataSeed

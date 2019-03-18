@@ -20,7 +20,6 @@ namespace Codit.UnitTest.Mappings
             //Arrange
             var customization = new Customization
             {
-                //Id = 4,
                 Name = "My customization",
                 Url = "https://fake-url.com",
                 NumberSold = 5,

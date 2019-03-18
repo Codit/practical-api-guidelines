@@ -165,7 +165,7 @@ namespace Codit.IntegrationTest
         }
 
         [Fact]
-        public async Task SellCustomization_SoldOut405_TestAsync()
+        public async Task SellCustomization_SoldOut409_TestAsync()
         {
             //Arrange
             //(Create new customization. InventoryLevel is not set, so will be zero.)
@@ -188,21 +188,8 @@ namespace Codit.IntegrationTest
             response = await _httpClient.SendAsync(request);
             
             //Assert
-            response.StatusCode.Should().Be(405);
-
+            response.StatusCode.Should().Be(409);
         }
-
-        //[Fact]
-        //public async Task VoteAsBestPlayer_NotFound_TestAsync()
-        //{
-        //    //Arrange
-        //    int playerId = -1;
-        //    var request = new HttpRequestMessage(new HttpMethod("POST"), $"/world-cup/v1/players/{playerId}/vote");
-        //    //Act
-        //    var response = await _httpClient.SendAsync(request);
-        //    //Assert
-        //    response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        //}
 
         [Fact]
         public async Task UpdateCustomizationIncremental_NotFound_TestAsync()
