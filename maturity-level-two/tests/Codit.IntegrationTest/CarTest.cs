@@ -27,7 +27,7 @@ namespace Codit.IntegrationTest
         public async Task GetCars_Ok_TestAsync()
         {
             //Arrange
-            var request = new HttpRequestMessage(new HttpMethod("GET"), "/codito/v1/car");
+            var request = new HttpRequestMessage(HttpMethod.Get, "/codito/v1/car");
             //Act
             var response = await _httpClient.SendAsync(request);
             //Assert
@@ -39,7 +39,7 @@ namespace Codit.IntegrationTest
         {
             //Arrange
             int id = 1;
-            var request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/car/{id}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/car/{id}");
             //Act
             var response = await _httpClient.SendAsync(request);
             //Arrange
@@ -51,7 +51,7 @@ namespace Codit.IntegrationTest
         {
             //Arrange
             int id = -1;
-            var request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/car/{id}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/car/{id}");
             //Act
             var response = await _httpClient.SendAsync(request);
             //Assert
