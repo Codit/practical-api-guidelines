@@ -29,7 +29,7 @@ namespace Codit.IntegrationTest
         public async Task GetCustomizations_Ok_TestAsync()
         {
             //Arrange
-            var request = new HttpRequestMessage(new HttpMethod("GET"), "/codito/v1/customization");
+            var request = new HttpRequestMessage(HttpMethod.Get, "/codito/v1/customization");
             //Act
             var response = await _httpClient.SendAsync(request);
             //Assert
@@ -41,7 +41,7 @@ namespace Codit.IntegrationTest
         {
             //Arrange
             int id = 1;
-            var request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/customization/{id}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/customization/{id}");
             //Act
             var response = await _httpClient.SendAsync(request);
             //Assert
@@ -54,7 +54,7 @@ namespace Codit.IntegrationTest
         {
             //Arrange
             int id = -1;
-            var request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/customization/{id}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/customization/{id}");
             //Act
             var response = await _httpClient.SendAsync(request);
             //Assert
@@ -102,7 +102,7 @@ namespace Codit.IntegrationTest
         {
             //Arrange
             int id = -1;
-            var request = new HttpRequestMessage(new HttpMethod("DELETE"), $"/codito/v1/customization/{id}");
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"/codito/v1/customization/{id}");
             //Act
             var response = await _httpClient.SendAsync(request);           
             //Assert
@@ -115,14 +115,14 @@ namespace Codit.IntegrationTest
         {
             //Arrange
             int id = 1;
-            var request = new HttpRequestMessage(new HttpMethod("DELETE"), $"/codito/v1/customization/{id}");
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"/codito/v1/customization/{id}");
             //Act
             var response = await _httpClient.SendAsync(request);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-            request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/customization/{id}");
+            request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/customization/{id}");
             response = await _httpClient.SendAsync(request);
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -133,17 +133,17 @@ namespace Codit.IntegrationTest
             //Arrange
             int id = 1;
 
-            var request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/customization/{id}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/customization/{id}");
             var response = await _httpClient.SendAsync(request);
             var actualDto = JsonConvert.DeserializeObject<CustomizationDto>(await response.Content.ReadAsStringAsync());
 
-            request = new HttpRequestMessage(new HttpMethod("POST"), $"/codito/v1/customization/{id}/sale");
+            request = new HttpRequestMessage(HttpMethod.Post, $"/codito/v1/customization/{id}/sale");
             //Act
             response = await _httpClient.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Accepted);
             // (Inventory must be decremented, number of sales incremented.
-            request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/customization/{id}");
+            request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/customization/{id}");
             response = await _httpClient.SendAsync(request);
             var updatedDto = JsonConvert.DeserializeObject<CustomizationDto>(await response.Content.ReadAsStringAsync());
 
@@ -157,7 +157,7 @@ namespace Codit.IntegrationTest
         {
             //Arrange
             int id = -1;
-            var request = new HttpRequestMessage(new HttpMethod("POST"), $"/codito/v1/customization/{id}/sale");
+            var request = new HttpRequestMessage(HttpMethod.Post, $"/codito/v1/customization/{id}/sale");
             //Act
             var response = await _httpClient.SendAsync(request);
             //Assert
@@ -182,27 +182,14 @@ namespace Codit.IntegrationTest
             var newDto = JsonConvert.DeserializeObject<CustomizationDto>(await response.Content.ReadAsStringAsync());
             int id = newDto.Id;
             //(Try to sell this "sold out" customization)          
-            request = new HttpRequestMessage(new HttpMethod("POST"), $"/codito/v1/customization/{id}/sale");
+            request = new HttpRequestMessage(HttpMethod.Post, $"/codito/v1/customization/{id}/sale");
 
             //Act
             response = await _httpClient.SendAsync(request);
-            
+
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
         }
-
-        //[Fact]
-        //public async Task VoteAsBestPlayer_NotFound_TestAsync()
-        //{
-        //    //Arrange
-        //    int playerId = -1;
-        //    var request = new HttpRequestMessage(new HttpMethod("POST"), $"/world-cup/v1/players/{playerId}/vote");
-        //    //Act
-        //    var response = await _httpClient.SendAsync(request);
-        //    //Assert
-        //    response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        //}
 
         [Fact]
         public async Task UpdateCustomizationIncremental_NotFound_TestAsync()
@@ -213,7 +200,6 @@ namespace Codit.IntegrationTest
             {
                 InventoryLevel = 100
             };
-
 
             var request = TestExtensions.GetJsonRequest(customization, "PATCH", $"/codito/v1/customization/{id}");
 
@@ -234,7 +220,7 @@ namespace Codit.IntegrationTest
                 InventoryLevel = 100
             };
 
-            var request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/customization/{id}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/customization/{id}");
             var response = await _httpClient.SendAsync(request);
             var actualDto = JsonConvert.DeserializeObject<CustomizationDto>(await response.Content.ReadAsStringAsync());
             request = TestExtensions.GetJsonRequest(customization, "PATCH", $"/codito/v1/customization/{id}");
@@ -246,7 +232,7 @@ namespace Codit.IntegrationTest
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-            request = new HttpRequestMessage(new HttpMethod("GET"), $"/codito/v1/customization/{id}");
+            request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/customization/{id}");
             response = await _httpClient.SendAsync(request);
             var updatedDto = JsonConvert.DeserializeObject<CustomizationDto>(await response.Content.ReadAsStringAsync());
             updatedDto.Id.Should().Be(actualDto.Id);
@@ -259,22 +245,6 @@ namespace Codit.IntegrationTest
             // this one is updated
             updatedDto.InventoryLevel.Should().Be(customization.InventoryLevel);
             updatedDto.InventoryLevel.Should().NotBe(actualDto.InventoryLevel);
-
-
         }
-
-
-
-        //[Fact]
-        //public async Task DeletePlayer_NotFound_TestAsync()
-        //{
-        //    //Arrange
-        //    int playerId = 1;
-        //    var request = new HttpRequestMessage(new HttpMethod("DELETE"), $"/world-cup/v1/players/{playerId}");
-        //    //Act
-        //    var response = await _httpClient.SendAsync(request);
-        //    //Assert
-        //    response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        //}
     }
 }
