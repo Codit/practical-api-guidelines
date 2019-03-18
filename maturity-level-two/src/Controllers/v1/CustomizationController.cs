@@ -115,13 +115,21 @@ namespace Codit.LevelTwo.Controllers.v1
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> DeleteCustomization(int id)
         {
-            var customizationObj = await _coditoRepository.GetCustomizationAsync(id);
-            if (customizationObj == null)
+            //var customizationObj = await _coditoRepository.GetCustomizationAsync(id);
+            //if (customizationObj == null)
+            //{
+            //    return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
+            //}
+            int numberOfChanges = await _coditoRepository.DeleteCustomizationAsync(id);
+            if(numberOfChanges > 0)
             {
-                return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
+                return NoContent();
             }
-            await _coditoRepository.DeleteCustomizationAsync(id);
-            return NoContent();
+            else
+            {
+                return NotFound();
+            }
+            
         }
 
         /// <summary>
@@ -159,25 +167,21 @@ namespace Codit.LevelTwo.Controllers.v1
         /// <returns>Acknowledge that the c</returns>
         [HttpPost("{id}/sale", Name = Constants.RouteNames.v1.SellCustomization)]
         [SwaggerResponse((int)HttpStatusCode.Accepted, "Sale accepted. No response body")]
-        [SwaggerResponse((int)HttpStatusCode.BadRequest, "Out of stock")]
+        [SwaggerResponse(405, "Out of stock")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, "Car customization not found")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
-        public Task<IActionResult> SellCustomization(int id)
+        public async Task<IActionResult> SellCustomization(int id)
         {
-            //var customization = await _coditoRepository.GetCustomizationAsync(id);
-            //if (customization == null)
-            //{
-            //    return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
-            //}
-            //if (customization.InventoryLevel <= 0)
-            //{
-            //    return BadRequest();
-            //}
-            //await _coditoRepository.ApplyCustomizationSaleAsync(id);
-
-            // return Accepted();
-
-            return (Task<IActionResult>)_coditoRepository.ApplyCustomizationSaleAsync(id);
+            SalesRequestResult result = await _coditoRepository.ApplyCustomizationSaleAsync(id);
+            switch (result)
+            {
+                case SalesRequestResult.NotFound:
+                    return NotFound();
+                case SalesRequestResult.OutOfStock:
+                    return StatusCode(405);
+                default:
+                    return Accepted();
+            }
         }
     }
 }

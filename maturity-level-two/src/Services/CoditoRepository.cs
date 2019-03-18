@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 using Codit.LevelTwo.Entities;
 using Codit.LevelTwo.Extensions;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Codit.LevelTwo.Services
 {
     public class CoditoRepository : ICoditoRepository
     {
+
         private readonly CoditoContext _coditoContext;
 
         public CoditoRepository(CoditoContext coditoContext)
@@ -24,6 +25,11 @@ namespace Codit.LevelTwo.Services
             return await _coditoContext.Cars.AnyAsync(car => car.Id == id);
         }
 
+        public async Task<bool> CustomizationExistsAsync(int id)
+        {
+            return await _coditoContext.Customizations.AnyAsync(customization => customization.Id == id);
+        }
+
         public async Task<IEnumerable<Car>> GetCarsAsync(CarBodyType? bodyType)
         {
             if (bodyType == null)
@@ -31,7 +37,6 @@ namespace Codit.LevelTwo.Services
                 return await _coditoContext.Cars.OrderBy(car => car.Id).ToListAsync();
             }
             return await _coditoContext.Cars.Where(car => car.BodyType == bodyType).OrderBy(car => car.Id).ToListAsync();
-
         }
 
         public async Task<Car> GetCarAsync(int id, bool includeCustomization)
@@ -82,41 +87,53 @@ namespace Codit.LevelTwo.Services
             await _coditoContext.SaveChangesAsync();
         }
 
-        public async Task DeleteCustomizationAsync(int id)
+        public async Task<int> DeleteCustomizationAsync(int id)
         {
-            var entityToDelete = _coditoContext.Customizations.Find(id);
-            _coditoContext.Customizations.Remove(entityToDelete);
-            await _coditoContext.SaveChangesAsync();
+
+            bool exists = await CustomizationExistsAsync(id);
+
+            if (exists)
+            {
+                var entityToDelete = new Customization();
+                Type type = entityToDelete.GetType();
+                PropertyInfo prop = type.GetProperty("Id");
+                prop.SetValue(entityToDelete, id, null);
+                _coditoContext.Customizations.Attach(entityToDelete);
+                _coditoContext.Customizations.Remove(entityToDelete);
+                
+                // return number of changes
+                return await _coditoContext.SaveChangesAsync();
+            }
+            else
+            {
+                return 0;
+            }
+            
         }
 
-        public async Task<IActionResult> ApplyCustomizationSaleAsync(int id)
+        public async Task<SalesRequestResult> ApplyCustomizationSaleAsync(int id)
         {
-
-            var customization = await _coditoContext.Customizations.FindAsync(id);
-
-            IActionResult response;
-            if (customization != null)
+            bool exists = await CustomizationExistsAsync(id);
+           
+            if (exists)
             {
+                var customization = await _coditoContext.Customizations.FindAsync(id);
                 if (customization.InventoryLevel > 0)
                 {
-                    customization.InventoryLevel--;
-                    customization.NumberSold++;
+                    customization.Sell();
                     _coditoContext.Customizations.Update(customization);
                     await _coditoContext.SaveChangesAsync();
-                    response = new AcceptedResult();
+                    return SalesRequestResult.Accepted;
                 }
                 else
                 {
-                    response = new BadRequestResult();
-
+                    return SalesRequestResult.OutOfStock;
                 }               
             }
             else
             {
-                response = new NotFoundResult();
-            }
-            return response;
-
+                return SalesRequestResult.NotFound;
+            }          
         }       
     }
 }

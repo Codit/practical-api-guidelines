@@ -12,6 +12,8 @@ namespace Codit.LevelTwo.Services
     {
         Task<bool> CarExistsAsync(int id);
 
+        Task<bool> CustomizationExistsAsync(int id);
+
         Task<IEnumerable<Car>> GetCarsAsync(CarBodyType? bodyType);
 
         Task<Car> GetCarAsync(int id, bool includeCustomization);
@@ -24,8 +26,8 @@ namespace Codit.LevelTwo.Services
 
         Task ApplyPatchAsync<TEntity, TDto>(TEntity entityToUpdate, TDto dto) where TEntity : class;
 
-        Task<IActionResult> ApplyCustomizationSaleAsync(int id);
+        Task<SalesRequestResult> ApplyCustomizationSaleAsync(int id);
 
-        Task DeleteCustomizationAsync(int id);
+        Task<int> DeleteCustomizationAsync(int id);
     }
 }

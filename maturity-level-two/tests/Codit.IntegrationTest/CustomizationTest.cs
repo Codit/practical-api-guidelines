@@ -98,7 +98,7 @@ namespace Codit.IntegrationTest
         }
 
         [Fact]
-        public async Task DeleteCustomization_NoContent_TestAsync()
+        public async Task DeleteCustomization_NotFound_TestAsync()
         {
             //Arrange
             int id = -1;
@@ -111,7 +111,7 @@ namespace Codit.IntegrationTest
         }
 
         [Fact]
-        public async Task DeleteCustomization_NotFound_TestAsync()
+        public async Task DeleteCustomization_NoContent_TestAsync()
         {
             //Arrange
             int id = 1;
@@ -165,7 +165,7 @@ namespace Codit.IntegrationTest
         }
 
         [Fact]
-        public async Task SellCustomization_SoldOutBadRequest_TestAsync()
+        public async Task SellCustomization_SoldOut405_TestAsync()
         {
             //Arrange
             //(Create new customization. InventoryLevel is not set, so will be zero.)
@@ -188,7 +188,7 @@ namespace Codit.IntegrationTest
             response = await _httpClient.SendAsync(request);
             
             //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            response.StatusCode.Should().Be(405);
 
         }
 

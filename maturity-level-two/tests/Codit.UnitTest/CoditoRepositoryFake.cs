@@ -61,7 +61,7 @@ namespace Codit.UnitTest
             });
         }
 
-        public async Task<IActionResult> ApplyCustomizationSaleAsync(int id)
+        public async Task<SalesRequestResult> ApplyCustomizationSaleAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -81,7 +81,12 @@ namespace Codit.UnitTest
             throw new NotImplementedException();
         }
 
-        public Task DeleteCustomizationAsync(int id)
+        public Task<bool> CustomizationExistsAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> DeleteCustomizationAsync(int id)
         {
             throw new NotImplementedException();
         }

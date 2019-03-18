@@ -22,5 +22,11 @@ namespace Codit.LevelTwo.Entities
         public Car Car { get; set; }
 
         public int CarId { get; set; }
+
+        public void Sell()
+        {
+            NumberSold += 1;
+            InventoryLevel -= 1;
+        }
     }
 }
