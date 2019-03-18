@@ -167,7 +167,7 @@ namespace Codit.LevelTwo.Controllers.v1
         /// <returns>Acknowledge that the c</returns>
         [HttpPost("{id}/sale", Name = Constants.RouteNames.v1.SellCustomization)]
         [SwaggerResponse((int)HttpStatusCode.Accepted, "Sale accepted. No response body")]
-        [SwaggerResponse(405, "Out of stock")]
+        [SwaggerResponse((int)HttpStatusCode.Conflict, "Out of stock")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, "Car customization not found")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> SellCustomization(int id)
@@ -178,7 +178,7 @@ namespace Codit.LevelTwo.Controllers.v1
                 case SalesRequestResult.NotFound:
                     return NotFound();
                 case SalesRequestResult.OutOfStock:
-                    return StatusCode(405);
+                    return Conflict();
                 default:
                     return Accepted();
             }
