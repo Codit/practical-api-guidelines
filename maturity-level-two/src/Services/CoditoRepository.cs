@@ -13,8 +13,7 @@ namespace Codit.LevelTwo.Services
 {
     public class CoditoRepository : ICoditoRepository
     {
-
-        public CoditoContext _coditoContext;
+        private readonly CoditoContext _coditoContext;
 
         public CoditoRepository(CoditoContext coditoContext)
         {
