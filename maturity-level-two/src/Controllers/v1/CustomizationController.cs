@@ -122,7 +122,7 @@ namespace Codit.LevelTwo.Controllers.v1
             }
             else
             {
-                return NotFound();
+                return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
             }           
         }
 
@@ -170,7 +170,7 @@ namespace Codit.LevelTwo.Controllers.v1
             switch (result)
             {
                 case SalesRequestResult.NotFound:
-                    return NotFound();
+                    return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
                 case SalesRequestResult.OutOfStock:
                     return Conflict();
                 default:
