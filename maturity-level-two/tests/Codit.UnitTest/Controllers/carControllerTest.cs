@@ -27,7 +27,7 @@ namespace Codit.UnitTest.Controllers
         public async Task GetCars_test()
         {
             //act
-            var cars = (await _controller.GetCars()) as OkObjectResult;
+            var cars = (await _controller.GetCars(null)) as OkObjectResult;
 
             //assert
             Assert.NotNull(cars);
