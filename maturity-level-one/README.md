@@ -5,7 +5,8 @@
    -  [Versioning](#versioning)
    -  [Data Contracts](#data-contracts)
    -  [HTTP Methods](#http-methods)
-   -  [HTTP Status Codes](#http-status-codes)
+   -  [HTTP Status Codes](#http-status-codes
+   )
 2. [Security-first](#security-first)
 3. [Error Handling](#error-handling)
 4. [Document your APIs](#document-your-apis)

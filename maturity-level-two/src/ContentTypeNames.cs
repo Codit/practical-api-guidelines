@@ -1,8 +1,8 @@
 ﻿namespace Codit.LevelTwo
 {
-    public static class ContentTypeNames
+    static class ContentTypeNames
     {
-        public static class Application
+        internal static class Application
         {
             public const string Json = "application/json";
             public const string JsonPatch = "application/json-patch+json";

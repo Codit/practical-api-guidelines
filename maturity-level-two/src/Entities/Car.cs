@@ -7,7 +7,7 @@ namespace Codit.LevelTwo.Entities
     public class Car
     {
         [Key]
-        public int Id { get; set; }
+        public int Id { get; private set; }
 
         [Required]
         public string Brand { get; set; }
@@ -20,7 +20,7 @@ namespace Codit.LevelTwo.Entities
 
         public string Description { get; set; }
 
-        public ICollection<Customization> Customizations { get; set; } = new List<Customization>();
+        public ICollection<Customization> Customizations { get; } = new List<Customization>();
 
 
     }

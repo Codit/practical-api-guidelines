@@ -60,12 +60,19 @@
             <remarks>Update the customization profile (incremental update)</remarks>
             <returns>Acknowledge the object has been updated</returns>
         </member>
-        <member name="M:Codit.LevelTwo.Controllers.v1.CustomizationController.VoteAsBestPlayer(System.Int32)">
+        <member name="M:Codit.LevelTwo.Controllers.v1.CustomizationController.SellCustomization(System.Int32)">
             <summary>
             Sell a car customization
             </summary>
             <param name="id">Customization identifier</param>
             <returns>Acknowledge that the c</returns>
+        </member>
+        <member name="M:Codit.LevelTwo.Controllers.v1.ErrorController.Error(System.Int32)">
+            <summary>
+            Manages the unmatched routes
+            </summary>
+            <param name="code">HTTP status code</param>
+            <returns>Error formatted as application/problem+json</returns>
         </member>
         <member name="M:Codit.LevelTwo.Controllers.v1.HealthController.Get">
             <summary>
@@ -135,13 +142,6 @@
             <summary>
                 Configure routing
             </summary>
-        </member>
-        <member name="M:Codit.LevelOne.Controllers.v1.ErrorController.Error(System.Int32)">
-            <summary>
-            Manages the unmatched routes
-            </summary>
-            <param name="code">HTTP status code</param>
-            <returns>Error formatted as application/problem+json</returns>
         </member>
     </members>
 </doc>

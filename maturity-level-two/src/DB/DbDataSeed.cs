@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Codit.LevelTwo.Entities;
 using System.Collections.Generic;
 using System.Linq;
-using Codit.LevelTwo.Entities;
 
 namespace Codit.LevelTwo.DB
 {
@@ -21,52 +20,44 @@ namespace Codit.LevelTwo.DB
                     Brand = "Volkswagen",
                     Model = "Tiguan",
                     BodyType = CarBodyType.SUV,
-                    Description = "Volkswagen's SUV model.",
-                    
-                    Customizations = new List<Customization>
-                    {
-                        new Customization
-                        {
-                            NumberSold = 5,
-                            Name = "Tiguan Trendline",
-                            Url = "https://fake-url.com",
-                            InventoryLevel = 4
-                        },
-                        new Customization
-                        {
-                            NumberSold = 3,
-                            Name = "Tiguan Comfortline",
-                            Url = "https://fake-url.com",
-                            InventoryLevel = 4
-                        }
-                    }
+                    Description = "Volkswagen's SUV model."
                 },
                 new Car
                 {
                     Brand = "Skoda",
                     Model = "Octavia Combi",
                     BodyType = CarBodyType.Break,
-                    Description = "Skoda's most popular break.",
-
-                    Customizations = new List<Customization>
-                    {
-                        new Customization
-                        {
-                            NumberSold = 3,
-                            Name = "Octavia Combi RS",
-                            Url = "https://fake-url.com",
-                            InventoryLevel = 8
-                        },
-                        new Customization
-                        {
-                            NumberSold = 4,
-                            Name = "Octavia Combi Scout",
-                            Url = "https://fake-url.com",
-                            InventoryLevel = 6
-                        }
-                    }
+                    Description = "Skoda's most popular break."
                 }
             };
+            cars[0].Customizations.Add(new Customization
+            {
+                NumberSold = 5,
+                Name = "Tiguan Trendline",
+                Url = "https://fake-url.com",
+                InventoryLevel = 4
+            });
+            cars[0].Customizations.Add(new Customization
+            {
+                NumberSold = 3,
+                Name = "Tiguan Comfortline",
+                Url = "https://fake-url.com",
+                InventoryLevel = 4
+            });
+            cars[1].Customizations.Add(new Customization
+            {
+                NumberSold = 3,
+                Name = "Octavia Combi RS",
+                Url = "https://fake-url.com",
+                InventoryLevel = 8
+            });
+            cars[1].Customizations.Add(new Customization
+            {
+                NumberSold = 4,
+                Name = "Octavia Combi Scout",
+                Url = "https://fake-url.com",
+                InventoryLevel = 6
+            });
 
             context.Cars.AddRange(cars);
             context.SaveChanges();

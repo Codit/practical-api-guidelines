@@ -77,9 +77,7 @@ namespace Codit.LevelTwo.Controllers.v1
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Invalid request")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> Create(NewCustomizationDto newCustomization)
-        {
-
-            
+        {           
             if (newCustomization.CarId == -9999)
             {
                 throw new ArgumentException("this is evil code");
@@ -117,8 +115,8 @@ namespace Codit.LevelTwo.Controllers.v1
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> DeleteCustomization(int id)
         {
-            var CustomizationObj = await _coditoRepository.GetCustomizationAsync(id);
-            if (CustomizationObj == null)
+            var customizationObj = await _coditoRepository.GetCustomizationAsync(id);
+            if (customizationObj == null)
             {
                 return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
             }
@@ -139,14 +137,15 @@ namespace Codit.LevelTwo.Controllers.v1
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> UpdateIncremental(int id, [FromBody] CustomizationDto customizationDto)
         {
-            var CustomizationObj = await _coditoRepository.GetCustomizationAsync(id);
-            if (CustomizationObj == null)
+            var customizationObj = await _coditoRepository.GetCustomizationAsync(id);
+            if (customizationObj == null)
             {
                 return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
             }
 
+            // User passes Id as a parameter. If an Id is passed in the body, it is ignored.
+            customizationDto.Id = id;
             var customizationUpdated = Mapper.Map<Customization>(customizationDto);
-            customizationUpdated.Id = id;
 
             await _coditoRepository.ApplyPatchAsync<Customization, CustomizationDto>(customizationUpdated, customizationDto);
             return NoContent();
@@ -163,24 +162,22 @@ namespace Codit.LevelTwo.Controllers.v1
         [SwaggerResponse((int)HttpStatusCode.BadRequest, "Out of stock")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, "Car customization not found")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
-        public async Task<IActionResult> VoteAsBestPlayer(int id)
+        public Task<IActionResult> SellCustomization(int id)
         {
-            var customization = await _coditoRepository.GetCustomizationAsync(id);
-            if (customization == null)
-            {
-                return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
-            }
-            if (customization.InventoryLevel <= 0)
-            {
-                return BadRequest();
-            }
+            //var customization = await _coditoRepository.GetCustomizationAsync(id);
+            //if (customization == null)
+            //{
+            //    return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
+            //}
+            //if (customization.InventoryLevel <= 0)
+            //{
+            //    return BadRequest();
+            //}
+            //await _coditoRepository.ApplyCustomizationSaleAsync(id);
 
-            await _coditoRepository.ApplyCustomizationSaleAsync(customization);
+            // return Accepted();
 
-            return Accepted();
+            return (Task<IActionResult>)_coditoRepository.ApplyCustomizationSaleAsync(id);
         }
-
-
-
     }
 }

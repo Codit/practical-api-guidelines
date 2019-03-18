@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 using Codit.LevelTwo.Entities;
 using Codit.LevelTwo.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
-
 
 namespace Codit.LevelTwo.Services
 {
@@ -49,9 +48,7 @@ namespace Codit.LevelTwo.Services
 
         public async Task<IEnumerable<Customization>> GetAllCustomizationsAsync()
         {
-
            return await _coditoContext.Customizations.OrderByDescending(cust => cust.NumberSold).ToListAsync();
-
         }
 
         public async Task<Customization> GetCustomizationAsync(int id)
@@ -77,7 +74,10 @@ namespace Codit.LevelTwo.Services
 
             foreach (var property in properties)
             {
-                _coditoContext.Entry(entityToUpdate).Property(property).IsModified = true;
+                if(!_coditoContext.Entry(entityToUpdate).Property(property).Metadata.IsKey())
+                {
+                    _coditoContext.Entry(entityToUpdate).Property(property).IsModified = true;
+                }               
             }
 
             await _coditoContext.SaveChangesAsync();
@@ -90,17 +90,34 @@ namespace Codit.LevelTwo.Services
             await _coditoContext.SaveChangesAsync();
         }
 
-        public async Task ApplyCustomizationSaleAsync(Customization customization)
+        public async Task<IActionResult> ApplyCustomizationSaleAsync(int id)
         {
-            //var entity = await _coditoContext.Customizations.Where(cust => cust.Id == id).FirstOrDefaultAsync();
-            customization.InventoryLevel --;
-            customization.NumberSold++;
 
-            _coditoContext.Customizations.Update(customization);
+            var customization = await _coditoContext.Customizations.FindAsync(id);
 
-            await _coditoContext.SaveChangesAsync();
-        }
+            IActionResult response;
+            if (customization != null)
+            {
+                if (customization.InventoryLevel > 0)
+                {
+                    customization.InventoryLevel--;
+                    customization.NumberSold++;
+                    _coditoContext.Customizations.Update(customization);
+                    await _coditoContext.SaveChangesAsync();
+                    response = new AcceptedResult();
+                }
+                else
+                {
+                    response = new BadRequestResult();
 
-        
+                }               
+            }
+            else
+            {
+                response = new NotFoundResult();
+            }
+            return response;
+
+        }       
     }
 }

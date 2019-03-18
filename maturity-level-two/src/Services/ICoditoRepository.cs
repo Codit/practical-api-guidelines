@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Codit.LevelTwo.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Codit.LevelTwo.Services
 {
@@ -20,12 +21,11 @@ namespace Codit.LevelTwo.Services
         Task<Customization> GetCustomizationAsync(int id);
 
         Task CreateCustomizationAsync(Customization customization);
+
         Task ApplyPatchAsync<TEntity, TDto>(TEntity entityToUpdate, TDto dto) where TEntity : class;
 
-        Task ApplyCustomizationSaleAsync(Customization customization);
+        Task<IActionResult> ApplyCustomizationSaleAsync(int id);
 
         Task DeleteCustomizationAsync(int id);
-
-
     }
 }
