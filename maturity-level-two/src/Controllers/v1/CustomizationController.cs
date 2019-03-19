@@ -172,7 +172,7 @@ namespace Codit.LevelTwo.Controllers.v1
                 case SalesRequestResult.NotFound:
                     return NotFound(new ProblemDetailsError(StatusCodes.Status404NotFound));
                 case SalesRequestResult.OutOfStock:
-                    return Conflict();
+                    return Conflict(new ProblemDetailsError(StatusCodes.Status409Conflict));
                 default:
                     return Accepted();
             }
