@@ -12,7 +12,7 @@ namespace Codit.LevelTwo.Models
 
         public string Model { get; set; }
 
-        public ICollection<CustomizationDto> Customizations { get; set; }
+        public List<CustomizationDto> Customizations { get; set; }
                 = new List<CustomizationDto>();
     }
 }

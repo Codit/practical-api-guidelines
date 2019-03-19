@@ -83,6 +83,7 @@ namespace Codit.LevelTwo.Extensions
                     cfg.ReturnHttpNotAcceptable = true; // Return 406 for not acceptable media types
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddXmlSerializerFormatters()
                 .AddJsonOptions(opt =>
                 {
                     //explicit datetime configuration
