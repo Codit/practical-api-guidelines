@@ -20,7 +20,8 @@ namespace Codit.LevelTwo.Services
         Task<Customization> GetCustomizationAsync(int id);
 
         Task CreateCustomizationAsync(Customization customization);
-        Task ApplyPatchAsync<TEntity, TDto>(TEntity entityToUpdate, TDto dto) where TEntity : class;
+        //Task ApplyPatchAsync<TEntity, TDto>(TEntity entityToUpdate, TDto dto) where TEntity : class;
+        Task ApplyPatchAsync<TEntity>(TEntity entityUpdated) where TEntity : class;
 
         Task ApplyCustomizationSaleAsync(Customization customization);
 

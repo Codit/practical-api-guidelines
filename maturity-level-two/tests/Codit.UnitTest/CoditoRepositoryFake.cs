@@ -73,7 +73,7 @@ namespace Codit.UnitTest
             throw new NotImplementedException();
         }
 
-        public Task ApplyPatchAsync<TEntity, TDto>(TEntity entityToUpdate, TDto dto) where TEntity : class
+        public Task ApplyPatchAsync<TEntity>(TEntity entityUpdated) where TEntity : class
         {
             throw new NotImplementedException();
         }
