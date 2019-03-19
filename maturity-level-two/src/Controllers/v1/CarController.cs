@@ -22,7 +22,6 @@ namespace Codit.LevelTwo.Controllers.v1
         public CarController(ICoditoRepository coditoRepository)
         {
             _coditoRepository = coditoRepository;
-            AutoMapperConfig.Initialize();
         }
 
         /// <summary>
