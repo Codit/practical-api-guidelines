@@ -7,12 +7,10 @@ using FluentAssertions;
 
 namespace Codit.UnitTest.Mappings
 {
+    [Collection("AutoMapper")]
     public class AutomapperTest
     {
-        public AutomapperTest()
-        {
-            AutoMapperConfig.Initialize();
-        }
+        AutoMapperTestFixture autoMapperTextFixture;
 
         [Fact]
         public void Map_CustomizationToDto_Test()

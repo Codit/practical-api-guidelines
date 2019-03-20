@@ -12,15 +12,16 @@ using Codit.LevelTwo;
 
 namespace Codit.UnitTest.Controllers
 {
+    [Collection("AutoMapper")]
     public class CustomizationControllerTest
     {
+        AutoMapperTestFixture autoMapperTextFixture;
 
         private readonly CustomizationController _controller;
 
         public CustomizationControllerTest()
         {
             _controller = new CustomizationController(new CoditoRepositoryFake());
-            AutoMapperConfig.Initialize();
         }
 
         [Fact]

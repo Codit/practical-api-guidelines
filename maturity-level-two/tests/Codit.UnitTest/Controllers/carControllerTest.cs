@@ -13,14 +13,16 @@ using Codit.UnitTest;
 
 namespace Codit.UnitTest.Controllers
 {
+    [Collection("AutoMapper")]
     public class CarControllerTest
     {
+        AutoMapperTestFixture autoMapperTextFixture;
+
         private readonly CarController _controller;
 
         public CarControllerTest()
         {
             _controller = new CarController(new CoditoRepositoryFake());
-            AutoMapperConfig.Initialize();
         }
 
         [Fact]
