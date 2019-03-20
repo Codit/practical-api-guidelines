@@ -10,7 +10,6 @@ namespace Codit.UnitTest.Mappings
     [Collection("AutoMapper")]
     public class AutomapperTest
     {
-        AutoMapperTestFixture autoMapperTextFixture;
 
         [Fact]
         public void Map_CustomizationToDto_Test()

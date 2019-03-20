@@ -16,7 +16,6 @@ namespace Codit.UnitTest.Controllers
     [Collection("AutoMapper")]
     public class CarControllerTest
     {
-        AutoMapperTestFixture autoMapperTextFixture;
 
         private readonly CarController _controller;
 
