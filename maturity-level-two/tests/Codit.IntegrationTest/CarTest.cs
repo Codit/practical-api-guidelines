@@ -1,6 +1,6 @@
 using Xunit;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.AspNetCore.Hosting;
+//using Microsoft.AspNetCore.TestHost;
+//using Microsoft.AspNetCore.Hosting;
 using System.Net.Http;
 using System.Net;
 using System.Threading.Tasks;
@@ -15,12 +15,12 @@ namespace Codit.IntegrationTest
         private readonly HttpClient _httpClient;
         public CarTest()
         {
-            if (_httpClient != null) return;
-            var srv = new TestServer(new WebHostBuilder()
-                .UseEnvironment("Development")
-                .UseStartup<Startup>());
+            //if (_httpClient != null) return;
+            //var srv = new TestServer(new WebHostBuilder()
+            //    .UseEnvironment("Development")
+            //    .UseStartup<Startup>());
 
-            _httpClient = srv.CreateClient();
+            //_httpClient = srv.CreateClient();
         }
 
         [Fact]
