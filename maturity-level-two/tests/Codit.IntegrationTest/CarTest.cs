@@ -10,17 +10,14 @@ using Codit.LevelTwo;
 
 namespace Codit.IntegrationTest
 {
+    [Collection("TestServer")]
     public class CarTest
     {
-        private readonly HttpClient _httpClient;
-        public CarTest()
-        {
-            //if (_httpClient != null) return;
-            //var srv = new TestServer(new WebHostBuilder()
-            //    .UseEnvironment("Development")
-            //    .UseStartup<Startup>());
+        TestServerFixture fixture;
 
-            //_httpClient = srv.CreateClient();
+        public CarTest(TestServerFixture fixture)
+        {
+            this.fixture = fixture;
         }
 
         [Fact]
@@ -29,7 +26,7 @@ namespace Codit.IntegrationTest
             //Arrange
             var request = new HttpRequestMessage(HttpMethod.Get, "/codito/v1/car");
             //Act
-            var response = await _httpClient.SendAsync(request);
+            var response = await fixture._httpClient.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -41,7 +38,7 @@ namespace Codit.IntegrationTest
             int id = 1;
             var request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/car/{id}");
             //Act
-            var response = await _httpClient.SendAsync(request);
+            var response = await fixture._httpClient.SendAsync(request);
             //Arrange
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -53,7 +50,7 @@ namespace Codit.IntegrationTest
             int id = -1;
             var request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/car/{id}");
             //Act
-            var response = await _httpClient.SendAsync(request);
+            var response = await fixture._httpClient.SendAsync(request);
             //Assert
             response.Content.Headers.Should().NotBeNullOrEmpty();
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);

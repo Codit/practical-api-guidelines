@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using Xunit;
 
 namespace Codit.IntegrationTest
 {
     public class TestServerFixture
     {
-        private readonly HttpClient _httpClient;
+        internal readonly HttpClient _httpClient;
 
         public TestServerFixture()
         {
@@ -22,6 +23,11 @@ namespace Codit.IntegrationTest
             _httpClient = srv.CreateClient();
 
         }
+    }
+
+    [CollectionDefinition("TestServer")]
+    public class TestServerCollection : ICollectionFixture<TestServerFixture>
+    {
     }
 
 
