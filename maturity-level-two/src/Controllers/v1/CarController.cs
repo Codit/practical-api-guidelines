@@ -15,6 +15,7 @@ namespace Codit.LevelTwo.Controllers.v1
     [Route("codito/v1/[controller]")]
     [ApiController]
     [ValidateModel]
+    [SwaggerResponse((int)HttpStatusCode.BadRequest, "Input validation error.")]
     public class CarController : ControllerBase
     {
         private readonly ICoditoRepository _coditoRepository;

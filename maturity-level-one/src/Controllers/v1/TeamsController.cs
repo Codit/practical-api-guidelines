@@ -17,6 +17,7 @@ namespace Codit.LevelOne.Controllers.v1
     [Route("world-cup/v1/[controller]")]
     [ApiController]
     [ValidateModel]
+    [SwaggerResponse((int)HttpStatusCode.BadRequest, "Input validation error.")]
     public class TeamsController : ControllerBase
     {
         private readonly IWorldCupRepository _worldCupRepository;
