@@ -149,7 +149,7 @@ namespace Codit.LevelTwo.Controllers.v1
             customizationDto.Id = id;
             var customizationUpdated = Mapper.Map<Customization>(customizationDto);
 
-            await _coditoRepository.ApplyPatchAsync<Customization, CustomizationDto>(customizationUpdated, customizationDto);
+            await _coditoRepository.ApplyPatchAsync(customizationUpdated);
             return NoContent();
 
         }
