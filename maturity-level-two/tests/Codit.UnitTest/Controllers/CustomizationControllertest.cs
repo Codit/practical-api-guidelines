@@ -12,6 +12,7 @@ using Codit.LevelTwo;
 
 namespace Codit.UnitTest.Controllers
 {
+    [Collection("AutoMapper")]
     public class CustomizationControllerTest
     {
 
@@ -20,7 +21,6 @@ namespace Codit.UnitTest.Controllers
         public CustomizationControllerTest()
         {
             _controller = new CustomizationController(new CoditoRepositoryFake());
-            AutoMapperConfig.Initialize();
         }
 
         [Fact]
