@@ -66,17 +66,20 @@ namespace Codit.LevelTwo.Services
             
         }
 
-        public async Task ApplyPatchAsync<TEntity, TDto>(TEntity entityToUpdate, TDto dto) where TEntity : class
+        public async Task ApplyPatchAsync<TEntity>(TEntity entityUpdated) where TEntity : class
         {
-            if (dto == null)
-                throw new ArgumentNullException($"{nameof(dto)}", $"{nameof(dto)} cannot be null.");
+            if (entityUpdated == null)
+                throw new ArgumentNullException($"{nameof(entityUpdated)}", $"{nameof(entityUpdated)} cannot be null.");
 
-            var properties = dto.GetFilledProperties();
-            _coditoContext.Attach(entityToUpdate);
+            var properties = entityUpdated.GetFilledProperties();
+            _coditoContext.Attach(entityUpdated);
 
             foreach (var property in properties)
             {
-                _coditoContext.Entry(entityToUpdate).Property(property).IsModified = true;
+                if (property != "Id")
+                {
+                    _coditoContext.Entry(entityUpdated).Property(property).IsModified = true;
+                }       
             }
 
             await _coditoContext.SaveChangesAsync();
@@ -99,7 +102,5 @@ namespace Codit.LevelTwo.Services
 
             await _coditoContext.SaveChangesAsync();
         }
-
-        
     }
 }
