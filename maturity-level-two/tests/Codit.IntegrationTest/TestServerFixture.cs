@@ -29,6 +29,4 @@ namespace Codit.IntegrationTest
     public class TestServerCollection : ICollectionFixture<TestServerFixture>
     {
     }
-
-
 }
