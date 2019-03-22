@@ -78,9 +78,9 @@ namespace Codit.LevelTwo.Services
 
             foreach (var property in properties)
             {
-                if(!_coditoContext.Entry(entityToUpdate).Property(property).Metadata.IsKey())
+                if(!_coditoContext.Entry(entityUpdated).Property(property).Metadata.IsKey())
                 {
-                    _coditoContext.Entry(entityToUpdate).Property(property).IsModified = true;
+                    _coditoContext.Entry(entityUpdated).Property(property).IsModified = true;
                 }               
             }
 
