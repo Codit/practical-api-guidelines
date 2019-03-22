@@ -173,6 +173,7 @@ Here is an example on how to generate them with Swashbuckle
         /// <returns>Return a list of Players</returns>
         [HttpGet(Name = "Players_GetPlayers")]
         [SwaggerResponse((int)HttpStatusCode.OK, "List of players")]
+        [SwaggerResponse((int) HttpStatusCode.BadRequest, "Input validation error.")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public IHttpActionResult GetPlayers(bool topPlayersOnly)	
         {	
@@ -192,7 +193,7 @@ How xml comments and attributes are mapping to the OpenApi output.
 | XML comment | Param name | Parameters/Name | - |
 | XML comment | Param value | Parameters/Description | - |
 | Http Attribute | Name | OperationId | - |
-| SwaggerResponse Attribute | StatusCode | Responseses/{StatusCode} | - |
+| SwaggerResponse Attribute | StatusCode | Responses/{StatusCode} | For all controllers, document all possible return status codes |
 | SwaggerResponse Attribute | Description | Responses/Description |  Technical description. Describe whether a body is returned and any particular header.|
 | Required Attribute | Required | N/A | Used to determine if parameters/fields are required or optional |
 
