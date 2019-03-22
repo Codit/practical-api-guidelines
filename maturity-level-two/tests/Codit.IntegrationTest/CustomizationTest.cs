@@ -162,7 +162,7 @@ namespace Codit.IntegrationTest
         }
 
         [Fact]
-        public async Task SellCustomization_SoldOutBadRequest_TestAsync()
+        public async Task SellCustomization_SoldOut409_TestAsync()
         {
             //Arrange
             //(Create new customization. InventoryLevel is not set, so will be zero.)
@@ -185,7 +185,7 @@ namespace Codit.IntegrationTest
             response = await fixture._httpClient.SendAsync(request);
 
             //Assert
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            response.StatusCode.Should().Be(409);
         }
 
         [Fact]

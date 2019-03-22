@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+
 using System.Threading.Tasks;
 
 using Codit.LevelTwo.Entities;
 using Codit.LevelTwo.Extensions;
 using Microsoft.EntityFrameworkCore;
-
-
 
 namespace Codit.LevelTwo.Services
 {
@@ -25,6 +25,11 @@ namespace Codit.LevelTwo.Services
             return await _coditoContext.Cars.AnyAsync(car => car.Id == id);
         }
 
+        public async Task<bool> CustomizationExistsAsync(int id)
+        {
+            return await _coditoContext.Customizations.AnyAsync(customization => customization.Id == id);
+        }
+
         public async Task<IEnumerable<Car>> GetCarsAsync(CarBodyType? bodyType)
         {
             if (bodyType == null)
@@ -32,7 +37,6 @@ namespace Codit.LevelTwo.Services
                 return await _coditoContext.Cars.OrderBy(car => car.Id).ToListAsync();
             }
             return await _coditoContext.Cars.Where(car => car.BodyType == bodyType).OrderBy(car => car.Id).ToListAsync();
-
         }
 
         public async Task<Car> GetCarAsync(int id, bool includeCustomization)
@@ -48,9 +52,7 @@ namespace Codit.LevelTwo.Services
 
         public async Task<IEnumerable<Customization>> GetAllCustomizationsAsync()
         {
-
            return await _coditoContext.Customizations.OrderByDescending(cust => cust.NumberSold).ToListAsync();
-
         }
 
         public async Task<Customization> GetCustomizationAsync(int id)
@@ -76,31 +78,62 @@ namespace Codit.LevelTwo.Services
 
             foreach (var property in properties)
             {
-                if (property != "Id")
+                if(!_coditoContext.Entry(entityToUpdate).Property(property).Metadata.IsKey())
                 {
-                    _coditoContext.Entry(entityUpdated).Property(property).IsModified = true;
-                }       
+                    _coditoContext.Entry(entityToUpdate).Property(property).IsModified = true;
+                }               
             }
 
             await _coditoContext.SaveChangesAsync();
         }
 
-        public async Task DeleteCustomizationAsync(int id)
+        public async Task<int> DeleteCustomizationAsync(int id)
         {
-            var entityToDelete = _coditoContext.Customizations.Find(id);
-            _coditoContext.Customizations.Remove(entityToDelete);
-            await _coditoContext.SaveChangesAsync();
+
+            bool exists = await CustomizationExistsAsync(id);
+
+            if (exists)
+            {
+                var entityToDelete = new Customization();
+                Type type = entityToDelete.GetType();
+                PropertyInfo prop = type.GetProperty("Id");
+                prop.SetValue(entityToDelete, id, null);
+                _coditoContext.Customizations.Attach(entityToDelete);
+                _coditoContext.Customizations.Remove(entityToDelete);
+                
+                // return number of changes
+                return await _coditoContext.SaveChangesAsync();
+            }
+            else
+            {
+                return 0;
+            }
+            
         }
 
-        public async Task ApplyCustomizationSaleAsync(Customization customization)
+        public async Task<SalesRequestResult> ApplyCustomizationSaleAsync(int id)
         {
-            //var entity = await _coditoContext.Customizations.Where(cust => cust.Id == id).FirstOrDefaultAsync();
-            customization.InventoryLevel --;
-            customization.NumberSold++;
-
-            _coditoContext.Customizations.Update(customization);
-
-            await _coditoContext.SaveChangesAsync();
-        }
+            bool exists = await CustomizationExistsAsync(id);
+           
+            if (exists)
+            {
+                var customization = await _coditoContext.Customizations.FindAsync(id);
+                if (customization.InventoryLevel > 0)
+                {
+                    customization.Sell();
+                    _coditoContext.Customizations.Update(customization);
+                    await _coditoContext.SaveChangesAsync();
+                    return SalesRequestResult.Accepted;
+                }
+                else
+                {
+                    return SalesRequestResult.OutOfStock;
+                }               
+            }
+            else
+            {
+                return SalesRequestResult.NotFound;
+            }          
+        }       
     }
 }

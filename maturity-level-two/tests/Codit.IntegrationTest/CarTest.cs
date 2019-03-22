@@ -32,7 +32,7 @@ namespace Codit.IntegrationTest
         }
 
         [Fact]
-        public async Task GetSingleTeam_Ok_TestAsync()
+        public async Task GetSingleCar_Ok_TestAsync()
         {
             //Arrange
             int id = 1;
@@ -44,7 +44,7 @@ namespace Codit.IntegrationTest
         }
 
         [Fact]
-        public async Task GetSingleTeam_NotFound_TestAsync()
+        public async Task GetSingleCar_NotFound_TestAsync()
         {
             //Arrange
             int id = -1;
@@ -55,6 +55,5 @@ namespace Codit.IntegrationTest
             response.Content.Headers.Should().NotBeNullOrEmpty();
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
-
     }
 }
