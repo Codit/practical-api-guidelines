@@ -11,17 +11,14 @@ using Codit.LevelTwo;
 
 namespace Codit.IntegrationTest
 {
+    [Collection("TestServer")]
     public class OpenApiTest
     {
-        private readonly HttpClient _httpClient;
-        public OpenApiTest()
-        {
-            if (_httpClient != null) return;
-            var srv = new TestServer(new WebHostBuilder()
-                .UseEnvironment("Development")
-                .UseStartup<Startup>());
+        TestServerFixture fixture;
 
-            _httpClient = srv.CreateClient();
+        public OpenApiTest(TestServerFixture fixture)
+        {
+            this.fixture = fixture;
         }
 
         [Fact]
@@ -30,7 +27,7 @@ namespace Codit.IntegrationTest
             //Arrange
             var request = new HttpRequestMessage(new HttpMethod("GET"), "/swagger/v1/swagger.json");
             //Act
-            var response = await _httpClient.SendAsync(request);
+            var response = await fixture._httpClient.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
