@@ -46,7 +46,7 @@ jobs:
   - task: DotNetCoreCLI@2
     displayName: 'Build'
     inputs:
-      projects: maturity-level-two/src/Codit.LevelOne.sln
+      projects: maturity-level-two/src/Codit.LevelTwo.sln
       arguments: '--configuration release'
 
   - task: DotNetCoreCLI@2
