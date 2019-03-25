@@ -1,5 +1,5 @@
 # Practical API Guidelines
-[![Build Status](https://travis-ci.com/CoditEU/practical-api-guidelines.svg?branch=master)](https://travis-ci.com/CoditEU/practical-api-guidelines)
+[![Build Status](https://dev.azure.com/tomkerkhove/Promitor/_apis/build/status/Release%20to%20Docker%20Hub/Promitor%20Scraper?branchName=master)](https://dev.azure.com/tomkerkhove/Promitor/_build/latest?definitionId=33&branchName=master)
 
 Practical guidelines for designing, building and documenting REST APIs with .NET.
 
