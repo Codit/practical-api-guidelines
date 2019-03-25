@@ -9,7 +9,8 @@ pr:
     - master
   paths:
     include:
-    - src/*
+    - maturity-level-one/*
+    - maturity-level-two/*
 
 jobs:
 - job: Build_MaturityLevelOne
