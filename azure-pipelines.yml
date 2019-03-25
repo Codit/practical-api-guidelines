@@ -1,19 +1,64 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+name: $(Date:yyyyMMdd)$(Rev:.r)
 
 trigger:
 - master
 
-pool:
-  vmImage: 'Ubuntu-16.04'
+pr:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - src/*
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+jobs:
+- job: Build_MaturityLevelOne
+  displayName: Build & Test Maturity Level One
+  pool:
+    vmImage: ubuntu-16.04
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: 'Build'
+    inputs:
+      projects: maturity-level-one/src/Codit.LevelOne.sln
+      arguments: '--configuration release'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - task: DotNetCoreCLI@2
+    displayName: 'Run unit tests'
+    inputs:
+      command: test
+      projects: maturity-level-one/tests/Codit.UnitTest/Codit.UnitTest.csproj
+      arguments: '--configuration release'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Run integration tests'
+    inputs:
+      command: test
+      projects: maturity-level-one/tests/Codit.UnitTest/Codit.IntegrationTest.csproj
+      arguments: '--configuration release'
+
+- job: Build_MaturityLevelTwo
+  displayName: Build & Test Maturity Level Two
+  pool:
+    vmImage: ubuntu-16.04
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: 'Build'
+    inputs:
+      projects: maturity-level-two/src/Codit.LevelOne.sln
+      arguments: '--configuration release'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Run unit tests'
+    inputs:
+      command: test
+      projects: maturity-level-two/tests/Codit.UnitTest/Codit.UnitTest.csproj
+      arguments: '--configuration release'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Run integration tests'
+    inputs:
+      command: test
+      projects: maturity-level-two/tests/Codit.UnitTest/Codit.IntegrationTest.csproj
+      arguments: '--configuration release'
+
