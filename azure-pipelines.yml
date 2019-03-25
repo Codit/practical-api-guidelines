@@ -35,7 +35,7 @@ jobs:
     displayName: 'Run integration tests'
     inputs:
       command: test
-      projects: maturity-level-one/tests/Codit.UnitTest/Codit.IntegrationTest.csproj
+      projects: maturity-level-one/tests/Codit.IntegrationTest/Codit.IntegrationTest.csproj
       arguments: '--configuration release'
 
 - job: Build_MaturityLevelTwo
@@ -60,6 +60,6 @@ jobs:
     displayName: 'Run integration tests'
     inputs:
       command: test
-      projects: maturity-level-two/tests/Codit.UnitTest/Codit.IntegrationTest.csproj
+      projects: maturity-level-two/tests/Codit.IntegrationTest/Codit.IntegrationTest.csproj
       arguments: '--configuration release'
 
