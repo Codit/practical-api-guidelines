@@ -24,19 +24,19 @@ jobs:
     displayName: 'Build'
     inputs:
       projects: maturity-level-one/src/Codit.LevelOne.sln
-      arguments: '--configuration release'
+      arguments: '--configuration debug'
   - task: DotNetCoreCLI@2
     displayName: 'Run unit tests'
     inputs:
       command: test
       projects: maturity-level-one/tests/Codit.UnitTest/Codit.UnitTest.csproj
-      arguments: '--configuration release'
+      arguments: '--configuration debug'
   - task: DotNetCoreCLI@2
     displayName: 'Run integration tests'
     inputs:
       command: test
       projects: maturity-level-one/tests/Codit.IntegrationTest/Codit.IntegrationTest.csproj
-      arguments: '--configuration release'
+      arguments: '--configuration debug'
 - job: Build_MaturityLevelTwo
   displayName: Build & Test Maturity Level Two
   pool:
@@ -51,16 +51,16 @@ jobs:
     displayName: 'Build'
     inputs:
       projects: maturity-level-two/src/Codit.LevelTwo.sln
-      arguments: '--configuration release'
+      arguments: '--configuration debug'
   - task: DotNetCoreCLI@2
     displayName: 'Run unit tests'
     inputs:
       command: test
       projects: maturity-level-two/tests/Codit.UnitTest/Codit.UnitTest.csproj
-      arguments: '--configuration release'
+      arguments: '--configuration debug'
   - task: DotNetCoreCLI@2
     displayName: 'Run integration tests'
     inputs:
       command: test
       projects: maturity-level-two/tests/Codit.IntegrationTest/Codit.IntegrationTest.csproj
-      arguments: '--configuration release'
+      arguments: '--configuration debug'
