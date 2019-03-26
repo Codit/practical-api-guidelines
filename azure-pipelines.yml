@@ -16,7 +16,7 @@ jobs:
 - job: Build_MaturityLevelOne
   displayName: Build & Test Maturity Level One
   pool:
-    vmImage: ubuntu-16.04
+    vmImage: vs2017-win2016
   steps:
   - task: DotNetCoreCLI@2
     displayName: 'Build'
@@ -41,7 +41,7 @@ jobs:
 - job: Build_MaturityLevelTwo
   displayName: Build & Test Maturity Level Two
   pool:
-    vmImage: ubuntu-16.04
+    vmImage: vs2017-win2016
   steps:
   - task: DotNetCoreCLI@2
     displayName: 'Build'
