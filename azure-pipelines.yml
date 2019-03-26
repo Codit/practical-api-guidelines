@@ -2,12 +2,13 @@ name: $(Date:yyyyMMdd)$(Rev:.r)
 trigger:
 - master
 pr:
-  paths:
+  branches:
     include:
-    - maturity-level-one/src/*
-    - maturity-level-one/tests/*
-    - maturity-level-two/src/*
-    - maturity-level-two/tests/*
+      - master
+  paths:
+    exclude:
+    - maturity-level-one/*.md
+    - maturity-level-two/*.md
 jobs:
 - job: Build_MaturityLevelOne
   displayName: Build & Test Maturity Level One
