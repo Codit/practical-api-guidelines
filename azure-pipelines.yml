@@ -2,9 +2,6 @@ name: $(Date:yyyyMMdd)$(Rev:.r)
 trigger:
 - master
 pr:
-  branches:
-    include:
-    - master
   paths:
     include:
     - maturity-level-one/src/*
