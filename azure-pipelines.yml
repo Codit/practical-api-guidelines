@@ -1,17 +1,16 @@
 name: $(Date:yyyyMMdd)$(Rev:.r)
-
 trigger:
 - master
-
 pr:
   branches:
     include:
     - master
   paths:
     include:
-    - maturity-level-one/*
-    - maturity-level-two/*
-
+    - maturity-level-one/src/*
+    - maturity-level-one/tests/*
+    - maturity-level-two/src/*
+    - maturity-level-two/tests/*
 jobs:
 - job: Build_MaturityLevelOne
   displayName: Build & Test Maturity Level One
@@ -23,21 +22,18 @@ jobs:
     inputs:
       projects: maturity-level-one/src/Codit.LevelOne.sln
       arguments: '--configuration release'
-
   - task: DotNetCoreCLI@2
     displayName: 'Run unit tests'
     inputs:
       command: test
       projects: maturity-level-one/tests/Codit.UnitTest/Codit.UnitTest.csproj
       arguments: '--configuration release'
-
   - task: DotNetCoreCLI@2
     displayName: 'Run integration tests'
     inputs:
       command: test
       projects: maturity-level-one/tests/Codit.IntegrationTest/Codit.IntegrationTest.csproj
       arguments: '--configuration release'
-
 - job: Build_MaturityLevelTwo
   displayName: Build & Test Maturity Level Two
   pool:
@@ -48,18 +44,15 @@ jobs:
     inputs:
       projects: maturity-level-two/src/Codit.LevelTwo.sln
       arguments: '--configuration release'
-
   - task: DotNetCoreCLI@2
     displayName: 'Run unit tests'
     inputs:
       command: test
       projects: maturity-level-two/tests/Codit.UnitTest/Codit.UnitTest.csproj
       arguments: '--configuration release'
-
   - task: DotNetCoreCLI@2
     displayName: 'Run integration tests'
     inputs:
       command: test
       projects: maturity-level-two/tests/Codit.IntegrationTest/Codit.IntegrationTest.csproj
       arguments: '--configuration release'
-
