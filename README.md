@@ -4,7 +4,8 @@
 Practical guidelines for designing, building and documenting REST APIs with .NET.
 
 The guidelines are structured in several maturity levels:
-1. Must haves  ([docs](maturity-level-one/README.md))
+1. **Must haves**  ([docs](maturity-level-one/README.md))
+2. **Should haves**  ([docs](maturity-level-two/README.md))
 
 For general REST API guidelines we recommend to read the official [Microsoft guidelines](https://github.com/Microsoft/api-guidelines)
 
