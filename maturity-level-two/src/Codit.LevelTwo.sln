@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Codit.IntegrationTest", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Codit.UnitTest", "..\tests\Codit.UnitTest\Codit.UnitTest.csproj", "{D0BD39FD-B014-4A46-87ED-0D77A9BC224C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{471758AB-943A-4A6A-BAAD-E04CC4555706}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{73A1A0B2-2DF6-4923-9996-0B1126779968} = {471758AB-943A-4A6A-BAAD-E04CC4555706}
+		{D0BD39FD-B014-4A46-87ED-0D77A9BC224C} = {471758AB-943A-4A6A-BAAD-E04CC4555706}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {70A00BFF-6DA7-455B-B29E-9ED13D6DDA48}
