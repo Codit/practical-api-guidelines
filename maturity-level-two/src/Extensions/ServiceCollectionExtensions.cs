@@ -3,7 +3,6 @@ using Codit.LevelTwo.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +17,6 @@ namespace Codit.LevelTwo.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-
         /// <summary>
         ///     Configure database
         /// </summary>
@@ -31,19 +29,19 @@ namespace Codit.LevelTwo.Extensions
                 return;
             }
 
-
-            //var connectionString = configuration.GetConnectionString(name: "CoditoDB");
-            //default scope lifetime
-#if DEBUG
-            services.AddDbContext<CoditoContext>(opt => opt.UseInMemoryDatabase(databaseName: "CoditoDB"));
-#else
             var connectionString = configuration.GetConnectionString(name: "CoditoDB");
-            services.AddDbContext<CoditoContext>(o => o.UseSqlServer(connectionString)); 
-#endif
 
-            services.AddScoped<ICoditoRepository, CoditoRepository>(); //scoped
+            if (connectionString == null)
+            {
+                services.AddDbContext<CoditoContext>(opt => opt.UseInMemoryDatabase(databaseName: "CoditoDB"));
+            }
+            else
+            {
+                services.AddDbContext<CoditoContext>(o => o.UseSqlServer(connectionString));
+            }
+
+            services.AddScoped<ICoditoRepository, CoditoRepository>();
         }
-
 
         /// <summary>
         ///     Configure how to handle invalid state with problem+json
