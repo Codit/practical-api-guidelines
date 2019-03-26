@@ -15,11 +15,6 @@ jobs:
   pool:
     vmImage: vs2017-win2016
   steps:
-  - powershell: |
-      sqllocaldb create MSSQLLocalDB
-      sqllocaldb start MSSQLLocalDB
-      sqllocaldb info MSSQLLocalDB
-    displayName: 'Start local SQL DB'
   - task: DotNetCoreCLI@2
     displayName: 'Build'
     inputs:
@@ -42,11 +37,6 @@ jobs:
   pool:
     vmImage: vs2017-win2016
   steps:
-  - powershell: |
-      sqllocaldb create MSSQLLocalDB
-      sqllocaldb start MSSQLLocalDB
-      sqllocaldb info MSSQLLocalDB
-    displayName: 'Start local SQL DB'
   - task: DotNetCoreCLI@2
     displayName: 'Build'
     inputs:
