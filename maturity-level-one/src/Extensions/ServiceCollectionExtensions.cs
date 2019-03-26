@@ -3,7 +3,6 @@ using Codit.LevelOne.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,13 +30,17 @@ namespace Codit.LevelOne.Extensions
             }
 
             var connectionString = configuration.GetConnectionString(name: "WorldCupDB");
-            //default scope lifetime
-#if DEBUG
-            services.AddDbContext<WorldCupContext>(opt => opt.UseInMemoryDatabase(databaseName: "WorldCupDB"));
-#else
-            services.AddDbContext<WorldCupContext>(o => o.UseSqlServer(connectionString)); 
-#endif
-            services.AddScoped<IWorldCupRepository, WorldCupRepository>(); //scoped
+
+            if (!String.IsNullOrWhiteSpace(connectionString))
+            {
+                services.AddDbContext<WorldCupContext>(o => o.UseSqlServer(connectionString));
+            }
+            else
+            {
+                services.AddDbContext<WorldCupContext>(opt => opt.UseInMemoryDatabase(databaseName: "WorldCupDB"));
+            }
+
+            services.AddScoped<IWorldCupRepository, WorldCupRepository>();
         }
 
         /// <summary>
@@ -60,7 +63,7 @@ namespace Codit.LevelOne.Extensions
                     };
                     return new BadRequestObjectResult(problemDetails)
                     {
-                        ContentTypes = { ContentTypeNames.Application.JsonProblem, ContentTypeNames.Application.XmlProblem}
+                        ContentTypes = { ContentTypeNames.Application.JsonProblem, ContentTypeNames.Application.XmlProblem }
                     };
                 };
             });
