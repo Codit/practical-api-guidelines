@@ -1,25 +1,21 @@
-using Xunit;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.AspNetCore.Hosting;
-using System.Net.Http;
-using System.Net;
-using System.Threading.Tasks;
 using Codit.LevelTwo.Models;
-using Newtonsoft.Json;
 using FluentAssertions;
-
-using Codit.LevelTwo;
+using Newtonsoft.Json;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace Codit.IntegrationTest
 {
     [Collection("TestServer")]
     public class CustomizationTest
     {
-        TestServerFixture fixture;
+        private readonly TestServerFixture _fixture;
 
         public CustomizationTest(TestServerFixture fixture)
         {
-            this.fixture = fixture;
+            this._fixture = fixture;
         }
 
         [Fact]
@@ -28,7 +24,7 @@ namespace Codit.IntegrationTest
             //Arrange
             var request = new HttpRequestMessage(HttpMethod.Get, "/codito/v1/customization");
             //Act
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -40,7 +36,7 @@ namespace Codit.IntegrationTest
             int id = 1;
             var request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/customization/{id}");
             //Act
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -53,7 +49,7 @@ namespace Codit.IntegrationTest
             int id = -1;
             var request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/customization/{id}");
             //Act
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -71,7 +67,7 @@ namespace Codit.IntegrationTest
             };
             var request = TestExtensions.GetJsonRequest(customization, "POST", $"/codito/v1/customization/");
             //Act
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Created);
         }
@@ -88,7 +84,7 @@ namespace Codit.IntegrationTest
             };
             var request = TestExtensions.GetJsonRequest(newCustomization, "POST", "/codito/v1/customization/");
             //Act
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
            
@@ -101,7 +97,7 @@ namespace Codit.IntegrationTest
             int id = -1;
             var request = new HttpRequestMessage(HttpMethod.Delete, $"/codito/v1/customization/{id}");
             //Act
-            var response = await fixture._httpClient.SendAsync(request);           
+            var response = await _fixture.Http.SendAsync(request);           
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -114,13 +110,13 @@ namespace Codit.IntegrationTest
             int id = 3;
             var request = new HttpRequestMessage(HttpMethod.Delete, $"/codito/v1/customization/{id}");
             //Act
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
             request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/customization/{id}");
-            response = await fixture._httpClient.SendAsync(request);
+            response = await _fixture.Http.SendAsync(request);
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
@@ -131,17 +127,17 @@ namespace Codit.IntegrationTest
             int id = 1;
 
             var request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/customization/{id}");
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
             var actualDto = JsonConvert.DeserializeObject<CustomizationDto>(await response.Content.ReadAsStringAsync());
 
             request = new HttpRequestMessage(HttpMethod.Post, $"/codito/v1/customization/{id}/sale");
             //Act
-            response = await fixture._httpClient.SendAsync(request);
+            response = await _fixture.Http.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.Accepted);
             // (Inventory must be decremented, number of sales incremented.
             request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/customization/{id}");
-            response = await fixture._httpClient.SendAsync(request);
+            response = await _fixture.Http.SendAsync(request);
             var updatedDto = JsonConvert.DeserializeObject<CustomizationDto>(await response.Content.ReadAsStringAsync());
 
             updatedDto.InventoryLevel.Should().Be(actualDto.InventoryLevel - 1);
@@ -156,7 +152,7 @@ namespace Codit.IntegrationTest
             int id = -1;
             var request = new HttpRequestMessage(HttpMethod.Post, $"/codito/v1/customization/{id}/sale");
             //Act
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -173,7 +169,7 @@ namespace Codit.IntegrationTest
             };
 
             var request = TestExtensions.GetJsonRequest(newCustomization, "POST", "/codito/v1/customization/");
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
             response.StatusCode.Should().Be(HttpStatusCode.Created);
             //(Get Id of this new customization)
             var newDto = JsonConvert.DeserializeObject<CustomizationDto>(await response.Content.ReadAsStringAsync());
@@ -182,7 +178,7 @@ namespace Codit.IntegrationTest
             request = new HttpRequestMessage(HttpMethod.Post, $"/codito/v1/customization/{id}/sale");
 
             //Act
-            response = await fixture._httpClient.SendAsync(request);
+            response = await _fixture.Http.SendAsync(request);
 
             //Assert
             response.StatusCode.Should().Be(409);
@@ -201,7 +197,7 @@ namespace Codit.IntegrationTest
             var request = TestExtensions.GetJsonRequest(customization, "PATCH", $"/codito/v1/customization/{id}");
 
             // Act
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -218,19 +214,19 @@ namespace Codit.IntegrationTest
             };
 
             var request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/customization/{id}");
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
             var actualDto = JsonConvert.DeserializeObject<CustomizationDto>(await response.Content.ReadAsStringAsync());
             request = TestExtensions.GetJsonRequest(customization, "PATCH", $"/codito/v1/customization/{id}");
 
             //actualDto.Should().BeNull();
 
             // Act
-            response = await fixture._httpClient.SendAsync(request);
+            response = await _fixture.Http.SendAsync(request);
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
             request = new HttpRequestMessage(HttpMethod.Get, $"/codito/v1/customization/{id}");
-            response = await fixture._httpClient.SendAsync(request);
+            response = await _fixture.Http.SendAsync(request);
             var updatedDto = JsonConvert.DeserializeObject<CustomizationDto>(await response.Content.ReadAsStringAsync());
             updatedDto.Id.Should().Be(actualDto.Id);
 

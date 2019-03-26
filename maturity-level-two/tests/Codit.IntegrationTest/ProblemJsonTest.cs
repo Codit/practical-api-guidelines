@@ -1,27 +1,20 @@
-﻿using Xunit;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.AspNetCore.Hosting;
-using System.Net.Http;
-using System.Net;
-using System.Threading.Tasks;
+﻿using Codit.LevelTwo.Models;
 using FluentAssertions;
-using Codit.LevelTwo.Models;
-using Codit.LevelTwo.Extensions;
-using Codit.LevelTwo;
-using Newtonsoft.Json;
-
-using Newtonsoft.Json.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace Codit.IntegrationTest
 {
     [Collection("TestServer")]
     public class ProblemJsonTest
     {
-        TestServerFixture fixture;
+        private readonly TestServerFixture _fixture;
 
         public ProblemJsonTest(TestServerFixture fixture)
         {
-            this.fixture = fixture;
+            this._fixture = fixture;
         }
 
         [Fact]
@@ -30,7 +23,7 @@ namespace Codit.IntegrationTest
             //Arrange
             var request = new HttpRequestMessage(new HttpMethod("GET"), "/codito/api/v1/car");
             //Act
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
             response.Content.Headers.ContentLength.Should().BeGreaterThan(0);
@@ -47,7 +40,7 @@ namespace Codit.IntegrationTest
             };
             var request = TestExtensions.GetJsonRequest(customization, "POST", "/codito/v1/customization");
             //Act
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             response.Content.Headers.ContentLength.Should().BeGreaterThan(0);
@@ -61,7 +54,7 @@ namespace Codit.IntegrationTest
             var request = new HttpRequestMessage(new HttpMethod("GET"), "/codito/codito/car");
             request.Headers.Add("Accept", "custom/content+type");
             //Act
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotAcceptable);
             response.Content.Headers.Should().BeNullOrEmpty(); // With 406 the body is suppressed
@@ -78,7 +71,7 @@ namespace Codit.IntegrationTest
             };
             var request = TestExtensions.GetJsonRequest(customization, "POST", "/codito/v1/customization/", "application/pdf");
             //Act
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.UnsupportedMediaType);
             response.Content.Headers.ContentLength.Should().BeGreaterThan(0);
@@ -97,7 +90,7 @@ namespace Codit.IntegrationTest
             
             var request = TestExtensions.GetJsonRequest(customization, "POST", "/codito/v1/customization");
             //Act
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
             response.Content.Headers.ContentLength.Should().BeGreaterThan(0);

@@ -1,24 +1,21 @@
-﻿using Xunit;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.AspNetCore.Hosting;
-using System.Net.Http;
-using System.Net;
-using System.Threading.Tasks;
+﻿using Codit.LevelTwo;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
-
-using Codit.LevelTwo;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace Codit.IntegrationTest
 {
     [Collection("TestServer")]
     public class OpenApiTest
     {
-        TestServerFixture fixture;
+        private readonly TestServerFixture _fixture;
 
         public OpenApiTest(TestServerFixture fixture)
         {
-            this.fixture = fixture;
+            this._fixture = fixture;
         }
 
         [Fact]
@@ -27,7 +24,7 @@ namespace Codit.IntegrationTest
             //Arrange
             var request = new HttpRequestMessage(new HttpMethod("GET"), "/swagger/v1/swagger.json");
             //Act
-            var response = await fixture._httpClient.SendAsync(request);
+            var response = await _fixture.Http.SendAsync(request);
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
