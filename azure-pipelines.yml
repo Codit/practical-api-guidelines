@@ -4,7 +4,7 @@ trigger:
 pr:
   branches:
     include:
-      - master
+    - master
   paths:
     exclude:
     - maturity-level-one/*.md
