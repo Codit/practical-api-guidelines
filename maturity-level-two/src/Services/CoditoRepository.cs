@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Codit.LevelTwo.Services
 {
-    public class CoditoRepository : ICoditoRepository
+    public class CoditoRepository : ICoditepository
     {
         private readonly CoditoContext _coditoContext;
 
