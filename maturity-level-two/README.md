@@ -10,3 +10,4 @@ Writing OpenAPI specs is easy, writing good OpenAPI specs is a different story.
 You should:
 - Add your OpenAPI specs to source control given this is part of your application
 - Validate changes to your OpenAPI specs to avoid specification violations ([user guide](docs/validating-open-api-specs.md))
+- Unit test Open API validation to automatically detect breaking changes
