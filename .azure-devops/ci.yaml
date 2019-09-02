@@ -9,6 +9,7 @@ pr:
     exclude:
     - maturity-level-one/*.md
     - maturity-level-two/*.md
+    - maturity-level-two/docs/*.md
 jobs:
 - job: Build_MaturityLevelOne
   displayName: Build & Test Maturity Level One
