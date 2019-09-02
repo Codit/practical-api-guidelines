@@ -1,12 +1,12 @@
-# Api Security
-Api-security is an important topic on design & development time of the API.
+# API Security
+API-security is an important topic on design & development time of the API.
 
 The document below is explaining the general guidelines and goes into more detail in the second topic specifically for Azure solutions.
 
 1. [General Guidelines](#general-http-guidelines)
     - [HTTPS](#HTTPS)
     - [IP-Filtering](#IP-Filtering)
-    - [Api Key (Shared Access Key)](#Api-Key-(Shared-Access-Key))
+    - [API Key (Shared Access Key)](#API-Key-(Shared-Access-Key))
     - [TLS Mutual Authentication](#TLS-Mutual-Authentication)
     - [OAuth2 Token (From Identity Provider)](#OAuth2-Token-(From-Identity-Provider))
    
@@ -35,15 +35,15 @@ Note that this does require a static IP of all the users, and by this validation
 
 IP-filtering is done ideally on firewall level/API-Management.
 
-### Api Key (Shared Access Key)
-The Api-Key is a custom HTTP Header with a specific name. Usually this is called `x-api-key`, but can also be called otherwise if required.
+### API Key (Shared Access Key)
+The API-Key is a custom HTTP Header with a specific name. Usually this is called `x-API-key`, but can also be called otherwise if required.
 
 The value of this key should be shared between the user and the server.
-The server / api will validate the incoming request via an `Authentication Filter` and verify the value matches between the user and the stored one on the API.
+The server / API will validate the incoming request via an `Authentication Filter` and verify the value matches between the user and the stored one on the API.
 
-To increase security you can here also use `Rolling Api keys` where you allow 2 keys at one time, and you require all the users to update to the new key periodically. This way, if a ApiKey is intercepted, it will only be valid for x-amount of time. ALso, having just the mecahnism in place and being able to force the rolling in a specific time can be beneficial to fix unwanted resource access.
+To increase security you can here also use `Rolling API keys` where you allow 2 keys at one time, and you require all the users to update to the new key periodically. This way, if a APIKey is intercepted, it will only be valid for x-amount of time. ALso, having just the mecahnism in place and being able to force the rolling in a specific time can be beneficial to fix unwanted resource access.
 
-If you want to implement this in .NET Core, you can speed up things by using the Arcus NuGet package as described [here](https://webapi.arcus-azure.net/features/security/auth/shared-access-key).
+If you want to implement this in .NET Core, you can speed up things by using the Arcus NuGet package as described [here](https://webAPI.arcus-azure.net/features/security/auth/shared-access-key).
 
 ### Basic Authentication
 Basic authentication is the first level of authentication you can apply to distinct users. How this works is standardized.
@@ -76,7 +76,7 @@ Next to that, with this, it is important to have a good framework to update all 
 
 The advantage over the previously explained options is that this can give you a certainty over a user, and if the certificates are securely passed from the one party to the other, you have a very secure system.
 
-If you want to implement this in .NET Core, you can speed up things by using the Arcus NuGet package as described [here](https://webapi.arcus-azure.net/features/security/auth/certificate).
+If you want to implement this in .NET Core, you can speed up things by using the Arcus NuGet package as described [here](https://webAPI.arcus-azure.net/features/security/auth/certificate).
 
 ### OAuth2
 OAuth2 has various implementations. From IdentityServer to manage the users/secrets by yourself or Facebook, Google or Microsoft (with Azure AD) where the whole user management is done by the OAuth2 provider itself.
@@ -100,11 +100,11 @@ Azure can give you some out of the box features to improve the security of your 
 
 ### API Management
 - Https is by default there on API management
-- [IP-Filtering can be enabled via policy](https://docs.microsoft.com/en-us/azure/api-management/api-management-access-restriction-policies#RestrictCallerIPs)
-- [Client certificate validation can be done via policies](https://docs.microsoft.com/en-us/azure/api-management/api-management-howto-mutual-certificates-for-clients)
-- [API-Keys can be added via a policy](https://docs.microsoft.com/en-us/azure/api-management/api-management-access-restriction-policies#CheckHTTPHeader)
-- [Basic authentication validation can be added via a policy](https://docs.microsoft.com/en-us/azure/api-management/api-management-authentication-policies#Basic)
-- [API management also has a system of users and subscribers based on API-Keys which allows you to rotate keys, and handle creation and disabling of users by a user interface/powershell scripts.](https://docs.microsoft.com/en-us/azure/api-management/api-management-subscriptions)
+- [IP-Filtering can be enabled via policy](https://docs.microsoft.com/en-us/azure/API-management/API-management-access-restriction-policies#RestrictCallerIPs)
+- [Client certificate validation can be done via policies](https://docs.microsoft.com/en-us/azure/API-management/API-management-howto-mutual-certificates-for-clients)
+- [API-Keys can be added via a policy](https://docs.microsoft.com/en-us/azure/API-management/API-management-access-restriction-policies#CheckHTTPHeader)
+- [Basic authentication validation can be added via a policy](https://docs.microsoft.com/en-us/azure/API-management/API-management-authentication-policies#Basic)
+- [API management also has a system of users and subscribers based on API-Keys which allows you to rotate keys, and handle creation and disabling of users by a user interface/powershell scripts.](https://docs.microsoft.com/en-us/azure/API-management/API-management-subscriptions)
 
 NOTE: API-Management will secure the access between the user and API-Management. This does not add extra security to your backend. If for some reason a user has access to the **direct** url of the API, security added over here is bypassed!
 
@@ -113,7 +113,7 @@ NOTE: API-Management will secure the access between the user and API-Management.
 - [Client certificate validation can be required as a setting](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-custom-ssl#enforce-tls-versions)
     - NOTE that this only requires a client certificate, and this does NOT validate if the certificate is the certificate you want to have access. This is something to be implemented within the API/API-M
 - [Azure AD validation can be done by a tick of a box](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-auth-aad)
-    - NOTE, that also this does not validate if that user is allowed, this just makes sure that you can identify the user in your code based on the accesstoken in the `Authentication`-header in your api.
+    - NOTE, that also this does not validate if that user is allowed, this just makes sure that you can identify the user in your code based on the accesstoken in the `Authentication`-header in your API.
 
 ### Managed Service Identity 
 Service to service communication can be done via Managed Service Identity.
@@ -124,4 +124,4 @@ This allows to verify with Azure AD the ID of the service connecting to the othe
 - [Client certificate validation can be required as a setting](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-custom-ssl#enforce-tls-versions)
     - NOTE that this only requires a client certificate, and this does NOT validate if the certificate is the certificate you want to have access. This is something to be implemented within the API/API-M
 - [Azure AD validation can be done by a tick of a box](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-auth-aad)
-    - NOTE, that also this does not validate if that user is allowed, this just makes sure that you can identify the user in your code based on the accesstoken in the `Authentication`-header in your api.
+    - NOTE, that also this does not validate if that user is allowed, this just makes sure that you can identify the user in your code based on the accesstoken in the `Authentication`-header in your API.
