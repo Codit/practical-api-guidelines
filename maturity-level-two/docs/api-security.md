@@ -41,7 +41,7 @@ The API-Key is a custom HTTP Header with a specific name. Usually this is called
 The value of this key should be shared between the user and the server.
 The server / API will validate the incoming request via an `Authentication Filter` and verify the value matches between the user and the stored one on the API.
 
-To increase security you can here also use `Rolling API keys` where you allow 2 keys at one time, and you require all the users to update to the new key periodically. This way, if a APIKey is intercepted, it will only be valid for x-amount of time. ALso, having just the mecahnism in place and being able to force the rolling in a specific time can be beneficial to fix unwanted resource access.
+To increase security you can here also use `Rolling API keys` where you allow 2 keys at one time, and you require all the users to update to the new key periodically. This way, if a APIKey is intercepted, it will only be valid for a certain amount of time. Also, having just the mechanism in place and being able to force the rolling at a specific time can be beneficial to fix unwanted resource access.
 
 If you want to implement this in .NET Core, you can speed up things by using the Arcus NuGet package as described [here](https://webAPI.arcus-azure.net/features/security/auth/shared-access-key).
 
