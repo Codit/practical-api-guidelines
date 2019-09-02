@@ -1,6 +1,8 @@
 # Practical API Guidelines - Should have
 
-1. [Writing Open API Specifications](#writing-open-api-specifications)
+1. [Validating OpenAPI Specifications](docs/validating-open-api-specs.md)
+1. [API-Security](docs/api-security.md)
+
 
 ## Writing solid OpenAPI Specifications
 Writing OpenAPI specs is easy, writing good OpenAPI specs is a different story.
