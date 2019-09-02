@@ -13,7 +13,7 @@ In order to do this, it is mandatory to use a `correlationId`. A correlationId i
 
 If the sink you are sending to supports this behavior, you can also create tree's in this correlation to distinct even more and make more clear what is actually happening in your code.
 
-There are different types of logs that can be made, most importantly:
+There are different types of logs that can be made, for API's these are the most important ones:
 
 | Log Type | Description |
 | -------- | ----------- |
@@ -55,16 +55,16 @@ ref: https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.lo
 # Logging sinks
 By default, a console log should be added.
 
-On Azure projects, by default, there should be logged to Application Insights.
+On Azure projects, by default, there should also be an output to Application Insights.
 
 # Logging frameworks
-There are differnt ways to log your logs.
+There are different ways to log your logs in C#.
 
 - If there are Application Insights specifics, such as:
     - Dependency logging
     - Custom Dimension logging
     - Tree correlations  
 
-    Use the direct Application Insights logging.I specifics (for dependency logging etc)
+    Use the direct Application Insights logging library.
 
-    - If you don't have this requirement there are 2 possible ways to go for. [Microsoft.Extensions.Logging.ILogger](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.ilogger?view=aspnetcore-2.2) or [Serilog](https://serilog.net/)
+- If you don't have this requirement there are 2 possible ways to go for. [Microsoft.Extensions.Logging.ILogger](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging.ilogger?view=aspnetcore-2.2) or [Serilog](https://serilog.net/)
