@@ -52,7 +52,7 @@ The users needs to send an `Authorization` header with value
 ```
 Basic {username:password}
 ```
-where the token `{username:password}` is base64 interpretation of the actual value.
+where the token `{username:password}` string is a base64 encoding of the actual value.
 
 Again, the server validates the incoming request with an `Authentication Filter` and defines if the user has access or not.
 
