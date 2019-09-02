@@ -19,7 +19,7 @@ The document below is explaining the general guidelines and goes into more detai
 
 ## General Guidelines
 Security can be done on different levels and all have their up & downsides.
-This guideline discuss's first the least secure solution & goes up based on that. Please take that into consideration when choosing your security mechanism.  
+This guideline discusses first the least secure solution & goes up based on that. Please take this into consideration when choosing your security mechanism.  
 You can also combine all of these guidelines, you do not need to stick to one.
 
 ### HTTPS
