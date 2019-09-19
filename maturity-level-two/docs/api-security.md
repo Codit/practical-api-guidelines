@@ -104,7 +104,7 @@ Azure can give you some out of the box features to improve the security of your 
 - HTTPS (TLS 1.2) is by default there on API management
 - [IP-Filtering can be enabled via policy](https://docs.microsoft.com/en-us/azure/API-management/API-management-access-restriction-policies#RestrictCallerIPs)
 - [Client certificate validation can be done via policies](https://docs.microsoft.com/en-us/azure/API-management/API-management-howto-mutual-certificates-for-clients)
-- [API-Keys can be added via a policy](https://docs.microsoft.com/en-us/azure/API-management/API-management-access-restriction-policies#CheckHTTPHeader)
+- [Consumer API-Keys can be validated via a policy](https://docs.microsoft.com/en-us/azure/API-management/API-management-access-restriction-policies#CheckHTTPHeader)
 - [Basic authentication validation can be added via a policy](https://github.com/Azure/api-management-policy-snippets/blob/master/examples/Perform%20basic%20authentication.policy.xml)
 - [API management also has a system of users and subscribers based on API-Keys which allows you to rotate keys, and handle creation and disabling of users by a user interface/powershell scripts.](https://docs.microsoft.com/en-us/azure/API-management/API-management-subscriptions)
 
