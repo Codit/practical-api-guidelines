@@ -1,7 +1,7 @@
 # API Security
 API-security is an important topic on design & development time of the API.
 
-The document below is explaining the general guidelines and goes into more detail in the second topic specifically for Azure solutions.
+The document below is explaining the general security guidelines followed by some Azure-specific guidelines in the second half of the document.
 
 1. [General Guidelines](#general-http-guidelines)
     - [HTTPS](#HTTPS)
@@ -18,9 +18,11 @@ The document below is explaining the general guidelines and goes into more detai
 
 
 ## General Guidelines
-Security can be done on different levels and all have their up & downsides.
+Security can be provided in the different layers of our application infrastructure which have their own pros & cons.  
 This guideline discusses first the least secure solution & goes up based on that. Please take this into consideration when choosing your security mechanism.  
 You can also combine all of these guidelines, you do not need to stick to one.
+
+Most of the security mechanisms explained below can be handled on network & application level. Keep this in mind when choosing a security role. It is always best to handle it as soon as possible (so network is the preferred level).
 
 ### HTTPS
 HTTPS and only HTTPS should be allowed on production API's. This is mandatory security measurement to take when designing and creating your API.
@@ -83,7 +85,7 @@ OAuth2 has various implementations. From IdentityServer to manage the users/secr
 
 This setup might require you the most effort but is also the most secure (if you choose only one).
 
-The principle is that the user will authenticate to the OAuth2 Authentication server. The server will validate if your credentials are valid credentials for this certain application. If that is the case an `Authorization`-header with a JWT token can be added to the request. The API can then validate if:
+The principle is that the user will authenticate to the OAuth2 Authentication server. The server will validate if your credentials are valid credentials for this certain application. If that is the case, the authentication server will return a token that gives access to an API.  Consumers of the API must add this (JWT) token in an `Authorization`-header to the request. The API can then validate if:
 - The user is authentication with the right Authorization Server
 - What the email & basic information of the user is.
 - The roles the user has (based on claims)
@@ -99,14 +101,14 @@ Usually within the Authentication Server you can easily add and remove users for
 Azure can give you some out of the box features to improve the security of your system. In the list below you can see some examples how this can help.
 
 ### API Management
-- Https is by default there on API management
+- HTTPS (TLS 1.2) is by default there on API management
 - [IP-Filtering can be enabled via policy](https://docs.microsoft.com/en-us/azure/API-management/API-management-access-restriction-policies#RestrictCallerIPs)
 - [Client certificate validation can be done via policies](https://docs.microsoft.com/en-us/azure/API-management/API-management-howto-mutual-certificates-for-clients)
 - [API-Keys can be added via a policy](https://docs.microsoft.com/en-us/azure/API-management/API-management-access-restriction-policies#CheckHTTPHeader)
-- [Basic authentication validation can be added via a policy](https://docs.microsoft.com/en-us/azure/API-management/API-management-authentication-policies#Basic)
+- [Basic authentication validation can be added via a policy](https://github.com/Azure/api-management-policy-snippets/blob/master/examples/Perform%20basic%20authentication.policy.xml)
 - [API management also has a system of users and subscribers based on API-Keys which allows you to rotate keys, and handle creation and disabling of users by a user interface/powershell scripts.](https://docs.microsoft.com/en-us/azure/API-management/API-management-subscriptions)
 
-NOTE: API-Management will secure the access between the user and API-Management. This does not add extra security to your backend. If for some reason a user has access to the **direct** url of the API, security added over here is bypassed!
+:warning: API Management will secure the access between the user and API Management. This does not secure the communication between API Management and your upstream backend services. If for some reason a user has access to the **direct** url of the API, security added over here is bypassed!
 
 ### Web App
 - [Https only can be enabled on Web Apps as a settings](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-custom-ssl#enforce-https)
