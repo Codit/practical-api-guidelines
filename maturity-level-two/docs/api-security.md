@@ -127,3 +127,8 @@ This allows to verify with Azure AD the ID of the service connecting to the othe
     - NOTE that this only requires a client certificate, and this does NOT validate if the certificate is the certificate you want to have access. This is something to be implemented within the API/API-M
 - [Azure AD validation can be done by a tick of a box](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-auth-aad)
     - NOTE, that also this does not validate if that user is allowed, this just makes sure that you can identify the user in your code based on the accesstoken in the `Authentication`-header in your API.
+
+### Azure Virtual Networks (VNET)
+By the use of a Virtual network (and Web Application Firewall (WAF)) you can guard your code within the VNET, not public accessable through the internet. It is a totally different way of providing security as we are not securing the application itself, but more a solution as a whole. 
+VNET guarantee L4 security and isolation.
+WAF introduces L7 security measures like protection against OWASP top 10 vulnerabilities.
