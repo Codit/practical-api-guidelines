@@ -2,6 +2,7 @@
 using Codit.LevelTwo.Entities;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -25,7 +26,7 @@ namespace Codit.LevelTwo
                 try
                 {
                     var context = services.GetRequiredService<CoditoContext>();
-                    context.Database.EnsureCreated();
+                    context.Database.Migrate();
                 }
                 catch (Exception ex)
                 {
