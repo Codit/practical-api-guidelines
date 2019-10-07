@@ -15,13 +15,8 @@ You should:
 - Unit test Open API validation to automatically detect breaking changes
 
 ## API Security
-API security is an essential part when designing the API.
+API security is an essential part when designing the API. All different levels of security are discussed within the API-Security document ([user guide](docs/api-security.md)).
 
-All different levels of security are discussed within the API-Security document.
-
-Different levels of security are covered such as:  
-- IP Filtering
-- API Key
-- OAuth (if there is an Identity Provider)
-- Client Certificate
-- ...
+You should:
+- When possible, use a token based authenticaton/authorization (OAuth2, MSI, etc..)
+- When not, depending on the use case, consider to use a combination of the available security mechanisms (e.g. Client Certificate, api key, ip filtering, etc..)
