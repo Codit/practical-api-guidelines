@@ -17,6 +17,8 @@ namespace Codit.LevelOne.Controllers.v1
     [Route("world-cup/v1/[controller]")]
     [ApiController]
     [ValidateModel]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     [SwaggerResponse((int)HttpStatusCode.BadRequest, "Input validation error.")]
     public class TeamsController : ControllerBase
     {
@@ -35,7 +37,7 @@ namespace Codit.LevelOne.Controllers.v1
         /// <remarks>Provides the details for all known team</remarks>
         /// <returns>Return a list of Team</returns>
         [HttpGet(Name = "Teams_GetTeams")]
-        [SwaggerResponse((int)HttpStatusCode.OK, "List of teams")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "List of teams", typeof(IEnumerable<TeamDto>))]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> GetTeams()
         {

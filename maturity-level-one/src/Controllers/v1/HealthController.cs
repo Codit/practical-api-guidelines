@@ -5,6 +5,8 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Codit.LevelOne.Controllers.v1
 {
     [Route("world-cup/v1/[controller]")]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     [ApiController]
     public class HealthController : ControllerBase
     {

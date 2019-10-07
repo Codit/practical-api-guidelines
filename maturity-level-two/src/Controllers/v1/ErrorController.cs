@@ -14,6 +14,7 @@ namespace Codit.LevelTwo.Controllers.v1
         /// <param name="code">HTTP status code</param>
         /// <returns>Error formatted as application/problem+json</returns>
         [Route("{code}")]
+        [Produces("application/json")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Error(int code)
         {

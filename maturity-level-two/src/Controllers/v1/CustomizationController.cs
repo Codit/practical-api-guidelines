@@ -19,6 +19,8 @@ namespace Codit.LevelTwo.Controllers.v1
     [Route("codito/v1/[controller]")]
     [ApiController]
     [ValidateModel]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     [SwaggerResponse((int)HttpStatusCode.BadRequest, "Input validation error.")]
     public class CustomizationController : ControllerBase
     {
@@ -36,7 +38,7 @@ namespace Codit.LevelTwo.Controllers.v1
         /// <remarks>Get all customizations, ordered by popularity</remarks>
         /// <returns>List of customizations</returns>
         [HttpGet(Name = Constants.RouteNames.v1.GetCustomizations)]
-        [SwaggerResponse((int)HttpStatusCode.OK, "List of players")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "List of players", typeof(IEnumerable<CustomizationDto>))]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> GetCustomizations()
         {
@@ -53,7 +55,7 @@ namespace Codit.LevelTwo.Controllers.v1
         /// <remarks>Get a customization by Id</remarks>
         /// <returns>a Customization instance</returns>
         [HttpGet("{id}", Name = Constants.RouteNames.v1.GetCustomization)]
-        [SwaggerResponse((int)HttpStatusCode.OK, "Customization info")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Customization info", typeof(CustomizationDto))]
         [SwaggerResponse((int)HttpStatusCode.NotFound, "Customization not found")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> GetCustomization(int id)

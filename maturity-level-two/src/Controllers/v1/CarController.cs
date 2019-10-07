@@ -15,6 +15,8 @@ namespace Codit.LevelTwo.Controllers.v1
     [Route("codito/v1/[controller]")]
     [ApiController]
     [ValidateModel]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     [SwaggerResponse((int)HttpStatusCode.BadRequest, "Input validation error.")]
     public class CarController : ControllerBase
     {
@@ -32,7 +34,7 @@ namespace Codit.LevelTwo.Controllers.v1
         /// <remarks>Get all cars</remarks>
         /// <returns>List of cars</returns>
         [HttpGet(Name = Constants.RouteNames.v1.GetCars)]
-        [SwaggerResponse((int)HttpStatusCode.OK, "List of Cars")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "List of Cars", typeof(IEnumerable<CarDto>))]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> GetCars([FromQuery] CarBodyType? bodyType)
         {
@@ -49,7 +51,7 @@ namespace Codit.LevelTwo.Controllers.v1
         /// <remarks>Get a car by Id</remarks>
         /// <returns>a Car instance</returns>
         [HttpGet("{id}", Name = Constants.RouteNames.v1.GetCar)]
-        [SwaggerResponse((int)HttpStatusCode.OK, "Car info")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Car info", typeof(CarDetailsDto))]
         [SwaggerResponse((int)HttpStatusCode.NotFound, "Car id not found")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> GetCar(int id)

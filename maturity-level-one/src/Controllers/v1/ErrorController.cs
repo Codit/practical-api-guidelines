@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Codit.LevelOne.Controllers.v1
 {
     [Route("/errors")]
+    [Produces("application/json")]
     [ApiController]
     public class ErrorController : ControllerBase
     {

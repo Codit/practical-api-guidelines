@@ -21,6 +21,8 @@ namespace Codit.LevelOne.Controllers.v1
     [Route("world-cup/v1/[controller]")]
     [ApiController]
     [ValidateModel]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     [SwaggerResponse((int) HttpStatusCode.BadRequest, "Input validation error.")]
     public class PlayersController : ControllerBase
     {
@@ -39,7 +41,7 @@ namespace Codit.LevelOne.Controllers.v1
         /// <remarks>Provides a profile for all known players</remarks>
         /// <returns>Return a list of Players</returns>
         [HttpGet(Name = "Players_GetPlayers")]
-        [SwaggerResponse((int)HttpStatusCode.OK, "List of players")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "List of players", typeof(IEnumerable<PlayerDto>))]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> GetPlayers([FromQuery(Name = "top-players-only")]bool topPlayersOnly=false)
         {
@@ -78,7 +80,7 @@ namespace Codit.LevelOne.Controllers.v1
         /// <remarks>Get the profile of a single player</remarks>
         /// <returns>Return a single player</returns>
         [HttpGet("{id}", Name = GetPlayerRoute)]
-        [SwaggerResponse((int)HttpStatusCode.OK, "Player data object")]
+        [SwaggerResponse((int)HttpStatusCode.OK, "Player data object", typeof(PlayerDto))]
         [SwaggerResponse((int)HttpStatusCode.NotFound, "Player not found")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
         public async Task<IActionResult> GetPlayer(int id)
