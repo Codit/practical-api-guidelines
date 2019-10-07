@@ -21,8 +21,6 @@ namespace Codit.LevelOne.Controllers.v1
     [Route("world-cup/v1/[controller]")]
     [ApiController]
     [ValidateModel]
-    [Consumes("application/json")]
-    [Produces("application/json")]
     [SwaggerResponse((int) HttpStatusCode.BadRequest, "Input validation error.")]
     public class PlayersController : ControllerBase
     {
