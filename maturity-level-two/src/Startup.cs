@@ -44,7 +44,7 @@ namespace Codit.LevelTwo
 
             // Seed DB
             coditoContext.DataSeed();
-
+            
             // Configure API
             app.UseHttpsRedirection();
             app.UseExceptionHandlerWithProblemJson();
