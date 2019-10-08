@@ -12,7 +12,8 @@ You should:
 - Validate changes to your OpenAPI specs to avoid specification violations ([user guide](docs/validating-open-api-specs.md))
 - Unit test Open API validation to automatically detect breaking changes
 
- ## Document your api requests and responses
+ ## Content negotiation
+ With content negotiation we detremine in which format we'd like to receive requests and in which format we'd like to return our responses. For REST API's common request formats are JSON and XML, the most common response formats are JSON, XML and JSON. When someone does an http request to your api he should use the 'Content-Type' header to specify in which format the request is done and use the 'Accept' header to determine in which format he expects a response. Depending on these headers your api will decide in which format the request is send in in which format it will return it's response. When a format is not supported you should return the 406 error response code (not acceptable). When no 'Accept' header is defined a default response format should be used. Becaus of it's lightness and fastness, JSON is getting the standard the last years. But in certain situations other formats still have their advantages.
 
  You should use the right attributes in order to make sure your API is documented correctly. You can use the [Consumes] or [Produces] attribute (or both, depending on your method) in order to specify what content type your api consumes and produces. You can optionally use these attributes in on your controller class if you'd like to define this attribute for each method of your controller. In order to clarify the response body scheme of a request, you can use the [SwaggerResponse] attribute when you're using Swashbuckle. Make sure you use all parameters in the [SwaggerResponse] attribute when doing an HTTP GET with response status OK, the type argument might not be needed in other cases. 
  Here is an example on how to generate them with Swashbuckle.
@@ -38,4 +39,14 @@ public async Task<IActionResult> GetCar(int id)
     return Ok(result);
 }
 ```
+Apart from this, you your disable the formatters you woulddn't like to use in your api, as shown below.
+```csharp
+services.AddMvc(options =>
+{
+    options.InputFormatters.RemoveType<JsonPatchInputFormatter>();
+    options.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
+    options.OutputFormatters.RemoveType<StringOutputFormatter>();
+    options.OutputFormatters.RemoveType<StreamOutputFormatter>();
 
+});
+```

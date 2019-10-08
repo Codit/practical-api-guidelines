@@ -3,6 +3,7 @@ using Codit.LevelTwo.Entities;
 using Codit.LevelTwo.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,6 +29,14 @@ namespace Codit.LevelTwo
             services.ConfigureOpenApiGeneration();
             services.ConfigureRouting();
             services.ConfigureInvalidStateHandling();
+            services.AddMvc(options =>
+            {
+                options.InputFormatters.RemoveType<JsonPatchInputFormatter>();
+                options.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>();
+                options.OutputFormatters.RemoveType<StringOutputFormatter>();
+                options.OutputFormatters.RemoveType<StreamOutputFormatter>();
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
