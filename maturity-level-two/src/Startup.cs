@@ -1,8 +1,11 @@
-﻿using Codit.LevelTwo.DB;
+﻿using System.Linq;
+using Codit.LevelTwo.DB;
 using Codit.LevelTwo.Entities;
 using Codit.LevelTwo.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,6 +31,17 @@ namespace Codit.LevelTwo
             services.ConfigureOpenApiGeneration();
             services.ConfigureRouting();
             services.ConfigureInvalidStateHandling();
+            services.AddMvc(options =>
+            {
+                var jsonInputFormatters = options.InputFormatters.OfType<JsonInputFormatter>();
+                var jsonInputFormatter = jsonInputFormatters.First();
+                options.InputFormatters.Clear();
+                options.InputFormatters.Add(jsonInputFormatter);
+                var jsonOutputFormatters = options.OutputFormatters.OfType<JsonOutputFormatter>();
+                var jsonOutputFormatter = jsonOutputFormatters.First();
+                options.OutputFormatters.Clear();
+                options.OutputFormatters.Add(jsonOutputFormatter);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
