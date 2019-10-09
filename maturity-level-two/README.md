@@ -40,10 +40,10 @@ Be aware that the formatters you specify in the above section are all the format
 You can (not should) further restrict the request and respnse formats for one specific acion or controller by using the [Produces] and [Consumes] attributes. However you should be careful when using these attributes: if you use these attributes your method will not be able to return another response format then format specified in your attribute. If you return another response format the content-type of your response will be overwritten.
 ```csharp
 /// <summary>
-/// Get car by Id
+/// Create a car
 /// </summary>
 /// <param name="id">car identifier</param>
-/// <remarks>Get a car by Id</remarks>
+/// <remarks>Create a car</remarks>
 /// <returns>a Car instance</returns>
 [HttpPost("{id}", Name = Constants.RouteNames.v1.GetCar)]
 [Produces("application/json")]
@@ -51,10 +51,10 @@ You can (not should) further restrict the request and respnse formats for one sp
 [SwaggerResponse((int)HttpStatusCode.OK, "Car created", typeof(CarCreatedDto))]
 [SwaggerResponse((int)HttpStatusCode.NotFound, "Car id not found")]
 [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
-public async Task<IActionResult> CreateCar(int id)
+public async Task<IActionResult> CreateCar([FromBody] NewCarRequest newCarRequest)
 ```
 
-## Error response codes
-By default error response codes in ASP.NET Core will use the application/xml or application/json content types. These return types will by default work well with the above mentioned way of working: if you remove the xml from the supported formats, your method will return a json content type instead. However, using a custom format for your response code (e.g. application/problem+json) will conflict with the use of the [Produces] attribute: the [Produces] attribute will overwrite the content type from you response and set it to application/json. 
+### Error response codes
+By default error response codes in ASP.NET Core will use the application/xml or application/json content types. These return types will work well with the above mentioned way of working: if you remove the xml from the supported formats, your method will return a json content type instead. However, using a custom format for your response code (e.g. application/problem+json) will conflict with the use of the [Produces] attribute: the [Produces] attribute will overwrite the content type from you response and set it to application/json. 
 
 
