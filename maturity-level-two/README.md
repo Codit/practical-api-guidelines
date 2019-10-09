@@ -13,7 +13,7 @@ You should:
 - Unit test Open API validation to automatically detect breaking changes
 
  ## Content negotiation
- By default ASP.NET Core web applications will expect JSON requests and send JSON responses. Aside from this approach, ASP.NET Core also uses some Special case formatters, such as the TextOutputFormatter and the HttpNoContentOutputFormatter.
+ By default ASP.NET Core web applications will expect JSON requests and send JSON responses. Besides from this approach, ASP.NET Core also uses some Special case formatters, such as the TextOutputFormatter and the HttpNoContentOutputFormatter.
  When no specific compatibility requirements are set it is recommended to use the JSON format if possible (this might not be possible for e.g. file downloads). Herefore content negotiation may not be required, since every request and every response should be in a proper JSON format. If every api call of your api uses the json format, you can specify this in the startup of your ASP.NET Core project. Make sure refuse all non-JSON 'Accept' headers, including the plain text headers (response code 406). If no 'Accept' header is specified you can return JSON as it is the only supported type. You can find an example below: 
  ```csharp
 services.AddMvc(options =>
