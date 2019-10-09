@@ -37,7 +37,7 @@ services.AddMvc()
 ```
 Be aware that the formatters you specify in the above section are all the formatters your api will know. Thus if an api call is done towards an action in which an unknown request or response format is used/requested, the api will not answer the call with a success status code but rather with a 406 - Not Acceptable. This means that if you have one action on which the user can request a custom/other response format, you'll have to add a formatter for this type as well - and by default the other actions will support this format too.
 
-You can restrict the request and respnse formats for one specific acion or controller by using the [Produces] and [Consumes] attributes. However you should be careful when using these attributes: if you use these attributes your method will not be able to return another response format then format specified in your attribute. If you return another response format the content-type of your response will be overwritten.
+You can (not should) further restrict the request and respnse formats for one specific acion or controller by using the [Produces] and [Consumes] attributes. However you should be careful when using these attributes: if you use these attributes your method will not be able to return another response format then format specified in your attribute. If you return another response format the content-type of your response will be overwritten.
 ```csharp
 /// <summary>
 /// Get car by Id
