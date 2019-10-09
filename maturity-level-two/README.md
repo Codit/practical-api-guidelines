@@ -47,14 +47,14 @@ You can (not should) further restrict the request and respnse formats for one sp
 /// <summary>
 /// Create a car
 /// </summary>
-/// <param name="id">car identifier</param>
+/// <param name="newCarRequest">New car information</param>
 /// <remarks>Create a car</remarks>
 /// <returns>a Car instance</returns>
-[HttpPost("{id}", Name = Constants.RouteNames.v1.GetCar)]
 [Produces("application/json")]
 [Consumes("application/json")]
+[HttpPost(Name = Constants.RouteNames.v1.CreateCar)]
 [SwaggerResponse((int)HttpStatusCode.OK, "Car created", typeof(CarCreatedDto))]
-[SwaggerResponse((int)HttpStatusCode.NotFound, "Car id not found")]
+[SwaggerResponse((int)HttpStatusCode.Conflict, "Car already exists")]
 [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
 public async Task<IActionResult> CreateCar([FromBody] NewCarRequest newCarRequest)
 ```
