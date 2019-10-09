@@ -13,9 +13,14 @@ You should:
 - Unit test Open API validation to automatically detect breaking changes
 
  ## Content negotiation
- When no specific compatibility requirements regarding the rest request and response formats are set, it is recommended to use the JSON format (application/json). But in some situations a client might require the data to be formatted in a certain format in order to interpret the data correctly. Herefore content negotiation may be required, in which the client specifies in which format a request may be send and in which response formats the client can accept. By default ASP.NET Core web applications will expect JSON requests and send JSON responses. In addition to this, ASP.NET Core also uses some additional formatters for special cases, such as the TextOutputFormatter and the HttpNoContentOutputFormatter.
+ When no specific compatibility requirements regarding the rest request and response formats are set, it is recommended to use the JSON format (application/json). But in some situations a client might require the data to be formatted in a certain format in order to interpret the data correctly. With content negotiation we determine in what format we'd like to receive requests  & responses. For REST API's, the most common formats are JSON and XML.
+As an API consumer, you can specify what format you are expecting by adding HTTP headers:
+- `Content-Type` - Specify the format of the request
+- `Accept` - Specify the requested format of the response. Default format will be used when not specified.
+When a format is not supported, the API should return an [HTTP 406 Not Acceptable](https://httpstatuses.com/406).
+Because of it's lightness and fastness, JSON has become the standard over the last couple of years but in certain situations other formats still have their advantages. In addition to this, ASP.NET Core also uses some additional formatters for special cases, such as the TextOutputFormatter and the HttpNoContentOutputFormatter.
 
- When you would make sure your api only uses the JSON format, you can specify this in the startup of your ASP.NET Core project. This will make sure you'll refuse all non-JSON 'Accept' headers, including the plain text headers (on these requests you will return response code 406). If no 'Accept' header is specified you can return JSON as it is the only supported type. You can find an example of the changes you have to do to the startup below: 
+ When you would like to make sure your api only uses the JSON format, you can specify this in the startup of your ASP.NET Core project. This will make sure you'll refuse all non-JSON 'Accept' headers, including the plain text headers (on these requests you will return response code 406). If no 'Accept' header is specified you can return JSON as it is the only supported type. You can find an example of the changes you have to do to the startup below: 
  ```csharp
 services.AddMvc(options =>
 {
