@@ -14,7 +14,8 @@ You should:
 
  ## Content negotiation
  When no specific compatibility requirements regarding the rest request and response formats are set, it is recommended to use the JSON format (application/json). But in some situations a client might require the data to be formatted in a certain format in order to interpret the data correctly. Herefore content negotiation may be required. By default ASP.NET Core web applications will expect JSON requests and send JSON responses. In addition to this, ASP.NET Core also uses some Special case formatters, such as the TextOutputFormatter and the HttpNoContentOutputFormatter.
- When every request and every response should be in a proper JSON format. If every api call of your api uses the json format, you can specify this in the startup of your ASP.NET Core project. Make sure refuse all non-JSON 'Accept' headers, including the plain text headers (response code 406). If no 'Accept' header is specified you can return JSON as it is the only supported type. You can find an example below: 
+
+ When you would make sure your api only uses the JSON format, you can specify this in the startup of your ASP.NET Core project. Make sure refuse all non-JSON 'Accept' headers, including the plain text headers (response code 406). If no 'Accept' header is specified you can return JSON as it is the only supported type. You can find an example below: 
  ```csharp
 services.AddMvc(options =>
 {
