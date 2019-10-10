@@ -32,9 +32,9 @@ services.AddMvc(options =>
     var jsonOutputFormatter = jsonOutputFormatters.First();
     options.OutputFormatters.Clear();
     options.OutputFormatters.Add(jsonOutputFormatter);
-});
+}).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 ```
-In case you'd like to add other formatting possibilities, it is possible to add these formatters to your api formatters. In case of xml you can use the XmlSerializerInputFormatter and the XmlSerializerOutputFormatter or add the xml formatters using the Mvc. With this approach the default format is still JSON.
+In here we have to add the 'SetCompatibilityVersion'as well to make sure the supported formats are documented correctly in e.g. the swagger. In case you'd like to add other formatting possibilities, it is possible to add these formatters to your api formatters. In case of xml you can use the XmlSerializerInputFormatter and the XmlSerializerOutputFormatter or add the xml formatters using the Mvc. With this approach the default format is still JSON.
  ```csharp
 services.AddMvc()
         .AddNewtonsoftJson()
