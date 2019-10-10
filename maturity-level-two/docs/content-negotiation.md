@@ -27,7 +27,7 @@ services.AddMvc()
         .AddNewtonsoftJson()
         .AddXmlSerializerFormatters();
 ```
-Be aware that the formatters you specify in the above section are all the formatters your api will know. Thus if an api call is done towards an action in which an unknown request or response format is used/requested, the api will not answer the call with a success status code but rather with an HTTP 406, Not Acceptable, or an HTTP 415, Unsupported. This means that if you have one action on which the user can request a custom/other response format, you have to add a formatter for this type as well - and by default the other actions will support this format too.
+Be aware that the formatters you specify in the above section are all the formatters your api will know. Thus if an api call is done towards an action in which an unknown request or response format is used/requested, the api will not answer the call with a success status code but rather with an HTTP 406, Not Acceptable, or an HTTP 415, Unsupported.
 
 You can (not should) further restrict the request and respnse formats for one specific acion or controller by using the [Produces] and [Consumes] attributes. However you should be careful when using these attributes: if you use these attributes your method will not be able to return another response format then format specified in your attribute. If you return another response format the content-type of your response will be overwritten.
 ```csharp
@@ -44,6 +44,24 @@ You can (not should) further restrict the request and respnse formats for one sp
 [SwaggerResponse((int)HttpStatusCode.Conflict, "Car already exists")]
 [SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
 public async Task<IActionResult> CreateCar([FromBody] NewCarRequest newCarRequest)
+```
+
+In case you have an action which returns media type(s) only this action will return, you can use the [Produces] and [Consumes] keywords too. But be aware that in this case your api might not know how it should serialize the response, so you might have to take care of this yourself. In order to do so you can return a ContentResult (e.g. FileContentResult or ContentResult in the Microsoft.AspNetCore.Mvc namespace). An example is given below: 
+```csharp
+ /// <summary>
+/// Get all cars
+/// </summary>
+/// /// <param name="bodyType">Filter a specific body Type (optional)</param>
+/// <remarks>Get all cars</remarks>
+/// <returns>List of cars</returns>
+[HttpGet(Name = Constants.RouteNames.v1.GetCars)]
+[SwaggerResponse((int)HttpStatusCode.OK, "List of Cars")]
+[SwaggerResponse((int)HttpStatusCode.InternalServerError, "API is not available")]
+// [Produces("application/json", "application/problem+json")]
+public async Task<IActionResult> GetCars([FromQuery] CarBodyType? bodyType)
+{
+    return File(GetCars(), "application/pdf", "carlist.pdf");
+}
 ```
 
 ## Error response codes

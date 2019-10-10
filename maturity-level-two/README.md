@@ -26,8 +26,8 @@ When adding Content-Negotiation to your project you should:
 * Think whether content negotiation is really necessary. For most of the cases you only need JSON and thus no content negotiation is needed.
 * Remove input and output formatters when multi-format (JSON, XML, CSV, ...) is not necessary. 
 * Carefully evaluate whether you should use the [Produces] and [Consumes] attributes to further restrict the supported request and response media types for one specific acion or controller.
-    * [Produces] and [Consumes] are not meant to document the supported media types.  
-    * It is strongly advised to not use these attributes if you are supporting more than one media type (e.g. application/json and application/problem+json)
+    * [Produces] and [Consumes] are not meant to document the supported media types for all actions.  
+    * It is strongly advised to not use these attributes if you are supporting more than one media type (e.g. application/json and application/problem+json).
     
 Notes: 
 * `Content-Type` is not needed for HTTP GET requests since a GET request has no request body.
