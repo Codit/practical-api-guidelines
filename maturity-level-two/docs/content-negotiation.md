@@ -1,8 +1,8 @@
 # Content Negotiation
 
- When no specific compatibility requirements regarding the rest request and response formats are set, it is recommended to use the JSON format (application/json). But in some situations a client might require the data to be formatted in a certain format in order to interpret the data correctly. With content negotiation we determine in what format we'd like to receive requests  & responses. For REST API's, the most common formats are JSON and XML.
+ When no specific compatibility requirements regarding the rest request and response formats are set, it is recommended to use the JSON format (application/json). However in some situations a client might require the data to be formatted in a certain format in order to interpret the data correctly. With content negotiation we determine in what format we'd like to send requests  & receive responses. For REST API's, the most common formats are JSON and XML.
 As an API consumer, you can specify what format you are expecting by adding HTTP headers:
-- `Content-Type` - Specify the format of the request
+- `Content-Type` - Specify the format of the payload.
 - `Accept` - Specify the requested format of the response. Default format will be used when not specified.
 When a format is not supported, the API should return an [HTTP 406 Not Acceptable](https://httpstatuses.com/406).
 Because of it's lightness and fastness, JSON has become the standard over the last couple of years but in certain situations other formats still have their advantages. In addition to this, ASP.NET Core also uses some additional formatters for special cases, such as the TextOutputFormatter and the HttpNoContentOutputFormatter.
@@ -27,7 +27,7 @@ services.AddMvc()
         .AddNewtonsoftJson()
         .AddXmlSerializerFormatters();
 ```
-Be aware that the formatters you specify in the above section are all the formatters your api will know. Thus if an api call is done towards an action in which an unknown request or response format is used/requested, the api will not answer the call with a success status code but rather with a 406 - Not Acceptable. This means that if you have one action on which the user can request a custom/other response format, you'll have to add a formatter for this type as well - and by default the other actions will support this format too.
+Be aware that the formatters you specify in the above section are all the formatters your api will know. Thus if an api call is done towards an action in which an unknown request or response format is used/requested, the api will not answer the call with a success status code but rather with a 406, Not Acceptable, or a 415, Unsupported. This means that if you have one action on which the user can request a custom/other response format, you'll have to add a formatter for this type as well - and by default the other actions will support this format too.
 
 You can (not should) further restrict the request and respnse formats for one specific acion or controller by using the [Produces] and [Consumes] attributes. However you should be careful when using these attributes: if you use these attributes your method will not be able to return another response format then format specified in your attribute. If you return another response format the content-type of your response will be overwritten.
 ```csharp
@@ -47,6 +47,6 @@ public async Task<IActionResult> CreateCar([FromBody] NewCarRequest newCarReques
 ```
 
 ### Error response codes
-By default error response codes in ASP.NET Core will use the application/xml or application/json content types. These return types will work well with the above mentioned way of working: if you remove the xml from the supported formats, your method will return a json content type instead. However, using a custom format for your response code (e.g. application/problem+json) will conflict with the use of the [Produces] attribute: the [Produces] attribute will overwrite the content type from you response and set it to application/json. 
+By default error response codes in ASP.NET Core will use the application/problem+xml or application/problem+json content types. These return types will work well with the above mentioned way of working: if you remove the xml from the supported formats, your method will return a json content type instead. However, using a custom format for your response code (e.g. application/problem+json) will conflict with the use of the [Produces] attribute: the [Produces] attribute will overwrite the content type from you response and set it to application/json. 
 
 
