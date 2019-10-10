@@ -31,17 +31,6 @@ namespace Codit.LevelTwo
             services.ConfigureOpenApiGeneration();
             services.ConfigureRouting();
             services.ConfigureInvalidStateHandling();
-            services.AddMvc(options =>
-            {
-                var jsonInputFormatters = options.InputFormatters.OfType<JsonInputFormatter>();
-                var jsonInputFormatter = jsonInputFormatters.First();
-                options.InputFormatters.Clear();
-                options.InputFormatters.Add(jsonInputFormatter);
-                var jsonOutputFormatters = options.OutputFormatters.OfType<JsonOutputFormatter>();
-                var jsonOutputFormatter = jsonOutputFormatters.First();
-                options.OutputFormatters.Clear();
-                options.OutputFormatters.Add(jsonOutputFormatter);
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,7 +47,7 @@ namespace Codit.LevelTwo
 
             // Seed DB
             coditoContext.DataSeed();
-            
+
             // Configure API
             app.UseHttpsRedirection();
             app.UseExceptionHandlerWithProblemJson();
