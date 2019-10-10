@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Codit.LevelTwo.DB;
+﻿using Codit.LevelTwo.DB;
 using Codit.LevelTwo.Entities;
 using Codit.LevelTwo.Extensions;
 using Microsoft.AspNetCore.Builder;

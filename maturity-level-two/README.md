@@ -18,7 +18,7 @@ You should:
  ## Content negotiation
 With content negotiation a consumer specifies in which format he/she will communicate (send and receive data) with the server. You can do this by using the following headers in your request:
 - `Content-Type` - Specify the format of the payload you send to the server.
-- `Accept` - Specify the requested format of the server response. A default format will be used when this header is not specified.
+- `Accept` - Specify your preferred payload format(s) of the server response. A default format will be used when this header is not specified.
 
 When you send a `Content-Type` the server doesn't understand, the server should return an HTTP 415: Unsupported Media Type. If the server cannot respond to your request in a format specified in your `Accept` header, it will return an HTTP 406: Not Acceptable.
 
