@@ -1,8 +1,10 @@
 # Practical API Guidelines - Should have
 
-1. [Writing Open API Specifications](#writing-open-api-specifications)
+1. [Validating OpenAPI Specifications](docs/validating-open-api-specs.md)
+1. [APISecurity](docs/api-security.md)
 
-## Writing solid OpenAPI Specifications
+
+## Validating OpenAPI Specifications
 Writing OpenAPI specs is easy, writing good OpenAPI specs is a different story.
 
 [Maturity level one covered how you can document & generate OpenAPI specifications](./../maturity-level-one#document-your-apis), however that is only the start.
@@ -63,3 +65,10 @@ public async Task<IActionResult> CreateCar([FromBody] NewCarRequest newCarReques
 By default error response codes in ASP.NET Core will use the application/xml or application/json content types. These return types will work well with the above mentioned way of working: if you remove the xml from the supported formats, your method will return a json content type instead. However, using a custom format for your response code (e.g. application/problem+json) will conflict with the use of the [Produces] attribute: the [Produces] attribute will overwrite the content type from you response and set it to application/json. 
 
 
+
+## API Security
+API security is an essential part when designing the API. All different levels of security are discussed within the API-Security document ([user guide](docs/api-security.md)).
+
+You should:
+- When possible, use a token based authenticaton/authorization (OAuth2, MSI, etc..)
+- When not, depending on the use case, consider to use a combination of the available security mechanisms (e.g. Client Certificate, api key, ip filtering, etc..)
