@@ -1,6 +1,6 @@
 # Content Negotiation
 
- When no specific compatibility requirements regarding the rest request and response formats are set, it is recommended to use the JSON format (application/json). However in some situations a client might be restricted in the payload formats it can send to and receive from the server. With content negotiation we determine what format we'd like to use requests & response payloads. For REST API's, the most common formats are JSON and XML.
+ When no specific compatibility requirements regarding the rest request and response formats are set, it is recommended to use the JSON format (application/json). However in some situations a client might be restricted in the payload formats it can send to and receive from the server. With [content negotiation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation) we determine what format we'd like to use requests & response payloads. For REST API's, the most common formats are JSON and XML.
 As an API consumer, you can specify what format you are expecting by adding HTTP headers:
 - `Content-Type` - Specify the format of the payload you send to the server.
 - `Accept` - Specify your preferred payload format(s) of the server response. A default format will be used when this header is not specified.
