@@ -16,14 +16,14 @@ You should:
 - Unit test Open API validation to automatically detect breaking changes
 
  ## Content negotiation
-With content negotiation a consumer specifies in which format he/she will communicate (send and receive data) with the server. Here you, the API consumer, can specify what content type you would like to receive from and send to the server. You can do this by using the following headers in your request:
-- `Content-Type` - Specify the format of the payload
-- `Accept` - Specify the requested format of the response. Default format will be used when not  
+With content negotiation a consumer specifies in which format he/she will communicate (send and receive data) with the server. You can do this by using the following headers in your request:
+- `Content-Type` - Specify the format of the payload you send to the server.
+- `Accept` - Specify the requested format of the server response. A default format will be used when this header is not specified.
 
-When you send a `Content-Type` the server doesn't understand, the server should return an HTTP 415: Unsupported Media Type. If the server cannot respond to your request in an `Accept` format, it will return an HTTP 406: Not Acceptable.
+When you send a `Content-Type` the server doesn't understand, the server should return an HTTP 415: Unsupported Media Type. If the server cannot respond to your request in a format specified in your `Accept` header, it will return an HTTP 406: Not Acceptable.
 
 When adding Content-Negotiation to your project you should:
-* Think whether content negotiation is really necessary. For most of the cases you only need JSON and thus no content negotiation.
+* Think whether content negotiation is really necessary. For most of the cases you only need JSON and thus no content negotiation is needed.
 * Remove input and output formatters when multi-format (JSON, XML, CSV, ...) is not necessary. 
 * Carefully evaluate whether you should use the [Produces] and [Consumes] attributes to further restrict the supported request and response media types for one specific acion or controller.
     * [Produces] and [Consumes] are not meant to document the supported media types.  
@@ -31,7 +31,7 @@ When adding Content-Negotiation to your project you should:
     
 Notes: 
 * `Content-Type` is not needed for HTTP GET requests since a GET request has no request body.
-* If you want to explicitly specify what content types are produced/consumed in your swagger file, we advise to use a custom attribute (to be checked whether something).                  
+* If you want to explicitly specify which content types are produced/consumed in your swagger file, we advise to use a custom attribute (to be checked whether something).                  
 
 ## API Security
 API security is an essential part when designing the API. All different levels of security are discussed within the API-Security document ([user guide](docs/api-security.md)).
