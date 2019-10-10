@@ -16,7 +16,7 @@ You should:
 - Unit test Open API validation to automatically detect breaking changes
 
  ## Content negotiation
-With content negotiation a consumer specifies in which format he/she will communicate (send and receive data) with the server. In here you, the API consumer, can specify what content type you would like to receive from and send to the server:
+With content negotiation a consumer specifies in which format he/she will communicate (send and receive data) with the server. Here you, the API consumer, can specify what content type you would like to receive from and send to the server. You can do this by using the following headers in your request:
 - `Content-Type` - Specify the format of the payload
 - `Accept` - Specify the requested format of the response. Default format will be used when not  
 
